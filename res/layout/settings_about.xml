@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/background"
+    android:orientation="vertical"
+    android:paddingLeft="20dp"
+    android:paddingTop="40dp" >
+
+    <sk.tuke.ursus.customViews.MyTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="About"
+        android:textColor="#FF000000"
+        android:textSize="60dp" />
+     <sk.tuke.ursus.customViews.MyTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="by Vlastimil Brecka\nv.brecka@gmail.com\n(c) 2011 / 2012\nFEI, TUKE"
+        android:textColor="#FF000000"
+        android:textSize="25dp" />
+
+
+</LinearLayout>

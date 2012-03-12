@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/background"
+    android:orientation="vertical"
+    android:paddingLeft="20dp"
+    android:paddingTop="40dp" >
+
+    <sk.tuke.ursus.customViews.MyTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="E-mail recipients"
+        android:textColor="#FF000000"
+        android:textSize="60dp" />
+
+    <sk.tuke.ursus.customViews.MyTextView
+        android:id="@+id/noEmailsTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#FFA4A4A4"
+        android:textSize="25dp" />
+
+    <ListView
+        android:id="@+id/emailListView"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+
+</LinearLayout>

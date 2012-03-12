@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/camera"
+        android:icon="@drawable/yes"
+        android:title="Launch camera"/>
+
+    <item
+        android:id="@+id/filter"
+        android:icon="@drawable/yes"
+        android:title="View"/>
+
+    <item
+        android:id="@+id/finish"
+        android:icon="@drawable/yes"
+        android:title="Finish"/>
+
+    <item
+        android:id="@+id/reset"
+        android:icon="@drawable/yes"
+        android:title="Reset"/>
+
+</menu>
