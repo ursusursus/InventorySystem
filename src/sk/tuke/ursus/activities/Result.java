@@ -1,8 +1,10 @@
 package sk.tuke.ursus.activities;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 import sk.tuke.ursus.MyApplication;
@@ -62,10 +64,6 @@ public class Result extends Activity implements OnTouchListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		// fullscreen
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
 		// LinearLayout l = (LinearLayout) View.inflate(this, R.layout.result,
 		// null);
 		// l.addView(new PieChartView(this, percentage));
@@ -74,14 +72,6 @@ public class Result extends Activity implements OnTouchListener {
 		this.setContentView(R.layout.finish);
 
 		vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-
-		//shrink = AnimationUtils.loadAnimation(this, R.anim.shrink);
-		//enlarge = AnimationUtils.loadAnimation(this, R.anim.enlarge);
-
-		/*
-		 * textView = (TextView) findViewById(R.id.textView);
-		 * textView.setText(percentage + "% / " + (100 - percentage) + "%");
-		 */
 
 		initLayouts();
 		initViews();
@@ -140,15 +130,20 @@ public class Result extends Activity implements OnTouchListener {
 		try {
 
 			report.exportToServer(app.getPhpURL());
-			Toast.makeText(getApplicationContext(), "Upload successful", Toast.LENGTH_LONG).show();
+			Toast.makeText(getApplicationContext(), "Upload successful.", Toast.LENGTH_LONG).show();
 			Log.i("URL", report.getURLResponse());
 
 			viewButton.setEnabled(true);
 			notifyButton.setEnabled(true);
 
-		} catch (Exception e) {
-			Toast.makeText(getApplicationContext(),
-					"Upload failed, please make surethe URL\nto .php script is correct", Toast.LENGTH_SHORT).show();
+		} catch (UnknownHostException e) {
+			invalidURLDialog();
+			e.printStackTrace();
+		} catch (FileNotFoundException e) {
+			scriptNotFoundDialog();
+			e.printStackTrace();
+		} catch (IOException e) {
+			connectionFailedDialog();
 			e.printStackTrace();
 		}
 	}
@@ -189,7 +184,7 @@ public class Result extends Activity implements OnTouchListener {
 				storageButton.setEnabled(false);
 				storageButton.setText("exported to SD-card");
 			} catch (IOException e) {
-				Toast.makeText(this, "Saving failed", Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, "Saving failed.", Toast.LENGTH_SHORT).show();
 			}
 		}
 	}
@@ -206,7 +201,7 @@ public class Result extends Activity implements OnTouchListener {
 
 		} else {
 			Log.i("MEDIA", "FAIL");
-			Toast.makeText(this, "SD-Card not available", Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, "SD-Card not available.", Toast.LENGTH_SHORT).show();
 			isAvailable = false;
 
 		}
@@ -218,7 +213,7 @@ public class Result extends Activity implements OnTouchListener {
 
 		report.composeEmailNotification();
 
-		Toast.makeText(this, "Sending results via e-mail", Toast.LENGTH_LONG).show();
+		Toast.makeText(this, "Sending results via e-mail.", Toast.LENGTH_LONG).show();
 		Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
 
 		emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, report.getAddress());
@@ -259,7 +254,7 @@ public class Result extends Activity implements OnTouchListener {
 		calculatePercentage(totalCount, missingCount);
 		
 		dateTv.setText("- results from " + report.getCurrentDate());
-		resultTv.setText("- " + (int) missingCount + " of " + (int) totalCount + " were found missing");
+		resultTv.setText("- " + (int) missingCount + " of " + (int) totalCount + " were found missing.");
 
 	}
 
@@ -290,5 +285,29 @@ public class Result extends Activity implements OnTouchListener {
 		});
 
 	}
+	
+	private void connectionFailedDialog() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle("Connection failed");
+		builder.setMessage("Couldn't connect to server.\nPlease check your internet connection");
+		builder.setNeutralButton("Dismiss", null);
+		builder.create().show();
+	}
 
+	private void scriptNotFoundDialog() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle("Connection failed");
+		builder.setMessage("Please make sure the .php script is present on the server.");
+		builder.setNeutralButton("Dismiss", null);
+		builder.create().show();
+	}
+	
+	private void invalidURLDialog() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle("Connection failed");
+		builder.setMessage("Please make sure the URL to .php script is correct.");
+		builder.setNeutralButton("Dismiss", null);
+		builder.create().show();
+	}
+	
 }

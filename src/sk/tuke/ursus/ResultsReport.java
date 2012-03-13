@@ -1,6 +1,7 @@
 package sk.tuke.ursus;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -13,7 +14,6 @@ import java.util.List;
 
 import sk.tuke.ursus.entities.Item;
 import sk.tuke.ursus.entities.Room;
-
 
 public class ResultsReport {
 
@@ -56,7 +56,7 @@ public class ResultsReport {
 	}
 
 	private void composeFileName() {
-		this.fileName = roomName.toLowerCase().replace(" ", "_") + "-" + printableDate;
+		this.fileName = roomName.toLowerCase().replace(" ", "_") + "_-_" + printableDate;
 	}
 
 	public void composeEmailNotification() {
@@ -84,9 +84,8 @@ public class ResultsReport {
 
 	private void initCurrentDate() {
 		currentDate = new SimpleDateFormat("dd.MM.yyyy - HH:mm").format(new Date());
-		printableDate = new SimpleDateFormat("dd-MM-yyyy") // datum pre title
-															// textfilu
-				.format(new Date());
+		// datum pre title textfilu
+		printableDate = new SimpleDateFormat("dd-MM-yyyy-HH:mm").format(new Date());
 	}
 
 	public String getPrintableDate() {
@@ -140,7 +139,7 @@ public class ResultsReport {
 				tmp.append("</td><td>");
 				tmp.append("Nie");
 				tmp.append("</td></tr>");
-				
+
 				miss.append(tmp);
 				all.append(tmp);
 
@@ -159,7 +158,7 @@ public class ResultsReport {
 				tmp.append("</td><td>");
 				tmp.append("Ano");
 				tmp.append("</td></tr>");
-				
+
 				ins.append(tmp);
 				all.append(tmp);
 			}
@@ -193,26 +192,18 @@ public class ResultsReport {
 
 	}
 
-	public void exportToServer(String phpURL) throws Exception {
-		// String serverAddress = "http://vlastimil.brecka.student.cnl.sk";
-		// String phpPath = "/test.php";
+	public void exportToServer(String phpURL) throws IOException {
 
-		// URL url = new URL(serverAddress + phpPath);
 		URL url = new URL(phpURL);
 		URLConnection connection = url.openConnection();
 
-		// POST METHOD, asi
+		// POST METHOD
 		connection.setDoInput(true);
 		connection.setDoOutput(true);
-
-		// ignoring possible encoding issues
-		// String data = report;
-		// Log.i("DATA", data);
 
 		connection.setRequestProperty("Content-type", "application/x-www-form-urlencoded");
 		connection.setRequestProperty("Content-length", String.valueOf(report.length()));
 
-		// ignoring possible IOExceptions
 		OutputStream out = connection.getOutputStream();
 		out.write(report.getBytes());
 		out.flush();
@@ -222,12 +213,12 @@ public class ResultsReport {
 
 		StringBuilder sb = new StringBuilder();
 		String line = null;
+
 		// server response
 		while ((line = rd.readLine()) != null) {
 			sb.append(line);
 		}
-		// this.response = serverAddress + "/" + rd.readLine();
-		// this.response = rd.readLine();
+
 		this.response = sb.toString();
 		rd.close();
 

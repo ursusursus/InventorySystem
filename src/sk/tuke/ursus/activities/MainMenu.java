@@ -49,8 +49,8 @@ public class MainMenu extends Activity implements OnTouchListener {
 		super.onCreate(savedInstanceState);
 
 		// fullscreen
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+	//	requestWindowFeature(Window.FEATURE_NO_TITLE);
+	//	getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
 		this.setContentView(R.layout.main_menu);
 

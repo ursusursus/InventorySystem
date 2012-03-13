@@ -70,10 +70,6 @@ public class RoomInventory extends Activity implements View.OnClickListener {
 
 		x0 = x1 = y0 = y1 = 0;
 
-		// fullscreen
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
 		this.setContentView(R.layout.room);
 
 		ArrayList<LinearLayout> list = new ArrayList<LinearLayout>();
