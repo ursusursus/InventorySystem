@@ -16,9 +16,14 @@ import sk.tuke.ursus.entities.Room;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -44,6 +49,7 @@ public class RoomSelection extends Activity {
 	private Animation shrink;
 	private Animation enlarge;
 	private MyApplication myApp;
+	private ProgressDialog progressDialog;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -53,9 +59,10 @@ public class RoomSelection extends Activity {
 		myApp = (MyApplication) getApplication();
 
 		// fullscreen
-//		requestWindowFeature(Window.FEATURE_NO_TITLE);
-//		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		
+		// requestWindowFeature(Window.FEATURE_NO_TITLE);
+		// getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+		// WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
 		setContentView(R.layout.room_selection);
 
 		initRoomList();
@@ -68,14 +75,15 @@ public class RoomSelection extends Activity {
 
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View view, int i, long arg3) {
-				
-				Intent intent = new Intent("sk.tuke.ursus.activities.ROOMINVENTORY");
+
+				//Intent intent = new Intent("sk.tuke.ursus.activities.ROOMINVENTORY");
+				Intent intent = new Intent(getApplicationContext(), RoomInventory.class);
 				myApp.setCurrentRoom(roomsList.get(i));
 				startActivity(intent);
 			}
 
 		});
-
+		
 	}
 
 	private void initRoomList() {
@@ -91,7 +99,7 @@ public class RoomSelection extends Activity {
 	}
 
 	private void initParser() {
-		
+
 		try {
 			
 			parser = new Parser();
@@ -100,7 +108,7 @@ public class RoomSelection extends Activity {
 			roomsList = parser.getRoomsList();
 			myApp.setRoomsList(roomsList);
 			Toast.makeText(getApplicationContext(), "Rooms loaded sucessfully.", Toast.LENGTH_SHORT).show();
-			
+
 		} catch (FileNotFoundException e) {
 			sourceNotFoundDialog();
 			e.printStackTrace();
@@ -111,7 +119,6 @@ public class RoomSelection extends Activity {
 			connectionFailedDialog();
 			e.printStackTrace();
 		}
-
 	}
 
 	@Override
@@ -129,11 +136,11 @@ public class RoomSelection extends Activity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		
+
 		initParser();
 		return true;
 	}
-	
+
 	private void connectionFailedDialog() {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle("Connection failed");
@@ -161,7 +168,7 @@ public class RoomSelection extends Activity {
 		});
 		builder.create().show();
 	}
-	
+
 	private void invalidURLDialog() {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle("Connection failed");
@@ -176,6 +183,32 @@ public class RoomSelection extends Activity {
 		builder.create().show();
 	}
 
+	public class BackgroundAsyncTask extends AsyncTask<Void, Integer, Void> {
 
+		int myProgress;
+
+		@Override
+		protected void onPreExecute() {
+			myProgress = 0;
+		}
+
+		@Override
+		protected Void doInBackground(Void... params) {
+			// TODO Auto-generated method stub
+			while (myProgress < 100) {
+				myProgress++;
+				publishProgress(myProgress);
+				SystemClock.sleep(100);
+			}
+			return null;
+		}
+
+		@Override
+		protected void onProgressUpdate(Integer... values) {
+			// TODO Auto-generated method stub
+			progressDialog.setProgress(values[0]);
+		}
+
+	}
 
 }

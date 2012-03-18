@@ -197,7 +197,8 @@ public class RoomInventory extends Activity implements View.OnClickListener {
 			resetDialog.show();
 			break;
 		case R.id.finish:
-			Intent intent1 = new Intent("sk.tuke.ursus.activities.RESULT");
+			//Intent intent1 = new Intent("sk.tuke.ursus.activities.RESULT");
+			Intent intent1 = new Intent(getApplicationContext(),Result.class);
 			intent1.putExtra("total", (float) currentRoom.getContentList().size());
 			intent1.putExtra("missing", (float) currentRoom.getMissingCount());
 

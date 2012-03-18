@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.StreamCorruptedException;
+import java.util.Set;
 
 import sk.tuke.ursus.MyApplication;
 
@@ -156,16 +157,18 @@ public class MainMenu extends Activity implements OnTouchListener {
 			case R.id.startButton:
 				if (app.isReadyToStart()) {
 					//if (firstRun) {
-						progressDialog = ProgressDialog.show(this, "", "Loading content from server", true);
+						//progressDialog = ProgressDialog.show(this, "", "Loading content from server", true);
 						Log.i("url is",((MyApplication)getApplication()).getXmlURL());
 					//}
-					startActivity(new Intent("sk.tuke.ursus.activities.ROOMSELECTION"));
+					//startActivity(new Intent("sk.tuke.ursus.activities.ROOMSELECTION"));
+						startActivity(new Intent(getApplicationContext(), RoomSelection.class));
 				} else {
 					createNoEmailsSetupDialog();
 				}
 				break;
 			case R.id.settingsButton:
-				startActivity(new Intent("sk.tuke.ursus.activities.SETTINGS"));
+				//startActivity(new Intent("sk.tuke.ursus.activities.SETTINGS"));
+				startActivity(new Intent(getApplicationContext(),Settings.class));
 				break;
 			}
 		}
@@ -184,9 +187,9 @@ public class MainMenu extends Activity implements OnTouchListener {
 	@Override
 	protected void onPause() {
 		super.onPause();
-		if (progressDialog != null) {
+	/*	if (progressDialog != null) {
 			progressDialog.dismiss();
-		}
+		}*/
 	}
 
 	//asi nebude treba

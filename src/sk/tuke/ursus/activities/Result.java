@@ -76,7 +76,6 @@ public class Result extends Activity implements OnTouchListener {
 		initLayouts();
 		initViews();
 
-
 		stat.addView(new PieChartView(this, percentage));
 
 	}
@@ -110,7 +109,7 @@ public class Result extends Activity implements OnTouchListener {
 				viewReportInBrowser();
 				break;
 			case R.id.exitButton:
-				createExitDialog();
+				exitDialog();
 				break;
 			}
 		}
@@ -119,14 +118,14 @@ public class Result extends Activity implements OnTouchListener {
 	}
 
 	private void viewReportInBrowser() {
-		
+
 		Intent i = new Intent(Intent.ACTION_VIEW);
 		i.setData(Uri.parse(report.getURLResponse()));
 		startActivity(i);
 	}
 
 	private void exportToServer() {
-		
+
 		try {
 
 			report.exportToServer(app.getPhpURL());
@@ -146,24 +145,6 @@ public class Result extends Activity implements OnTouchListener {
 			connectionFailedDialog();
 			e.printStackTrace();
 		}
-	}
-
-	private void createExitDialog() {
-		
-		AlertDialog.Builder builder = new Builder(this);
-		builder.setTitle("Exiting to main menu");
-		builder.setMessage("Do you really want to quit?");
-		builder.setPositiveButton("Exit", new DialogInterface.OnClickListener() {
-
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				startActivity(new Intent(getApplicationContext(), MainMenu.class));
-			}
-
-		});
-		builder.setNegativeButton("Cancel", null);
-		builder.create().show();
-
 	}
 
 	private void exportToSDCard() {
@@ -190,7 +171,7 @@ public class Result extends Activity implements OnTouchListener {
 	}
 
 	private boolean isSDCardAvailable() {
-		
+
 		boolean isAvailable = false;
 		String state = Environment.getExternalStorageState();
 
@@ -226,7 +207,7 @@ public class Result extends Activity implements OnTouchListener {
 	}
 
 	private void initViews() {
-		
+
 		app = ((MyApplication) getApplicationContext());
 		currentRoom = app.getCurrentRoom();
 		ArrayList<String> addressess = app.getEmailAddresses();
@@ -244,15 +225,15 @@ public class Result extends Activity implements OnTouchListener {
 		exitButton.setOnTouchListener(this);
 		notifyButton.setEnabled(false);
 		viewButton.setEnabled(false);
-		
+
 		TextView dateTv = (TextView) stat.findViewById(R.id.dateTv);
 		TextView resultTv = (TextView) stat.findViewById(R.id.resultTv);
-		
+
 		float totalCount = getIntent().getExtras().getFloat("total");
 		float missingCount = getIntent().getExtras().getFloat("missing");
 
 		calculatePercentage(totalCount, missingCount);
-		
+
 		dateTv.setText("- results from " + report.getCurrentDate());
 		resultTv.setText("- " + (int) missingCount + " of " + (int) totalCount + " were found missing.");
 
@@ -285,7 +266,25 @@ public class Result extends Activity implements OnTouchListener {
 		});
 
 	}
-	
+
+	private void exitDialog() {
+
+		AlertDialog.Builder builder = new Builder(this);
+		builder.setTitle("Exiting to main menu");
+		builder.setMessage("Do you really want to quit?");
+		builder.setPositiveButton("Exit", new DialogInterface.OnClickListener() {
+
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				startActivity(new Intent(getApplicationContext(), MainMenu.class));
+			}
+
+		});
+		builder.setNegativeButton("Cancel", null);
+		builder.create().show();
+
+	}
+
 	private void connectionFailedDialog() {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle("Connection failed");
@@ -301,7 +300,7 @@ public class Result extends Activity implements OnTouchListener {
 		builder.setNeutralButton("Dismiss", null);
 		builder.create().show();
 	}
-	
+
 	private void invalidURLDialog() {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle("Connection failed");
@@ -309,5 +308,5 @@ public class Result extends Activity implements OnTouchListener {
 		builder.setNeutralButton("Dismiss", null);
 		builder.create().show();
 	}
-	
+
 }
