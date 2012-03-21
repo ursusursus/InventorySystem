@@ -19,7 +19,7 @@ public class ResultsReport {
 
 	private ArrayList<String> recipients;
 	private String subject = "Results of inventory lookup";
-	private String[] listOfMissing;
+	//private String[] listOfMissing;
 	private int total;
 	private int missing;
 	private String roomName;
@@ -28,31 +28,25 @@ public class ResultsReport {
 	private List<Item> list;
 	private String fileName;
 	private String report;
-	private String response;
+	//private String response;
 	private String emailMessage;
-
-	public String getEmailMessage() {
-		return emailMessage;
-	}
-
-	public String getReport() {
-		return report;
-	}
-
-	public String getFileName() {
-		return fileName;
-	}
 
 	public ResultsReport(Room currentRoom, ArrayList<String> recipients) {
 		this.list = currentRoom.getContentList();
 		this.recipients = recipients;
 		this.roomName = currentRoom.getName();
-		this.listOfMissing = currentRoom.getMissingItems();
+//		this.listOfMissing = currentRoom.getMissingItems();
 		this.total = currentRoom.getContentList().size();
 		this.missing = currentRoom.getMissingCount();
 		initCurrentDate();
 		composeFileName();
 		composeHtmlReport();
+	}
+	
+	private void initCurrentDate() {
+		currentDate = new SimpleDateFormat("dd.MM.yyyy - HH:mm").format(new Date());
+		// datum pre title textfilu
+		printableDate = new SimpleDateFormat("dd-MM-yyyy-HH.mm").format(new Date());
 	}
 
 	private void composeFileName() {
@@ -67,33 +61,11 @@ public class ResultsReport {
 		sb.append("' was completed on ");
 		sb.append(currentDate);
 		sb.append(". View results here:\n\n");
-		sb.append(response);
+		//sb.append(response);
+		sb.append(HTTPConnectionHelper.response);
 		sb.append("\n\nThank you");
 
 		emailMessage = sb.toString();
-	}
-
-	public String[] getAddress() {
-		return recipients.toArray(new String[recipients.size()]);
-	}
-
-	public String getSubject() {
-		return subject;
-
-	}
-
-	private void initCurrentDate() {
-		currentDate = new SimpleDateFormat("dd.MM.yyyy - HH:mm").format(new Date());
-		// datum pre title textfilu
-		printableDate = new SimpleDateFormat("dd-MM-yyyy-HH:mm").format(new Date());
-	}
-
-	public String getPrintableDate() {
-		return printableDate;
-	}
-
-	public String getCurrentDate() {
-		return currentDate;
 	}
 
 	private void composeHtmlReport() {
@@ -191,8 +163,38 @@ public class ResultsReport {
 		this.report = sb.toString();
 
 	}
+	
+	public String getEmailMessage() {
+		return emailMessage;
+	}
 
-	public void exportToServer(String phpURL) throws IOException {
+	public String getReport() {
+		return report;
+	}
+
+	public String getFileName() {
+		return fileName;
+	}
+	
+	public String[] getAddress() {
+		return recipients.toArray(new String[recipients.size()]);
+	}
+
+	public String getSubject() {
+		return subject;
+
+	}
+	
+	public String getPrintableDate() {
+		return printableDate;
+	}
+
+	public String getCurrentDate() {
+		return currentDate;
+	}
+
+
+/*	public void exportToServer(String phpURL) throws IOException {
 
 		URL url = new URL(phpURL);
 		URLConnection connection = url.openConnection();
@@ -222,10 +224,10 @@ public class ResultsReport {
 		this.response = sb.toString();
 		rd.close();
 
-	}
+	}*/
 
-	public String getURLResponse() {
+/*	public String getURLResponse() {
 		return response;
-	}
+	}*/
 
 }

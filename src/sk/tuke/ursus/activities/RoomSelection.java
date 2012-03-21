@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.apache.http.HttpException;
 
+import sk.tuke.ursus.HTTPConnectionHelper;
 import sk.tuke.ursus.MyApplication;
 import sk.tuke.ursus.Parser;
 import sk.tuke.ursus.adapters.RoomAdapter;
@@ -17,8 +18,11 @@ import sk.tuke.ursus.entities.Room;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -50,6 +54,8 @@ public class RoomSelection extends Activity {
 	private Animation enlarge;
 	private MyApplication myApp;
 	private ProgressDialog progressDialog;
+	private ProgressDialog pd;
+	private Handler handler;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -58,12 +64,20 @@ public class RoomSelection extends Activity {
 
 		myApp = (MyApplication) getApplication();
 
-		// fullscreen
-		// requestWindowFeature(Window.FEATURE_NO_TITLE);
-		// getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-		// WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
 		setContentView(R.layout.room_selection);
+
+		// initRoomList();
+		// init();
+		// downloadContent();
+		handler = new Handler() {
+
+			@Override
+			public void handleMessage(Message msg) {
+				super.handleMessage(msg);
+				initRooms();
+			}
+
+		};
 
 		initRoomList();
 
@@ -75,22 +89,75 @@ public class RoomSelection extends Activity {
 
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View view, int i, long arg3) {
-
-				//Intent intent = new Intent("sk.tuke.ursus.activities.ROOMINVENTORY");
+				
 				Intent intent = new Intent(getApplicationContext(), RoomInventory.class);
 				myApp.setCurrentRoom(roomsList.get(i));
 				startActivity(intent);
 			}
 
 		});
-		
+
+	}
+
+	private void init() {
+		ArrayList<Room> tmpList = myApp.getRoomsList();
+		if (tmpList == null) {
+			Toast.makeText(getApplicationContext(), "LOADING NEW!", Toast.LENGTH_SHORT).show();
+			downloadContent();
+		} else {
+			Toast.makeText(getApplicationContext(), "RE-LOADING", Toast.LENGTH_SHORT).show();
+			roomsList = tmpList;
+			// adapter.notifyDataSetChanged();
+			// initRoomList();
+		}
+
+	}
+
+	private void downloadContent() {
+
+		pd = ProgressDialog.show(this, "Please, wait...", "Loading from server.");
+
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				initParser2();
+				handler.sendEmptyMessage(0);
+			}
+
+		}).start();
+
+	}
+
+	protected void initRooms() {
+
+		roomsList = parser.getRoomsList();
+		myApp.setRoomsList(roomsList);
+
+		adapter = new RoomAdapter(getApplicationContext(), R.layout.room_item, roomsList);
+
+		gridView = (GridView) findViewById(R.id.gridViewRooms);
+		gridView.setAdapter(adapter);
+		gridView.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View view, int i, long arg3) {
+
+				Intent intent = new Intent(getApplicationContext(), RoomInventory.class);
+				myApp.setCurrentRoom(roomsList.get(i));
+				startActivity(intent);
+			}
+
+		});
+
+		Toast.makeText(getApplicationContext(), "Rooms loaded sucessfully.", Toast.LENGTH_SHORT).show();
+		pd.dismiss();
+
 	}
 
 	private void initRoomList() {
 		ArrayList<Room> tmpList = myApp.getRoomsList();
 		if (tmpList == null) {
-			// to je ten problem s ty mze neberie zmeneny xml link, opravit
-			Toast.makeText(getApplicationContext(), "LOADING NEW!", Toast.LENGTH_SHORT).show();
 			initParser();
 		} else {
 			Toast.makeText(getApplicationContext(), "RE-LOADING", Toast.LENGTH_SHORT).show();
@@ -98,13 +165,49 @@ public class RoomSelection extends Activity {
 		}
 	}
 
-	private void initParser() {
+	private void initParser2() {
 
+		try {
+
+			parser = new Parser();
+			parser.downloadXML(myApp.getXmlURL());
+			//parser.parseXML();
+			roomsList = parser.getRoomsList();
+			// myApp.setRoomsList(roomsList);
+			// Toast.makeText(getApplicationContext(),
+			// "Rooms loaded sucessfully.", Toast.LENGTH_SHORT).show();
+
+		} catch (FileNotFoundException e) {
+			sourceNotFoundDialog();
+			e.printStackTrace();
+		} catch (UnknownHostException e) {
+			invalidURLDialog();
+			e.printStackTrace();
+		} catch (IOException e) {
+			connectionFailedDialog();
+			e.printStackTrace();
+		}
+	}
+	
+	//oskusat na telefone
+	public boolean isOnline() {
+	    ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+	    NetworkInfo netInfo = cm.getActiveNetworkInfo();
+	    if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+	        return true;
+	    }
+	    return false;
+	}
+
+
+	private void initParser() {
+		
 		try {
 			
 			parser = new Parser();
-			parser.downloadXML(myApp.getXmlURL());
-			parser.parseXML();
+			//parser.downloadXML(myApp.getXmlURL());
+			String result = HTTPConnectionHelper.download();
+			parser.parseXML(result);
 			roomsList = parser.getRoomsList();
 			myApp.setRoomsList(roomsList);
 			Toast.makeText(getApplicationContext(), "Rooms loaded sucessfully.", Toast.LENGTH_SHORT).show();
@@ -118,6 +221,9 @@ public class RoomSelection extends Activity {
 		} catch (IOException e) {
 			connectionFailedDialog();
 			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
@@ -129,7 +235,7 @@ public class RoomSelection extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater i = getMenuInflater();
-		i.inflate(R.menu.select_menu, menu);
+		i.inflate(R.menu.roomselection_menu, menu);
 
 		return true;
 	}
@@ -138,6 +244,7 @@ public class RoomSelection extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 
 		initParser();
+		//downloadContent();
 		return true;
 	}
 
@@ -181,34 +288,6 @@ public class RoomSelection extends Activity {
 			}
 		});
 		builder.create().show();
-	}
-
-	public class BackgroundAsyncTask extends AsyncTask<Void, Integer, Void> {
-
-		int myProgress;
-
-		@Override
-		protected void onPreExecute() {
-			myProgress = 0;
-		}
-
-		@Override
-		protected Void doInBackground(Void... params) {
-			// TODO Auto-generated method stub
-			while (myProgress < 100) {
-				myProgress++;
-				publishProgress(myProgress);
-				SystemClock.sleep(100);
-			}
-			return null;
-		}
-
-		@Override
-		protected void onProgressUpdate(Integer... values) {
-			// TODO Auto-generated method stub
-			progressDialog.setProgress(values[0]);
-		}
-
 	}
 
 }

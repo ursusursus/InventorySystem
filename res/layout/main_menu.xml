@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:orientation="vertical" android:layout_width="match_parent"
-	android:layout_height="match_parent" android:background="@drawable/backgroundui">
+	android:layout_height="match_parent" android:background="@drawable/bmw">
 
 	<LinearLayout android:orientation="horizontal"
 		android:layout_width="wrap_content" android:layout_height="wrap_content"
@@ -15,17 +15,14 @@
 			android:src="@drawable/settings_button" android:layout_height="wrap_content"
 			android:background="@null" android:id="@+id/settingsButton" />
 	</LinearLayout>
+	
 	<LinearLayout android:orientation="horizontal"
 		android:layout_width="wrap_content" android:layout_height="wrap_content"
 		android:layout_marginTop="7.5dp" android:layout_marginLeft="27dp">
 		<ImageButton android:layout_width="wrap_content"
-			android:src="@drawable/help_button" android:layout_height="wrap_content"
-			android:background="@null" android:id="@+id/helpButton"
-			android:layout_marginRight="7.5dp" />
-
-		<ImageButton android:layout_width="wrap_content"
 			android:src="@drawable/about_button" android:layout_height="wrap_content"
-			android:background="@null" android:id="@+id/aboutButton" />
+			android:background="@null" android:id="@+id/aboutButton"
+			android:layout_marginRight="7.5dp" />
 
 	</LinearLayout>
 

@@ -18,6 +18,7 @@ public class RectangleView extends View {
 	public RectangleView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		init();
+		//Size sa musi pocitat z velkosti okna ...
 	}
 
 	@Override
@@ -29,15 +30,9 @@ public class RectangleView extends View {
 	}
 
 	private void init() {
-		/*
-		 * sd = new ShapeDrawable(new RectShape());
-		 * sd.getPaint().setColor(0xFF2B5BE5); sd.setBounds(0,0,100,50);
-		 */
 		paint = new Paint();
 		paint.setColor(0xFF2B5BE5);
-
 		rect = new Rect(0, 0, size, size);
-
 	}
 
 	@Override

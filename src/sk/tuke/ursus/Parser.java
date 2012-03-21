@@ -50,7 +50,8 @@ public class Parser {
 		this.source = sb.toString();
 	}
 
-	public void parseXML() {
+	//public void parseXML() {
+	public void parseXML(String source) {
 		Pattern p = Pattern.compile(regexRoom);
 		Pattern pa = Pattern.compile(regexItem);
 		Matcher m = p.matcher(source);

@@ -7,6 +7,7 @@ import sk.tuke.ursus.MyApplication;
 import sk.tuke.ursus.Parser;
 import sk.tuke.ursus.adapters.ItemAdapter;
 import sk.tuke.ursus.adapters.ViewPagerAdapter;
+import sk.tuke.ursus.customViews.ViewPagerIndicator;
 import sk.tuke.ursus.entities.Item;
 import sk.tuke.ursus.entities.Room;
 
@@ -81,6 +82,10 @@ public class RoomInventory extends Activity implements View.OnClickListener {
 		viewPager = (ViewPager) findViewById(R.id.roomPager);
 		ViewPagerAdapter pageAdapter = new ViewPagerAdapter(getApplicationContext(), list);
 		viewPager.setAdapter(pageAdapter);
+		
+		ViewPagerIndicator indicator = (ViewPagerIndicator) findViewById(R.id.indicator);
+		indicator.setViewPager(viewPager);
+		
 		viewPager.setOnPageChangeListener(new OnPageChangeListener() {
 
 			@Override
@@ -162,7 +167,7 @@ public class RoomInventory extends Activity implements View.OnClickListener {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater i = getMenuInflater();
-		i.inflate(R.menu.room_menu, menu);
+		i.inflate(R.menu.roominventory_menu, menu);
 		return true;
 	}
 
@@ -172,7 +177,7 @@ public class RoomInventory extends Activity implements View.OnClickListener {
 		case R.id.camera:
 			launchCamera();
 			break;
-		case R.id.filter:
+		case R.id.view:
 			if (viewDialog == null) {
 				createViewDialog();
 			} else {

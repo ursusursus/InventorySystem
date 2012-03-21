@@ -7,6 +7,7 @@ import java.util.regex.Pattern;
 
 import sk.tuke.ursus.MyApplication;
 import sk.tuke.ursus.adapters.ViewPagerAdapter;
+import sk.tuke.ursus.customViews.ViewPagerIndicator;
 
 import android.R.xml;
 import android.app.Activity;
@@ -55,51 +56,30 @@ public class Settings extends Activity implements OnTouchListener {
 	private String xmlURL;
 	private String phpURL;
 	private MyApplication app;
+	private ViewPagerIndicator indicator;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		// fullscreen
-	//	requestWindowFeature(Window.FEATURE_NO_TITLE);
-	//	getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
 		setContentView(R.layout.settings);
 		app = ((MyApplication) getApplication());
 		vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 		ArrayList<LinearLayout> pagesList = new ArrayList<LinearLayout>();
-
+	
 		LinearLayout emails = (LinearLayout) View.inflate(getApplicationContext(), R.layout.settings_recipients, null);
-		LinearLayout about = (LinearLayout) View.inflate(getApplicationContext(), R.layout.settings_about, null);
 		LinearLayout general = (LinearLayout) View.inflate(getApplicationContext(), R.layout.settings_general, null);
 
 		pagesList.add(general);
 		pagesList.add(emails);
-		pagesList.add(about);
 
 		ViewPager viewPager = (ViewPager) findViewById(R.id.settingsPager);
 		ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getApplicationContext(), pagesList);
 		viewPager.setAdapter(viewPagerAdapter);
-		viewPager.setOnPageChangeListener(new OnPageChangeListener() {
-
-			@Override
-			public void onPageSelected(int arg0) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void onPageScrolled(int arg0, float arg1, int arg2) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void onPageScrollStateChanged(int arg0) {
-				// TODO Auto-generated method stub
-
-			}
-		});
+		
+		indicator = (ViewPagerIndicator) findViewById(R.id.indicator);
+		indicator.setViewPager(viewPager);
+		
 		emailAddresses = app.getEmailAddresses();
 		if (emailAddresses == null) {
 			emailAddresses = new ArrayList<String>();

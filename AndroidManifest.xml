@@ -8,14 +8,15 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <uses-sdk android:minSdkVersion="8" />
 
     <application
-        android:name=".MyApplication"
         android:icon="@drawable/invsys_icon"
         android:label="Inventory System"
-        android:theme="@android:style/Theme.NoTitleBar.Fullscreen"  >
+        android:name=".MyApplication"
+        android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
         <activity
             android:name=".activities.MainMenu"
             android:screenOrientation="portrait" >
@@ -39,6 +40,10 @@
         </activity>
         <activity
             android:name=".activities.Settings"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".activities.About"
             android:screenOrientation="portrait" >
         </activity>
         <activity

@@ -37,7 +37,7 @@ import sk.tuke.ursus.R;
 
 public class MainMenu extends Activity implements OnTouchListener {
 
-	private ImageButton startButton, settingsButton, helpButton, aboutButton;
+	private ImageButton startButton, settingsButton, aboutButton;
 	private Vibrator vibrator;
 	private ProgressDialog progressDialog;
 	final private String FILENAME = "settings.invsys";
@@ -49,24 +49,17 @@ public class MainMenu extends Activity implements OnTouchListener {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 
-		// fullscreen
-	//	requestWindowFeature(Window.FEATURE_NO_TITLE);
-	//	getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
 		this.setContentView(R.layout.main_menu);
 
 		// createLoginDialog();
+		vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 
 		startButton = (ImageButton) findViewById(R.id.startButton);
 		settingsButton = (ImageButton) findViewById(R.id.settingsButton);
-		helpButton = (ImageButton) findViewById(R.id.helpButton);
 		aboutButton = (ImageButton) findViewById(R.id.aboutButton);
-
-		vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 
 		startButton.setOnTouchListener(this);
 		settingsButton.setOnTouchListener(this);
-		helpButton.setOnTouchListener(this);
 		aboutButton.setOnTouchListener(this);
 
 		app = (MyApplication) getApplication();
@@ -82,7 +75,7 @@ public class MainMenu extends Activity implements OnTouchListener {
 		try {
 			fis = openFileInput(FILENAME);
 			ois = new ObjectInputStream(fis);
-			
+
 			MyApplication loadedApp = (MyApplication) ois.readObject();
 
 			app.setEmailAddresses(loadedApp.getEmailAddresses());
@@ -90,7 +83,8 @@ public class MainMenu extends Activity implements OnTouchListener {
 			app.setPhpURL(loadedApp.getPhpURL());
 			app.setReadyToStart(loadedApp.isReadyToStart());
 
-			//Toast.makeText(getApplicationContext(), "Loading successful", Toast.LENGTH_SHORT).show();
+			// Toast.makeText(getApplicationContext(), "Loading successful",
+			// Toast.LENGTH_SHORT).show();
 			fis.close();
 			ois.close();
 		} catch (FileNotFoundException e) {
@@ -121,7 +115,8 @@ public class MainMenu extends Activity implements OnTouchListener {
 			oos = new ObjectOutputStream(fos);
 
 			oos.writeObject(app);
-//			Toast.makeText(getApplicationContext(), "Saving successful",Toast.LENGTH_SHORT).show();
+			// Toast.makeText(getApplicationContext(),
+			// "Saving successful",Toast.LENGTH_SHORT).show();
 			fos.close();
 			oos.close();
 		} catch (FileNotFoundException e) {
@@ -145,7 +140,6 @@ public class MainMenu extends Activity implements OnTouchListener {
 		}
 	}
 
-
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {
 		if (event.getAction() == MotionEvent.ACTION_DOWN) {
@@ -154,22 +148,23 @@ public class MainMenu extends Activity implements OnTouchListener {
 		} else if (event.getAction() == MotionEvent.ACTION_UP) {
 			v.startAnimation(AnimationUtils.loadAnimation(this, R.anim.enlarge));
 			switch (v.getId()) {
-			case R.id.startButton:
-				if (app.isReadyToStart()) {
-					//if (firstRun) {
-						//progressDialog = ProgressDialog.show(this, "", "Loading content from server", true);
-						Log.i("url is",((MyApplication)getApplication()).getXmlURL());
-					//}
-					//startActivity(new Intent("sk.tuke.ursus.activities.ROOMSELECTION"));
+				case R.id.startButton:
+					
+					//debug
+					app.setReadyToStart(true);
+					
+					if (app.isReadyToStart()) {
 						startActivity(new Intent(getApplicationContext(), RoomSelection.class));
-				} else {
-					createNoEmailsSetupDialog();
-				}
-				break;
-			case R.id.settingsButton:
-				//startActivity(new Intent("sk.tuke.ursus.activities.SETTINGS"));
-				startActivity(new Intent(getApplicationContext(),Settings.class));
-				break;
+					} else {
+						createNoEmailsSetupDialog();
+					}
+					break;
+				case R.id.settingsButton:
+					startActivity(new Intent(getApplicationContext(), Settings.class));
+					break;
+				case R.id.aboutButton:
+					startActivity(new Intent(getApplicationContext(), About.class));
+					break;
 			}
 		}
 		return false;
@@ -187,12 +182,12 @@ public class MainMenu extends Activity implements OnTouchListener {
 	@Override
 	protected void onPause() {
 		super.onPause();
-	/*	if (progressDialog != null) {
-			progressDialog.dismiss();
-		}*/
+		/*
+		 * if (progressDialog != null) { progressDialog.dismiss(); }
+		 */
 	}
 
-	//asi nebude treba
+	// asi nebude treba
 	private void createLoginDialog() {
 
 		final Dialog dialog = new Dialog(this);

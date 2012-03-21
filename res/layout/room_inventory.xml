@@ -3,7 +3,6 @@
     android:id="@+id/room"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/background"
     android:orientation="vertical"
     android:paddingLeft="20dp"
     android:paddingTop="40dp"

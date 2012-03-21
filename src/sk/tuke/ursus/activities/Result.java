@@ -7,11 +7,13 @@ import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 
+import sk.tuke.ursus.HTTPConnectionHelper;
 import sk.tuke.ursus.MyApplication;
 import sk.tuke.ursus.R;
 import sk.tuke.ursus.ResultsReport;
 import sk.tuke.ursus.adapters.ViewPagerAdapter;
 import sk.tuke.ursus.customViews.PieChartView;
+import sk.tuke.ursus.customViews.ViewPagerIndicator;
 import sk.tuke.ursus.entities.Room;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -59,6 +61,7 @@ public class Result extends Activity implements OnTouchListener {
 	private Button notifyButton;
 	private LinearLayout res;
 	private LinearLayout stat;
+	private ViewPagerIndicator indicator;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -120,7 +123,8 @@ public class Result extends Activity implements OnTouchListener {
 	private void viewReportInBrowser() {
 
 		Intent i = new Intent(Intent.ACTION_VIEW);
-		i.setData(Uri.parse(report.getURLResponse()));
+		//i.setData(Uri.parse(report.getURLResponse()));
+		i.setData(Uri.parse(HTTPConnectionHelper.response));
 		startActivity(i);
 	}
 
@@ -128,9 +132,10 @@ public class Result extends Activity implements OnTouchListener {
 
 		try {
 
-			report.exportToServer(app.getPhpURL());
+			//report.exportToServer(app.getPhpURL());
+			HTTPConnectionHelper.upload(report.getReport());
 			Toast.makeText(getApplicationContext(), "Upload successful.", Toast.LENGTH_LONG).show();
-			Log.i("URL", report.getURLResponse());
+			//Log.i("URL", report.getURLResponse());
 
 			viewButton.setEnabled(true);
 			notifyButton.setEnabled(true);
@@ -165,6 +170,7 @@ public class Result extends Activity implements OnTouchListener {
 				storageButton.setEnabled(false);
 				storageButton.setText("exported to SD-card");
 			} catch (IOException e) {
+				e.printStackTrace();
 				Toast.makeText(this, "Saving failed.", Toast.LENGTH_SHORT).show();
 			}
 		}
@@ -249,10 +255,15 @@ public class Result extends Activity implements OnTouchListener {
 		viewPager = (ViewPager) findViewById(R.id.finishPager);
 		ViewPagerAdapter pageAdapter = new ViewPagerAdapter(getApplicationContext(), list);
 		viewPager.setAdapter(pageAdapter);
-		viewPager.setOnPageChangeListener(new OnPageChangeListener() {
+		
+		indicator = (ViewPagerIndicator) findViewById(R.id.indicator);
+		indicator.setViewPager(viewPager);
+		
+	/*	viewPager.setOnPageChangeListener(new OnPageChangeListener() {
 
 			@Override
 			public void onPageSelected(int index) {
+				indicator.update(index);
 			}
 
 			@Override
@@ -263,7 +274,7 @@ public class Result extends Activity implements OnTouchListener {
 			public void onPageScrollStateChanged(int arg0) {
 			}
 
-		});
+		});*/
 
 	}
 
