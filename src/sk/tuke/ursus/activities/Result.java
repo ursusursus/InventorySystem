@@ -79,13 +79,13 @@ public class Result extends Activity implements OnTouchListener {
 		initLayouts();
 		initViews();
 
-		stat.addView(new PieChartView(this, percentage));
+		//stat.addView(new PieChartView(this, percentage));
 
 	}
 
-	private void calculatePercentage(float totalCount, float missingCount) {
+	/*private void calculatePercentage(float totalCount, float missingCount) {
 		percentage = 100 - ((missingCount * 100) / totalCount);
-	}
+	}*/
 
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {
@@ -238,7 +238,7 @@ public class Result extends Activity implements OnTouchListener {
 		float totalCount = getIntent().getExtras().getFloat("total");
 		float missingCount = getIntent().getExtras().getFloat("missing");
 
-		calculatePercentage(totalCount, missingCount);
+	//	calculatePercentage(totalCount, missingCount);
 
 		dateTv.setText("- results from " + report.getCurrentDate());
 		resultTv.setText("- " + (int) missingCount + " of " + (int) totalCount + " were found missing.");
@@ -259,23 +259,6 @@ public class Result extends Activity implements OnTouchListener {
 		indicator = (ViewPagerIndicator) findViewById(R.id.indicator);
 		indicator.setViewPager(viewPager);
 		
-	/*	viewPager.setOnPageChangeListener(new OnPageChangeListener() {
-
-			@Override
-			public void onPageSelected(int index) {
-				indicator.update(index);
-			}
-
-			@Override
-			public void onPageScrolled(int arg0, float arg1, int arg2) {
-			}
-
-			@Override
-			public void onPageScrollStateChanged(int arg0) {
-			}
-
-		});*/
-
 	}
 
 	private void exitDialog() {

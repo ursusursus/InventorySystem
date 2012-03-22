@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:paddingLeft="20dp"
-    android:paddingTop="40dp"
+    android:paddingTop="30dp"
     android:weightSum="1" >
 
     <LinearLayout
@@ -46,19 +46,6 @@
         android:orientation="horizontal"
         android:weightSum="100" >
 
-        <!--
-         <android.gesture.GestureOverlayView
-			android:id="@+id/gestureOverlay" android:layout_width="fill_parent"
-			android:layout_height="fill_parent">
-			<GridView android:id="@+id/gridview" android:layout_width="260dp"
-				android:layout_height="wrap_content" android:numColumns="3"
-				android:verticalSpacing="5dp" android:horizontalSpacing="5dp" />
-			<ImageButton android:id="@+id/camera_button"
-				android:layout_width="wrap_content" android:layout_height="wrap_content"
-				android:src="@drawable/camera_icon" android:background="@null" />
-		</android.gesture.GestureOverlayView>
-        -->
-
         <GridView
             android:id="@+id/gridview"
             android:layout_width="260dp"
@@ -66,12 +53,6 @@
             android:horizontalSpacing="5dp"
             android:numColumns="3"
             android:verticalSpacing="5dp" />
-        <!--
-             	<ImageButton android:id="@+id/camera_button"
-			    android:layout_marginTop="5dp"
-				android:layout_width="wrap_content" android:layout_height="wrap_content"
-				android:src="@drawable/camera_icon" android:background="@null" />
-        -->
     </LinearLayout>
 
 </LinearLayout>

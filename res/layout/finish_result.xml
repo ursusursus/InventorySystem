@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:paddingLeft="20dp"
-    android:paddingTop="40dp" >
+   android:paddingTop="30dp" >
 
     <sk.tuke.ursus.customViews.MyTextView
         android:layout_width="wrap_content"

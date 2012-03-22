@@ -1,14 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:orientation="vertical" android:layout_width="fill_parent"
-	android:layout_height="fill_parent" android:background="@drawable/background"
-	android:paddingTop="40dp" android:paddingLeft="20dp">	
-	<sk.tuke.ursus.customViews.MyTextView android:text="Select a room" android:textSize="60dp"
-		android:textColor="#FF000000" android:layout_width="wrap_content"
-		android:layout_height="wrap_content" android:id="@+id/selectRoomTv"
-		android:layout_marginLeft="7dp" />
-	<GridView android:id="@+id/gridViewRooms"
-		android:layout_width="220dp" android:layout_height="wrap_content"
-		android:numColumns="2" android:verticalSpacing="7dp"
-		android:horizontalSpacing="7dp" />
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/background"
+    android:orientation="vertical"
+    android:paddingLeft="20dp"
+    android:paddingTop="40dp" >
+
+    <sk.tuke.ursus.customViews.MyTextView
+        android:id="@+id/selectRoomTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="7dp"
+        android:text="Select a room"
+        android:textColor="#FF000000"
+        android:textSize="60dp" />
+
+    <GridView
+        android:id="@+id/gridViewRooms"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:horizontalSpacing="7dp"
+        android:numColumns="2"
+        android:verticalSpacing="7dp" />
+
 </LinearLayout>
