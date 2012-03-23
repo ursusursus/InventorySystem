@@ -102,7 +102,7 @@ public class Room extends Entity implements Serializable{
 		}
 	}
 
-	public int getInStockCounter() {
+	public int getInStockCount() {
 		int count = 0;
 
 		for (Item i : content) {

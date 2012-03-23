@@ -40,7 +40,6 @@ public class MainMenu extends Activity implements OnTouchListener {
 	private ImageButton startButton, settingsButton, aboutButton;
 	private Vibrator vibrator;
 	private ProgressDialog progressDialog;
-	final private String FILENAME = "settings.invsys";
 	private boolean firstRun = true;
 	private MyApplication app;
 
@@ -63,17 +62,17 @@ public class MainMenu extends Activity implements OnTouchListener {
 		aboutButton.setOnTouchListener(this);
 
 		app = (MyApplication) getApplication();
-		loadEmailList();
+		loadAppData();
 
 	}
 
-	private void loadEmailList() {
+	private void loadAppData() {
 
 		FileInputStream fis = null;
 		ObjectInputStream ois = null;
 
 		try {
-			fis = openFileInput(FILENAME);
+			fis = openFileInput(MyApplication.FILENAME);
 			ois = new ObjectInputStream(fis);
 
 			MyApplication loadedApp = (MyApplication) ois.readObject();
@@ -83,49 +82,16 @@ public class MainMenu extends Activity implements OnTouchListener {
 			app.setPhpURL(loadedApp.getPhpURL());
 			app.setReadyToStart(loadedApp.isReadyToStart());
 
-			// Toast.makeText(getApplicationContext(), "Loading successful",
-			// Toast.LENGTH_SHORT).show();
 			fis.close();
 			ois.close();
+			
 		} catch (FileNotFoundException e) {
-			// Toast.makeText(getApplicationContext(), "FileNotFound",
-			// Toast.LENGTH_SHORT).show();
 			e.printStackTrace();
 		} catch (StreamCorruptedException e) {
-			// Toast.makeText(getApplicationContext(), "Stream corrupt",
-			// Toast.LENGTH_SHORT).show();
 			e.printStackTrace();
 		} catch (IOException e) {
-			// Toast.makeText(getApplicationContext(), "IO-Exception",
-			// Toast.LENGTH_SHORT).show();
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
-			// Toast.makeText(getApplicationContext(), "Class not found",
-			// Toast.LENGTH_SHORT).show();
-			e.printStackTrace();
-		}
-	}
-
-	private void writeEmailList() {
-		FileOutputStream fos = null;
-		ObjectOutputStream oos = null;
-		try {
-
-			fos = openFileOutput(FILENAME, Context.MODE_PRIVATE);
-			oos = new ObjectOutputStream(fos);
-
-			oos.writeObject(app);
-			// Toast.makeText(getApplicationContext(),
-			// "Saving successful",Toast.LENGTH_SHORT).show();
-			fos.close();
-			oos.close();
-		} catch (FileNotFoundException e) {
-			// Toast.makeText(getApplicationContext(),
-			// "FileNotFound",Toast.LENGTH_SHORT).show();
-			e.printStackTrace();
-		} catch (IOException e) {
-			// Toast.makeText(getApplicationContext(), "IO Exception",
-			// Toast.LENGTH_SHORT).show();
 			e.printStackTrace();
 		}
 	}
@@ -133,11 +99,6 @@ public class MainMenu extends Activity implements OnTouchListener {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		if (firstRun) {
-			firstRun = false;
-		} else {
-			writeEmailList();
-		}
 	}
 
 	@Override
@@ -151,12 +112,12 @@ public class MainMenu extends Activity implements OnTouchListener {
 				case R.id.startButton:
 					
 					//debug
-					app.setReadyToStart(true);
+					//app.setReadyToStart(true);
 					
 					if (app.isReadyToStart()) {
 						startActivity(new Intent(getApplicationContext(), RoomSelection.class));
 					} else {
-						createNoEmailsSetupDialog();
+						appDataNotSetupDialog();
 					}
 					break;
 				case R.id.settingsButton:
@@ -170,9 +131,9 @@ public class MainMenu extends Activity implements OnTouchListener {
 		return false;
 	}
 
-	private void createNoEmailsSetupDialog() {
+	private void appDataNotSetupDialog() {
 		Builder builder = new Builder(this);
-		builder.setMessage("There are no email recipients, or URLs set up.\nPlease, set this up in Settings first.");
+		builder.setMessage("There are no email recipients, or URLs set up. Please, set this up in Settings first.");
 		builder.setTitle("Warning");
 		builder.setNeutralButton("Dismiss", null);
 		builder.create().show();

@@ -10,63 +10,94 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.widget.Toast;
 
 public class HTTPConnectionHelper {
-	
+
 	public static String response;
+	public static ConnectivityManager cm;
 
-	public static String download() throws Exception {
-		
-		StringBuilder sb = new StringBuilder();
+	public static String download() throws IOException {
 
-		URL url = new URL("http://vlastimil.brecka.student.cnl.sk/source.xml");
-		HttpURLConnection con = (HttpURLConnection) url.openConnection();
-		con.connect();
-		InputStream is = con.getInputStream();
-		BufferedReader rd = new BufferedReader(new InputStreamReader(is));
+		if (!isOnline()) {
+			throw new IOException("No internet connection");
+		} else {
 
-		String line;
-		while ((line = rd.readLine()) != null) {
-			sb.append(line);
+			StringBuilder sb = new StringBuilder();
+
+			URL url = new URL("http://vlastimil.brecka.student.cnl.sk/source.xml");
+			HttpURLConnection con = (HttpURLConnection) url.openConnection();
+			con.connect();
+			InputStream is = con.getInputStream();
+			BufferedReader rd = new BufferedReader(new InputStreamReader(is));
+
+			String line;
+			while ((line = rd.readLine()) != null) {
+				sb.append(line);
+			}
+			rd.close();
+
+			return sb.toString();
 		}
-		rd.close();
-
-		return sb.toString();
 	}
-	
+
 	public static void upload(String report) throws IOException {
 
-		URL url = new URL("http://vlastimil.brecka.student.cnl.sk/upload_reports.php");
-		URLConnection connection = url.openConnection();
+		if (!isOnline()) {
+			throw new IOException("No internet connection");
+		} else {
 
-		// POST METHOD
-		connection.setDoInput(true);
-		connection.setDoOutput(true);
+			URL url = new URL("http://vlastimil.brecka.student.cnl.sk/upload_reports.php");
+			URLConnection connection = url.openConnection();
 
-		connection.setRequestProperty("Content-type", "application/x-www-form-urlencoded");
-		connection.setRequestProperty("Content-length", String.valueOf(report.length()));
+			// POST METHOD
+			connection.setDoInput(true);
+			connection.setDoOutput(true);
 
-		OutputStream out = connection.getOutputStream();
-		out.write(report.getBytes());
-		out.flush();
+			connection.setRequestProperty("Content-type", "application/x-www-form-urlencoded");
+			connection.setRequestProperty("Content-length", String.valueOf(report.length()));
 
-		InputStream is = connection.getInputStream();
-		BufferedReader rd = new BufferedReader(new InputStreamReader(is));
+			OutputStream out = connection.getOutputStream();
+			out.write(report.getBytes());
+			out.flush();
 
-		StringBuilder sb = new StringBuilder();
-		String line = null;
+			InputStream is = connection.getInputStream();
+			BufferedReader rd = new BufferedReader(new InputStreamReader(is));
 
-		// server response
-		while ((line = rd.readLine()) != null) {
-			sb.append(line);
+			StringBuilder sb = new StringBuilder();
+			String line = null;
+
+			// server response
+			while ((line = rd.readLine()) != null) {
+				sb.append(line);
+			}
+
+			response = sb.toString();
+
+			rd.close();
 		}
 
-		response = sb.toString();
-		
-		rd.close();
-
 	}
+
+	public static void setConnectivityManager(ConnectivityManager cm) {
+		HTTPConnectionHelper.cm = cm;
+	}
+
+	
+	private static boolean isOnline() {
 		
+		NetworkInfo netInfo = cm.getActiveNetworkInfo();
+		if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+			return true;
+		} else {
+			return false;
+		}
+		
+	}
+
 }

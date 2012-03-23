@@ -189,29 +189,23 @@ public class RoomSelection extends Activity {
 		}
 	}
 	
-	//oskusat na telefone
-	public boolean isOnline() {
-	    ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-	    NetworkInfo netInfo = cm.getActiveNetworkInfo();
-	    if (netInfo != null && netInfo.isConnectedOrConnecting()) {
-	        return true;
-	    }
-	    return false;
-	}
-
 
 	private void initParser() {
 		
+		
 		try {
-			
+			//isOnline();
+			//ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 			parser = new Parser();
 			//parser.downloadXML(myApp.getXmlURL());
-			String result = HTTPConnectionHelper.download();
+			HTTPConnectionHelper.setConnectivityManager((ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE));
+			String result;
+				result = HTTPConnectionHelper.download();
 			parser.parseXML(result);
 			roomsList = parser.getRoomsList();
 			myApp.setRoomsList(roomsList);
 			Toast.makeText(getApplicationContext(), "Rooms loaded sucessfully.", Toast.LENGTH_SHORT).show();
-
+		
 		} catch (FileNotFoundException e) {
 			sourceNotFoundDialog();
 			e.printStackTrace();
@@ -220,9 +214,6 @@ public class RoomSelection extends Activity {
 			e.printStackTrace();
 		} catch (IOException e) {
 			connectionFailedDialog();
-			e.printStackTrace();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -251,7 +242,7 @@ public class RoomSelection extends Activity {
 	private void connectionFailedDialog() {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle("Connection failed");
-		builder.setMessage("Couldn't connect to server.\nPlease check your internet connection");
+		builder.setMessage("Couldn't connect to server. Please check your internet connection.");
 		builder.setNeutralButton("Dismiss", new DialogInterface.OnClickListener() {
 
 			@Override

@@ -21,6 +21,7 @@ import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -67,11 +68,6 @@ public class Result extends Activity implements OnTouchListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		// LinearLayout l = (LinearLayout) View.inflate(this, R.layout.result,
-		// null);
-		// l.addView(new PieChartView(this, percentage));
-		// setContentView(l);
-
 		this.setContentView(R.layout.finish);
 
 		vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
@@ -83,10 +79,7 @@ public class Result extends Activity implements OnTouchListener {
 
 	}
 
-	/*private void calculatePercentage(float totalCount, float missingCount) {
-		percentage = 100 - ((missingCount * 100) / totalCount);
-	}*/
-
+	
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {
 		if (event.getAction() == MotionEvent.ACTION_DOWN) {
@@ -133,10 +126,12 @@ public class Result extends Activity implements OnTouchListener {
 		try {
 
 			//report.exportToServer(app.getPhpURL());
+			HTTPConnectionHelper.setConnectivityManager((ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE));
 			HTTPConnectionHelper.upload(report.getReport());
 			Toast.makeText(getApplicationContext(), "Upload successful.", Toast.LENGTH_LONG).show();
 			//Log.i("URL", report.getURLResponse());
-
+			
+			serverButton.setEnabled(false);
 			viewButton.setEnabled(true);
 			notifyButton.setEnabled(true);
 
@@ -168,7 +163,6 @@ public class Result extends Activity implements OnTouchListener {
 				Toast.makeText(this, "Saved successfully to " + resultsFile.toString() + ".html", Toast.LENGTH_LONG)
 						.show();
 				storageButton.setEnabled(false);
-				storageButton.setText("exported to SD-card");
 			} catch (IOException e) {
 				e.printStackTrace();
 				Toast.makeText(this, "Saving failed.", Toast.LENGTH_SHORT).show();
@@ -282,7 +276,7 @@ public class Result extends Activity implements OnTouchListener {
 	private void connectionFailedDialog() {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle("Connection failed");
-		builder.setMessage("Couldn't connect to server.\nPlease check your internet connection");
+		builder.setMessage("Couldn't connect to server. Please check your internet connection.");
 		builder.setNeutralButton("Dismiss", null);
 		builder.create().show();
 	}

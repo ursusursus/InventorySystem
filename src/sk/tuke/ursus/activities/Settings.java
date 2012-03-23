@@ -1,5 +1,9 @@
 package sk.tuke.ursus.activities;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.regex.Matcher;
@@ -53,8 +57,6 @@ public class Settings extends Activity implements OnTouchListener {
 	private Button xmlButton;
 	private Button phpButton;
 	private Vibrator vibrator;
-	private String xmlURL;
-	private String phpURL;
 	private MyApplication app;
 	private ViewPagerIndicator indicator;
 
@@ -66,7 +68,7 @@ public class Settings extends Activity implements OnTouchListener {
 		app = ((MyApplication) getApplication());
 		vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 		ArrayList<LinearLayout> pagesList = new ArrayList<LinearLayout>();
-	
+
 		LinearLayout emails = (LinearLayout) View.inflate(getApplicationContext(), R.layout.settings_recipients, null);
 		LinearLayout general = (LinearLayout) View.inflate(getApplicationContext(), R.layout.settings_general, null);
 
@@ -76,16 +78,14 @@ public class Settings extends Activity implements OnTouchListener {
 		ViewPager viewPager = (ViewPager) findViewById(R.id.settingsPager);
 		ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getApplicationContext(), pagesList);
 		viewPager.setAdapter(viewPagerAdapter);
-		
+
 		indicator = (ViewPagerIndicator) findViewById(R.id.indicator);
 		indicator.setViewPager(viewPager);
-		
+
 		emailAddresses = app.getEmailAddresses();
 		if (emailAddresses == null) {
 			emailAddresses = new ArrayList<String>();
 		}
-		xmlURL = app.getXmlURL();
-		phpURL = app.getPhpURL();
 
 		listView = (ListView) emails.findViewById(R.id.emailListView);
 		listView.setDivider(null);
@@ -127,7 +127,6 @@ public class Settings extends Activity implements OnTouchListener {
 		}
 		itemSelected = false;
 		Collections.sort(emailAddresses);
-		// listView.getChildAt(selectedItemIndex).setBackgroundColor(0x00000000);
 		listAdapter.notifyDataSetChanged();
 
 	}
@@ -166,13 +165,14 @@ public class Settings extends Activity implements OnTouchListener {
 
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				String tmp = editText.getText().toString();
-				if (isValidEmailAddress(tmp)) {
+				String address = editText.getText().toString();
+				if (isValidEmailAddress(address)) {
 					emailAddresses.remove(index);
-					emailAddresses.add(tmp);
+					emailAddresses.add(address);
+					app.setEmailAddresses(emailAddresses);
 					updateListView();
 				} else {
-					Toast.makeText(getApplicationContext(), "Invalid address", Toast.LENGTH_SHORT).show();
+					Toast.makeText(getApplicationContext(), "Invalid address.", Toast.LENGTH_SHORT).show();
 				}
 			}
 
@@ -200,9 +200,10 @@ public class Settings extends Activity implements OnTouchListener {
 
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				String tmp = editText.getText().toString();
-				if (isValidEmailAddress(tmp)) {
+				String address = editText.getText().toString();
+				if (isValidEmailAddress(address)) {
 					emailAddresses.add(editText.getText().toString());
+					app.setEmailAddresses(emailAddresses);
 					updateListView();
 				} else {
 					Toast.makeText(getApplicationContext(), "Invalid address", Toast.LENGTH_SHORT).show();
@@ -223,6 +224,7 @@ public class Settings extends Activity implements OnTouchListener {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				emailAddresses.remove(index);
+				app.setEmailAddresses(emailAddresses);
 				updateListView();
 			}
 
@@ -235,14 +237,36 @@ public class Settings extends Activity implements OnTouchListener {
 	@Override
 	protected void onPause() {
 		super.onPause();
-		if ((emailAddresses.size() > 0) && (xmlURL != null) && (phpURL != null)) {
-			app.setReadyToStart(true);
-			app.setEmailAddresses(emailAddresses);
-			app.setXmlURL(xmlURL);
-			app.setPhpURL(phpURL);
+
+		if ((emailAddresses.size() > 0) && (app.getXmlURL() != null) && (app.getPhpURL() != null)) {
+			Toast.makeText(getApplicationContext(), "SAVING", Toast.LENGTH_SHORT).show();
+			saveAppData();
 		} else {
-			if(app.isReadyToStart()) //optimalizacia aby zbytocne neprepisovalo
-				app.setReadyToStart(false);
+			Toast.makeText(getApplicationContext(), "NOT SAVING", Toast.LENGTH_SHORT).show();
+			app.setReadyToStart(false);
+		}
+	}
+
+	private void saveAppData() {
+		FileOutputStream fos = null;
+		ObjectOutputStream oos = null;
+		try {
+
+			fos = openFileOutput(MyApplication.FILENAME, Context.MODE_PRIVATE);
+			oos = new ObjectOutputStream(fos);
+
+			oos.writeObject(app);
+
+			fos.close();
+			oos.close();
+
+			app.setReadyToStart(true);
+			Toast.makeText(getApplicationContext(), "Saving successful", Toast.LENGTH_SHORT).show();
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -272,15 +296,20 @@ public class Settings extends Activity implements OnTouchListener {
 				AlertDialog.Builder builder = new AlertDialog.Builder(this);
 				builder.setTitle("Set URL to .xml file");
 				final EditText edit = new EditText(this);
-				if (xmlURL != null) {
-					edit.setText(xmlURL);
+
+				String url = app.getXmlURL();
+
+				if (url != null) {
+					edit.setText(url);
 				}
 				builder.setView(edit);
 				builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						xmlURL = edit.getText().toString();
+						String url = edit.getText().toString();
+						if (!url.equals(""))
+							app.setXmlURL(url);
 					}
 				});
 				builder.setNegativeButton("Cancel", null);
@@ -289,15 +318,20 @@ public class Settings extends Activity implements OnTouchListener {
 				AlertDialog.Builder builder = new AlertDialog.Builder(this);
 				builder.setTitle("Set URL to .php script");
 				final EditText edit = new EditText(this);
-				if (phpURL != null) {
-					edit.setText(phpURL);
+
+				String url = app.getPhpURL();
+
+				if (url != null) {
+					edit.setText(url);
 				}
 				builder.setView(edit);
 				builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						phpURL = edit.getText().toString();
+						String url = edit.getText().toString();
+						if (!url.equals(""))
+							app.setPhpURL(url);
 					}
 				});
 				builder.setNegativeButton("Cancel", null);

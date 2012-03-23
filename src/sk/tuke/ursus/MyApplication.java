@@ -19,6 +19,7 @@ public class MyApplication extends Application implements Serializable {
 	private String xmlURL;
 	private String phpURL;
 	private boolean isReadyToStart = false;
+	public static final String FILENAME = "settings.invsys";
 
 	public ArrayList<Room> getRoomsList() {
 		return roomsList;
