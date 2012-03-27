@@ -1,12 +1,5 @@
 package sk.tuke.ursus;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.URL;
-import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,26 +11,30 @@ import sk.tuke.ursus.entities.Room;
 public class ResultsReport {
 
 	private ArrayList<String> recipients;
-	private String subject = "Results of inventory lookup";
-	//private String[] listOfMissing;
-	private int total;
-	private int missing;
-	private String roomName;
+	private List<Item> contentList;
+	
+	private String fileName;
+	
 	private String currentDate;
 	private String printableDate;
-	private List<Item> list;
-	private String fileName;
+	
+	private String subject;
 	private String report;
-	//private String response;
 	private String emailMessage;
+	
+	private String roomName;
+	
+	private int total;
+	private int missing;
 
 	public ResultsReport(Room currentRoom, ArrayList<String> recipients) {
-		this.list = currentRoom.getContentList();
+		this.subject = "Results of inventory lookup";
+		this.contentList = currentRoom.getContentList();
 		this.recipients = recipients;
 		this.roomName = currentRoom.getName();
-//		this.listOfMissing = currentRoom.getMissingItems();
 		this.total = currentRoom.getContentList().size();
 		this.missing = currentRoom.getMissingCount();
+		
 		initCurrentDate();
 		composeFileName();
 		composeHtmlReport();
@@ -53,7 +50,7 @@ public class ResultsReport {
 		this.fileName = roomName.toLowerCase().replace(" ", "_") + "_-_" + printableDate;
 	}
 
-	public void composeEmailNotification() {
+	public void composeEmailNotification(String response) {
 		StringBuilder sb = new StringBuilder();
 
 		sb.append("Dear Sir,\n\ninventory lookup in room '");
@@ -61,8 +58,7 @@ public class ResultsReport {
 		sb.append("' was completed on ");
 		sb.append(currentDate);
 		sb.append(". View results here:\n\n");
-		//sb.append(response);
-		sb.append(HTTPConnectionHelper.response);
+		sb.append(response);
 		sb.append("\n\nThank you");
 
 		emailMessage = sb.toString();
@@ -95,7 +91,7 @@ public class ResultsReport {
 		miss.append(all);
 		ins.append(all);
 
-		for (Item i : list) {
+		for (Item i : contentList) {
 			if (!(i.isInStock())) {
 				StringBuilder tmp = new StringBuilder();
 				tmp.append("<tr class=\"notinstock\"><td>");
@@ -192,42 +188,5 @@ public class ResultsReport {
 	public String getCurrentDate() {
 		return currentDate;
 	}
-
-
-/*	public void exportToServer(String phpURL) throws IOException {
-
-		URL url = new URL(phpURL);
-		URLConnection connection = url.openConnection();
-
-		// POST METHOD
-		connection.setDoInput(true);
-		connection.setDoOutput(true);
-
-		connection.setRequestProperty("Content-type", "application/x-www-form-urlencoded");
-		connection.setRequestProperty("Content-length", String.valueOf(report.length()));
-
-		OutputStream out = connection.getOutputStream();
-		out.write(report.getBytes());
-		out.flush();
-
-		InputStream is = connection.getInputStream();
-		BufferedReader rd = new BufferedReader(new InputStreamReader(is));
-
-		StringBuilder sb = new StringBuilder();
-		String line = null;
-
-		// server response
-		while ((line = rd.readLine()) != null) {
-			sb.append(line);
-		}
-
-		this.response = sb.toString();
-		rd.close();
-
-	}*/
-
-/*	public String getURLResponse() {
-		return response;
-	}*/
 
 }

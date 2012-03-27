@@ -1,40 +1,41 @@
 package sk.tuke.ursus.activities;
 
+import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.net.UnknownHostException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 
-import sk.tuke.ursus.HTTPConnectionHelper;
+import org.xml.sax.SAXException;
+
 import sk.tuke.ursus.MyApplication;
 import sk.tuke.ursus.R;
 import sk.tuke.ursus.ResultsReport;
 import sk.tuke.ursus.adapters.ViewPagerAdapter;
-import sk.tuke.ursus.customViews.PieChartView;
 import sk.tuke.ursus.customViews.ViewPagerIndicator;
 import sk.tuke.ursus.entities.Room;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.ConnectivityManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Vibrator;
 import android.support.v4.view.ViewPager;
-import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
-import android.view.Window;
-import android.view.WindowManager;
-import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -43,43 +44,45 @@ import android.widget.Toast;
 
 public class Result extends Activity implements OnTouchListener {
 
-	private float percentage;
-	private TextView textView;
-	private ResultsReport report;
-	private int size = 40;
-	private Animation shrink;
-	private Animation enlarge;
+	private static final int CONNECTION_FAILED = 0;
+	private static final int WRONG_RESPONSE = 1;
+	private static final int EXIT_DIALOG = 2;
+
+	private MyApplication app;
 	private Vibrator vibrator;
-	private Button exitButton;
-	private Room currentRoom;
-	private ViewPager viewPager;
-	private String responseURL;
+	
 	private Button serverButton;
 	private Button storageButton;
-	private Button viewButton;
-	private boolean serverButtonClicked = false;
-	private MyApplication app;
 	private Button notifyButton;
+	private Button viewButton;
+	private Button exitButton;
+	
 	private LinearLayout res;
 	private LinearLayout stat;
+	
+	private ViewPager viewPager;
 	private ViewPagerIndicator indicator;
+	private ProgressDialog dialog;
+	
+	private ResultsReport resultsReport;
+
+	private String response;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		this.setContentView(R.layout.finish);
-
+		app = ((MyApplication) getApplicationContext());
 		vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 
-		initLayouts();
+		this.setContentView(R.layout.finish);
+
+		resultsReport = new ResultsReport(app.getCurrentRoom(), app.getEmailAddresses());
+
 		initViews();
-
-		//stat.addView(new PieChartView(this, percentage));
-
+		addListeners();
 	}
 
-	
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {
 		if (event.getAction() == MotionEvent.ACTION_DOWN) {
@@ -105,7 +108,7 @@ public class Result extends Activity implements OnTouchListener {
 				viewReportInBrowser();
 				break;
 			case R.id.exitButton:
-				exitDialog();
+				showDialog(EXIT_DIALOG);
 				break;
 			}
 		}
@@ -116,35 +119,18 @@ public class Result extends Activity implements OnTouchListener {
 	private void viewReportInBrowser() {
 
 		Intent i = new Intent(Intent.ACTION_VIEW);
-		//i.setData(Uri.parse(report.getURLResponse()));
-		i.setData(Uri.parse(HTTPConnectionHelper.response));
+		i.setData(Uri.parse(response));
 		startActivity(i);
 	}
 
 	private void exportToServer() {
 
-		try {
+		dialog = new ProgressDialog(this);
+		dialog.setTitle("Please,wait");
+		dialog.setMessage("Uploading...");
+		UploadTask task = new UploadTask();
+		task.execute(app.getPhpURL());
 
-			//report.exportToServer(app.getPhpURL());
-			HTTPConnectionHelper.setConnectivityManager((ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE));
-			HTTPConnectionHelper.upload(report.getReport());
-			Toast.makeText(getApplicationContext(), "Upload successful.", Toast.LENGTH_LONG).show();
-			//Log.i("URL", report.getURLResponse());
-			
-			serverButton.setEnabled(false);
-			viewButton.setEnabled(true);
-			notifyButton.setEnabled(true);
-
-		} catch (UnknownHostException e) {
-			invalidURLDialog();
-			e.printStackTrace();
-		} catch (FileNotFoundException e) {
-			scriptNotFoundDialog();
-			e.printStackTrace();
-		} catch (IOException e) {
-			connectionFailedDialog();
-			e.printStackTrace();
-		}
 	}
 
 	private void exportToSDCard() {
@@ -153,10 +139,10 @@ public class Result extends Activity implements OnTouchListener {
 			try {
 
 				File path = getExternalFilesDir(null);
-				File resultsFile = new File(path, report.getFileName());
+				File resultsFile = new File(path, resultsReport.getFileName());
 
 				FileWriter writer = new FileWriter(resultsFile);
-				writer.write(report.getReport());
+				writer.write(resultsReport.getReport());
 				writer.flush();
 				writer.close();
 
@@ -192,14 +178,13 @@ public class Result extends Activity implements OnTouchListener {
 
 	private void notifyViaEmail() {
 
-		report.composeEmailNotification();
+		resultsReport.composeEmailNotification(response);
 
-		Toast.makeText(this, "Sending results via e-mail.", Toast.LENGTH_LONG).show();
 		Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
 
-		emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, report.getAddress());
-		emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, report.getSubject());
-		emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, report.getEmailMessage());
+		emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, resultsReport.getAddress());
+		emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, resultsReport.getSubject());
+		emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, resultsReport.getEmailMessage());
 		emailIntent.setType("text/plain");
 
 		startActivity(Intent.createChooser(emailIntent, "Send email..."));
@@ -208,38 +193,6 @@ public class Result extends Activity implements OnTouchListener {
 
 	private void initViews() {
 
-		app = ((MyApplication) getApplicationContext());
-		currentRoom = app.getCurrentRoom();
-		ArrayList<String> addressess = app.getEmailAddresses();
-		report = new ResultsReport(currentRoom, addressess);
-
-		serverButton = (Button) res.findViewById(R.id.serverButton);
-		storageButton = (Button) res.findViewById(R.id.storageButton);
-		notifyButton = (Button) res.findViewById(R.id.notifyButton);
-		viewButton = (Button) res.findViewById(R.id.viewButton);
-		exitButton = (Button) res.findViewById(R.id.exitButton);
-		serverButton.setOnTouchListener(this);
-		storageButton.setOnTouchListener(this);
-		notifyButton.setOnTouchListener(this);
-		viewButton.setOnTouchListener(this);
-		exitButton.setOnTouchListener(this);
-		notifyButton.setEnabled(false);
-		viewButton.setEnabled(false);
-
-		TextView dateTv = (TextView) stat.findViewById(R.id.dateTv);
-		TextView resultTv = (TextView) stat.findViewById(R.id.resultTv);
-
-		float totalCount = getIntent().getExtras().getFloat("total");
-		float missingCount = getIntent().getExtras().getFloat("missing");
-
-	//	calculatePercentage(totalCount, missingCount);
-
-		dateTv.setText("- results from " + report.getCurrentDate());
-		resultTv.setText("- " + (int) missingCount + " of " + (int) totalCount + " were found missing.");
-
-	}
-
-	private void initLayouts() {
 		ArrayList<LinearLayout> list = new ArrayList<LinearLayout>();
 		res = (LinearLayout) View.inflate(this, R.layout.finish_result, null);
 		stat = (LinearLayout) View.inflate(this, R.layout.finish_stats, null);
@@ -249,52 +202,152 @@ public class Result extends Activity implements OnTouchListener {
 		viewPager = (ViewPager) findViewById(R.id.finishPager);
 		ViewPagerAdapter pageAdapter = new ViewPagerAdapter(getApplicationContext(), list);
 		viewPager.setAdapter(pageAdapter);
-		
+
 		indicator = (ViewPagerIndicator) findViewById(R.id.indicator);
 		indicator.setViewPager(viewPager);
-		
+
+		serverButton = (Button) res.findViewById(R.id.serverButton);
+		storageButton = (Button) res.findViewById(R.id.storageButton);
+		notifyButton = (Button) res.findViewById(R.id.notifyButton);
+		viewButton = (Button) res.findViewById(R.id.viewButton);
+		exitButton = (Button) res.findViewById(R.id.exitButton);
+
+		TextView dateTv = (TextView) stat.findViewById(R.id.dateTv);
+		TextView resultTv = (TextView) stat.findViewById(R.id.resultTv);
+
+		Room currentRoom = app.getCurrentRoom();
+		dateTv.setText("- results from " + resultsReport.getCurrentDate());
+		resultTv.setText("- " + currentRoom.getMissingCount() + " of " + currentRoom.getContentList().size() + " were found missing.");
+
 	}
 
-	private void exitDialog() {
+	private void addListeners() {
+		serverButton.setOnTouchListener(this);
+		storageButton.setOnTouchListener(this);
+		notifyButton.setOnTouchListener(this);
+		viewButton.setOnTouchListener(this);
+		exitButton.setOnTouchListener(this);
 
-		AlertDialog.Builder builder = new Builder(this);
-		builder.setTitle("Exiting to main menu");
-		builder.setMessage("Do you really want to quit?");
-		builder.setPositiveButton("Exit", new DialogInterface.OnClickListener() {
+		notifyButton.setEnabled(false);
+		viewButton.setEnabled(false);
+	}
 
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				startActivity(new Intent(getApplicationContext(), MainMenu.class));
+	@Override
+	protected Dialog onCreateDialog(int id) {
+		Dialog dialog = null;
+		switch (id) {
+		case CONNECTION_FAILED:
+			dialog = new AlertDialog.Builder(this)
+					.setTitle("Connection failed")
+					.setMessage(
+							"Please check your internet connection and make sure the URL to .php script is correct.")
+					.setNeutralButton("Dismiss", null).create();
+			break;
+		case WRONG_RESPONSE:
+			dialog = new AlertDialog.Builder(this)
+					.setTitle("Wrong response")
+					.setMessage(
+							"Php script is not a valid Inventory System exporting script. Please check source file for errors or provide correct script.")
+					.setNeutralButton("Dismiss", null).create();
+			break;
+		case EXIT_DIALOG:
+			dialog = new AlertDialog.Builder(this).setTitle("Exiting to main menu")
+					.setMessage("Do you really want to quit?")
+					.setPositiveButton("Exit", new DialogInterface.OnClickListener() {
+
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							startActivity(new Intent(getApplicationContext(), MainMenu.class));
+						}
+
+					}).setNegativeButton("Cancel", null).create();
+			break;
+		}
+		return dialog;
+	}
+
+	
+	private class UploadTask extends AsyncTask<String, Void, String> {
+
+		private Exception e;
+
+		@Override
+		protected String doInBackground(String... urls) {
+
+			String response = null;
+
+			for (String source : urls) {
+				try {
+					String r = resultsReport.getReport();
+
+					URL url = new URL(source);
+					URLConnection connection = url.openConnection();
+
+					// POST METHOD
+					connection.setDoInput(true);
+					connection.setDoOutput(true);
+
+					connection.setRequestProperty("Content-type", "application/x-www-form-urlencoded");
+					connection.setRequestProperty("Content-length", String.valueOf(r.length()));
+
+					OutputStream out = connection.getOutputStream();
+					out.write(r.getBytes());
+					out.flush();
+
+					InputStream is = connection.getInputStream();
+					BufferedReader rd = new BufferedReader(new InputStreamReader(is));
+
+					StringBuilder sb = new StringBuilder();
+					String line = null;
+
+					while ((line = rd.readLine()) != null) {
+						sb.append(line);
+					}
+
+					rd.close();
+
+					String tmp = sb.toString();
+
+					if (!tmp.startsWith("inventorysystem:")) {
+						throw new SAXException("Wrong response.");
+					} else {
+						response = tmp.substring("inventorysystem:".length());
+					}
+				} catch (Exception e) {
+					this.e = e;
+				}
+			}
+			return response;
+		}
+
+		@Override
+		protected void onPreExecute() {
+			dialog.show();
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+			if (dialog.isShowing()) {
+				dialog.dismiss();
 			}
 
-		});
-		builder.setNegativeButton("Cancel", null);
-		builder.create().show();
+			if (e == null) {
+				response = result;
+				
+				serverButton.setEnabled(false);
+				viewButton.setEnabled(true);
+				notifyButton.setEnabled(true);
+				
+				Toast.makeText(getApplicationContext(), "Upload successful.", Toast.LENGTH_LONG).show();
+			} else {
+				if (e instanceof SAXException) {
+					showDialog(WRONG_RESPONSE);
+				} else if (e instanceof IOException) {
+					showDialog(CONNECTION_FAILED);
+				}
+			}
+		}
 
-	}
-
-	private void connectionFailedDialog() {
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle("Connection failed");
-		builder.setMessage("Couldn't connect to server. Please check your internet connection.");
-		builder.setNeutralButton("Dismiss", null);
-		builder.create().show();
-	}
-
-	private void scriptNotFoundDialog() {
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle("Connection failed");
-		builder.setMessage("Please make sure the .php script is present on the server.");
-		builder.setNeutralButton("Dismiss", null);
-		builder.create().show();
-	}
-
-	private void invalidURLDialog() {
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle("Connection failed");
-		builder.setMessage("Please make sure the URL to .php script is correct.");
-		builder.setNeutralButton("Dismiss", null);
-		builder.create().show();
 	}
 
 }

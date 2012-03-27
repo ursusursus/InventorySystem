@@ -60,8 +60,8 @@ public class Item extends Entity implements Comparable<Item>, Serializable {
 		}
 	}
 
-	public void setNotLatestInStock() {
-		isLatestInStock = false;
+	public void setLatestInStock(boolean latest) {
+		isLatestInStock = latest;
 	}
 	
 	public String getID() {
