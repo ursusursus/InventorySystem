@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import org.xml.sax.SAXException;
 
 import sk.tuke.ursus.MyApplication;
-import sk.tuke.ursus.R;
 import sk.tuke.ursus.Parser;
+import sk.tuke.ursus.R;
 import sk.tuke.ursus.adapters.RoomAdapter;
 import sk.tuke.ursus.entities.Room;
 import android.app.Activity;
@@ -28,7 +28,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
-import android.widget.Toast;
 
 public class RoomSelection extends Activity {
 	
@@ -66,9 +65,7 @@ public class RoomSelection extends Activity {
 			}
 
 		});
-
 		init();
-
 	}
 
 	private void init() {
@@ -76,8 +73,8 @@ public class RoomSelection extends Activity {
 		if (tmpList == null) {
 			downloadAndParse();
 		} else {
-			Toast.makeText(getApplicationContext(), "RE-LOADING", Toast.LENGTH_SHORT).show();
-			adapter = new RoomAdapter(getApplicationContext(), R.layout.room_item, tmpList);
+			//Toast.makeText(getApplicationContext(), "RE-LOADING", Toast.LENGTH_SHORT).show();
+			adapter = new RoomAdapter(getApplicationContext(), R.layout.room_selection_item, tmpList);
 			gridView.setAdapter(adapter);
 		}
 	}
@@ -142,65 +139,7 @@ public class RoomSelection extends Activity {
 		return dialog;
 	}
 
-
-	/*private void connectionFailedDialog() {
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle("Connection failed");
-		builder.setMessage("Couldn't connect to server. Please check your internet connection.");
-		builder.setNeutralButton("Dismiss", new DialogInterface.OnClickListener() {
-
-			@Override
-			public void onClick(DialogInterface arg0, int arg1) {
-				finish();
-			}
-		});
-		builder.create().show();
-	}
-
-	private void sourceNotFoundDialog() {
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle("Connection failed");
-		builder.setMessage("Please make sure the .xml source is present on the server.");
-		builder.setNeutralButton("Dismiss", new DialogInterface.OnClickListener() {
-
-			@Override
-			public void onClick(DialogInterface arg0, int arg1) {
-				finish();
-			}
-		});
-		builder.create().show();
-	}
-
-	private void invalidURLDialog() {
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle("Unable to establish connection");
-		builder.setMessage("Please make the URL to .xml source is correct.");
-		builder.setNeutralButton("Dismiss", new DialogInterface.OnClickListener() {
-
-			@Override
-			public void onClick(DialogInterface arg0, int arg1) {
-				finish();
-			}
-		});
-		builder.create().show();
-	}
-
-	private void parsingErrorDialog() {
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle("Parsing error");
-		builder.setMessage("Source .xml file not in valid Inventory System format. Please check source file for errors.");
-		builder.setNeutralButton("Dismiss", new DialogInterface.OnClickListener() {
-
-			@Override
-			public void onClick(DialogInterface arg0, int arg1) {
-				finish();
-			}
-		});
-		builder.create().show();
-
-	}*/
-
-
+	
 	private class DownloadAndParseTask extends AsyncTask<String, Void, ArrayList<Room>> {
 
 		private Exception e = null;
@@ -232,7 +171,7 @@ public class RoomSelection extends Activity {
 
 			if (e == null) {
 				app.setRoomsList(result);
-				adapter = new RoomAdapter(getApplicationContext(), R.layout.room_item, result);
+				adapter = new RoomAdapter(getApplicationContext(), R.layout.room_selection_item, result);
 				gridView.setAdapter(adapter);
 			} else {
 				if (e instanceof SAXException) {

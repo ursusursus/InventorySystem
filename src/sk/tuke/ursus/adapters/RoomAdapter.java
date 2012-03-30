@@ -27,7 +27,7 @@ public class RoomAdapter extends ArrayAdapter<Room> {
 		if (convertView == null) {
 			LayoutInflater inflater = (LayoutInflater) this.getContext().getSystemService(
 					Context.LAYOUT_INFLATER_SERVICE);
-			convertView = inflater.inflate(R.layout.room_item, parent, false);
+			convertView = inflater.inflate(R.layout.room_selection_item, parent, false);
 
 			holder = new ViewHolder();
 			holder.textView = (TextView) convertView.findViewById(R.id.room_name_textview);

@@ -139,14 +139,14 @@ public class Result extends Activity implements OnTouchListener {
 			try {
 
 				File path = getExternalFilesDir(null);
-				File resultsFile = new File(path, resultsReport.getFileName());
+				File resultsFile = new File(path, resultsReport.getFileName() + ".html");
 
 				FileWriter writer = new FileWriter(resultsFile);
 				writer.write(resultsReport.getReport());
 				writer.flush();
 				writer.close();
 
-				Toast.makeText(this, "Saved successfully to " + resultsFile.toString() + ".html", Toast.LENGTH_LONG)
+				Toast.makeText(this, "Saved successfully to " + resultsFile.toString(), Toast.LENGTH_LONG)
 						.show();
 				storageButton.setEnabled(false);
 			} catch (IOException e) {

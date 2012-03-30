@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="80dp"
-    android:layout_height="80dp"
+    android:layout_width="100dp"
+    android:layout_height="100dp"
+    android:background="#FF2B5BE5"
     android:orientation="vertical" >
 
     <sk.tuke.ursus.customViews.MyTextView
-        android:id="@+id/item_name_textview"
+        android:id="@+id/room_name_textview"
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
-        android:layout_marginLeft="4dp"
+        android:layout_marginLeft="6dp"
         android:gravity="bottom"
         android:singleLine="true"
-        android:textSize="20dp" />
+        android:textColor="#FFFFFFFF"
+        android:textSize="30dp" />
 
 </LinearLayout>

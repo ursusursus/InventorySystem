@@ -13,12 +13,16 @@ public class MyApplication extends Application implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
 	private Room currentRoom;
 	private ArrayList<Room> roomsList;
+	
 	private ArrayList<String> emailAddresses;
 	private String xmlURL;
 	private String phpURL;
+	
 	private boolean isReadyToStart = false;
+	
 	public static final String FILENAME = "settings.invsys";
 
 	public ArrayList<Room> getRoomsList() {
@@ -29,20 +33,20 @@ public class MyApplication extends Application implements Serializable {
 		this.roomsList = roomsList;
 	}
 
-	public ArrayList<String> getEmailAddresses() {
-		return emailAddresses;
-	}
-
-	public void setEmailAddresses(ArrayList<String> emailAddresses) {
-		this.emailAddresses = emailAddresses;
-	}
-
 	public Room getCurrentRoom() {
 		return currentRoom;
 	}
 
 	public void setCurrentRoom(Room room) {
 		this.currentRoom = room;
+	}
+	
+	public ArrayList<String> getEmailAddresses() {
+		return emailAddresses;
+	}
+
+	public void setEmailAddresses(ArrayList<String> emailAddresses) {
+		this.emailAddresses = emailAddresses;
 	}
 
 	public String getXmlURL() {

@@ -10,9 +10,12 @@ import android.util.AttributeSet;
 import android.view.View;
 
 public class ViewPagerIndicator extends View {
+	
+	private static final int SELECTED_COLOR = 0xFF424242;
+	private static final int DESELECTED_COLOR = 0xFFBDBDBD;
 
-	private Paint paint = new Paint();
-	private int size = 340;
+	private Paint paint;
+	//private int size = 340;
 	private Rect[] array;
 	private int currentPageIndex;
 
@@ -20,17 +23,11 @@ public class ViewPagerIndicator extends View {
 	private int height = 5;
 	private int margin = 10;
 	private int count;
-	private ViewPager pager;
-
-	private static final int SELECTED_COLOR = 0xFF424242;
-	private static final int DESELECTED_COLOR = 0xFFBDBDBD;
+	//private ViewPager pager;
 
 	public ViewPagerIndicator(Context context, AttributeSet attrs) {
 		super(context, attrs);
-
-		// this.count = 2;
-		// initialize(count);
-
+		paint = new Paint();
 	}
 
 	private void initialize() {
@@ -62,13 +59,12 @@ public class ViewPagerIndicator extends View {
 
 	@Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-		// TODO Auto-generated method stub
 		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 		this.setMeasuredDimension((width + margin) * count, height);
 	}
 
 	public void setViewPager(ViewPager pager) {
-		this.pager = pager;
+		//this.pager = pager;
 		count = pager.getAdapter().getCount();
 
 		initialize();

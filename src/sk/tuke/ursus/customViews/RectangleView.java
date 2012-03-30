@@ -16,7 +16,6 @@ public class RectangleView extends View {
 	public RectangleView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		init();
-		//Size sa musi pocitat z velkosti okna ... asi, ak bude cas
 	}
 
 	@Override

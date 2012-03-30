@@ -197,10 +197,10 @@ public class Settings extends Activity implements OnTouchListener {
 		super.onPause();
 
 		if ((emailAddresses.size() > 0) && (app.getXmlURL() != null) && (app.getPhpURL() != null)) {
-			Toast.makeText(getApplicationContext(), "SAVING", Toast.LENGTH_SHORT).show();
+			//Toast.makeText(getApplicationContext(), "SAVING", Toast.LENGTH_SHORT).show();
 			saveAppData();
 		} else {
-			Toast.makeText(getApplicationContext(), "NOT SAVING", Toast.LENGTH_SHORT).show();
+			//Toast.makeText(getApplicationContext(), "NOT SAVING", Toast.LENGTH_SHORT).show();
 			app.setReadyToStart(false);
 		}
 	}
@@ -219,7 +219,7 @@ public class Settings extends Activity implements OnTouchListener {
 			oos.close();
 
 			app.setReadyToStart(true);
-			Toast.makeText(getApplicationContext(), "Saving successful", Toast.LENGTH_SHORT).show();
+			//Toast.makeText(getApplicationContext(), "Saving successful", Toast.LENGTH_SHORT).show();
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();

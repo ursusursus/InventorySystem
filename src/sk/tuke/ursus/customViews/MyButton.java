@@ -9,8 +9,7 @@ public class MyButton extends Button {
 
 	public MyButton(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		this.setTypeface(Typeface.createFromAsset(context.getAssets(),
-				"fonts/LABTOP__.ttf"));
+		this.setTypeface(Typeface.createFromAsset(context.getAssets(), "fonts/LABTOP__.ttf"));
 	}
 
 }

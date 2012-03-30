@@ -10,9 +10,7 @@ package sk.tuke.ursus;
 public final class R {
     public static final class anim {
         public static final int enlarge=0x7f040000;
-        public static final int fade_away=0x7f040001;
-        public static final int popup=0x7f040002;
-        public static final int shrink=0x7f040003;
+        public static final int shrink=0x7f040001;
     }
     public static final class attr {
     }
@@ -56,8 +54,8 @@ public final class R {
         public static final int start_button=0x7f02000b;
     }
     public static final class id {
-        public static final int aboutButton=0x7f080032;
-        public static final int add=0x7f080053;
+        public static final int aboutButton=0x7f08002d;
+        public static final int add=0x7f08004e;
         /**  Messages IDs 
          */
         public static final int auto_focus=0x7f080000;
@@ -65,8 +63,7 @@ public final class R {
         public static final int barcode_image_view=0x7f08000f;
         public static final int bookmark_title=0x7f08000a;
         public static final int bookmark_url=0x7f08000b;
-        public static final int camera=0x7f08004e;
-        public static final int cancelButton=0x7f08002e;
+        public static final int camera=0x7f080049;
         public static final int contents_supplement_text_view=0x7f080019;
         public static final int contents_text_view=0x7f080018;
         public static final int dateTv=0x7f080026;
@@ -74,76 +71,72 @@ public final class R {
         public static final int decode_failed=0x7f080002;
         public static final int decode_succeeded=0x7f080003;
         public static final int done_button=0x7f08002a;
-        public static final int edit=0x7f080055;
-        public static final int emailListView=0x7f080048;
+        public static final int edit=0x7f080050;
+        public static final int emailListView=0x7f080043;
         public static final int encode_view=0x7f08001d;
         public static final int exitButton=0x7f080025;
-        public static final int finish=0x7f080050;
+        public static final int finish=0x7f08004b;
         public static final int finishPager=0x7f080020;
         public static final int format_text_view=0x7f080011;
         public static final int format_text_view_label=0x7f080010;
-        public static final int gridViewRooms=0x7f08003e;
-        public static final int gridview=0x7f08003a;
+        public static final int gridViewRooms=0x7f080038;
+        public static final int gridview=0x7f080035;
         public static final int help_contents=0x7f080028;
-        public static final int imageView1=0x7f080035;
+        public static final int imageView1=0x7f080030;
         public static final int image_view=0x7f08001e;
         public static final int indicator=0x7f08001f;
-        public static final int itemCount=0x7f080038;
-        public static final int itemCountTotal=0x7f080039;
-        public static final int item_name_textview=0x7f08003b;
+        public static final int itemCount=0x7f080033;
+        public static final int itemCountTotal=0x7f080034;
+        public static final int item_name_textview=0x7f080036;
         public static final int launch_product_query=0x7f080004;
-        public static final int loginButton=0x7f08002d;
-        public static final int messageTextView=0x7f08002f;
         public static final int meta_text_view=0x7f080017;
         public static final int meta_text_view_label=0x7f080016;
-        public static final int networkStatus=0x7f080033;
-        public static final int noEmailsTextView=0x7f080047;
+        public static final int networkStatus=0x7f08002e;
+        public static final int noEmailsTextView=0x7f080042;
         public static final int notifyButton=0x7f080023;
-        public static final int page_number_view=0x7f080042;
-        public static final int passwordEdit=0x7f08002c;
-        public static final int phpButton=0x7f080046;
+        public static final int page_number_view=0x7f08003d;
+        public static final int phpButton=0x7f080041;
         public static final int preview_view=0x7f08000c;
-        public static final int query_button=0x7f080040;
-        public static final int query_text_view=0x7f08003f;
+        public static final int query_button=0x7f08003b;
+        public static final int query_text_view=0x7f08003a;
         public static final int quit=0x7f080005;
-        public static final int reload=0x7f080052;
-        public static final int remove=0x7f080054;
-        public static final int reset=0x7f080051;
+        public static final int reload=0x7f08004d;
+        public static final int remove=0x7f08004f;
+        public static final int reset=0x7f08004c;
         public static final int restart_preview=0x7f080006;
         public static final int resultTv=0x7f080027;
         public static final int result_button_view=0x7f08001a;
-        public static final int result_list_view=0x7f080041;
+        public static final int result_list_view=0x7f08003c;
         public static final int result_view=0x7f08000e;
         public static final int return_scan_result=0x7f080007;
-        public static final int room=0x7f080036;
-        public static final int roomName=0x7f080037;
-        public static final int roomPager=0x7f080034;
-        public static final int room_name_textview=0x7f08003c;
+        public static final int room=0x7f080031;
+        public static final int roomName=0x7f080032;
+        public static final int roomPager=0x7f08002f;
+        public static final int room_name_textview=0x7f080039;
         public static final int search_book_contents_failed=0x7f080008;
         public static final int search_book_contents_succeeded=0x7f080009;
-        public static final int selectRoomTv=0x7f08003d;
+        public static final int selectRoomTv=0x7f080037;
         public static final int serverButton=0x7f080021;
-        public static final int settingsButton=0x7f080031;
-        public static final int settingsPager=0x7f080044;
-        public static final int share_app_button=0x7f080049;
-        public static final int share_bookmark_button=0x7f08004a;
-        public static final int share_clipboard_button=0x7f08004c;
-        public static final int share_contact_button=0x7f08004b;
-        public static final int share_text_view=0x7f08004d;
+        public static final int settingsButton=0x7f08002c;
+        public static final int settingsPager=0x7f08003f;
+        public static final int share_app_button=0x7f080044;
+        public static final int share_bookmark_button=0x7f080045;
+        public static final int share_clipboard_button=0x7f080047;
+        public static final int share_contact_button=0x7f080046;
+        public static final int share_text_view=0x7f080048;
         public static final int shopper_button=0x7f08001b;
-        public static final int snippet_view=0x7f080043;
-        public static final int startButton=0x7f080030;
+        public static final int snippet_view=0x7f08003e;
+        public static final int startButton=0x7f08002b;
         public static final int status_view=0x7f08001c;
         public static final int storageButton=0x7f080022;
         public static final int time_text_view=0x7f080015;
         public static final int time_text_view_label=0x7f080014;
         public static final int type_text_view=0x7f080013;
         public static final int type_text_view_label=0x7f080012;
-        public static final int usernameEdit=0x7f08002b;
-        public static final int view=0x7f08004f;
+        public static final int view=0x7f08004a;
         public static final int viewButton=0x7f080024;
         public static final int viewfinder_view=0x7f08000d;
-        public static final int xmlButton=0x7f080045;
+        public static final int xmlButton=0x7f080040;
     }
     public static final class layout {
         public static final int about=0x7f030000;
@@ -154,23 +147,22 @@ public final class R {
         public static final int finish_result=0x7f030005;
         public static final int finish_stats=0x7f030006;
         public static final int help=0x7f030007;
-        public static final int login_dialog=0x7f030008;
-        public static final int main_menu=0x7f030009;
-        public static final int network=0x7f03000a;
-        public static final int room=0x7f03000b;
-        public static final int room_camera=0x7f03000c;
-        public static final int room_inventory=0x7f03000d;
-        public static final int room_inventory_item=0x7f03000e;
-        public static final int room_item=0x7f03000f;
-        public static final int room_selection=0x7f030010;
-        public static final int search_book_contents=0x7f030011;
-        public static final int search_book_contents_header=0x7f030012;
-        public static final int search_book_contents_list_item=0x7f030013;
-        public static final int settings=0x7f030014;
-        public static final int settings_general=0x7f030015;
-        public static final int settings_recipients=0x7f030016;
-        public static final int settings_recipients_item=0x7f030017;
-        public static final int share=0x7f030018;
+        public static final int main_menu=0x7f030008;
+        public static final int network=0x7f030009;
+        public static final int room=0x7f03000a;
+        public static final int room_camera=0x7f03000b;
+        public static final int room_inventory=0x7f03000c;
+        public static final int room_inventory_item=0x7f03000d;
+        public static final int room_selection=0x7f03000e;
+        public static final int room_selection_item=0x7f03000f;
+        public static final int search_book_contents=0x7f030010;
+        public static final int search_book_contents_header=0x7f030011;
+        public static final int search_book_contents_list_item=0x7f030012;
+        public static final int settings=0x7f030013;
+        public static final int settings_general=0x7f030014;
+        public static final int settings_recipients=0x7f030015;
+        public static final int settings_recipients_item=0x7f030016;
+        public static final int share=0x7f030017;
     }
     public static final class menu {
         public static final int roominventory_menu=0x7f0a0000;
@@ -179,7 +171,6 @@ public final class R {
     }
     public static final class raw {
         public static final int beep=0x7f060000;
-        public static final int gestures=0x7f060001;
     }
     public static final class string {
         public static final int app_name=0x7f090000;

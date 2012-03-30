@@ -21,18 +21,46 @@ import android.view.View.OnTouchListener;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 
+/**
+ * Hlavná aktivita
+ * @author Vlastimil Breèka
+ *
+ */
 public class MainMenu extends Activity implements OnTouchListener {
 
+	/**
+	 * Konštanta dialógu
+	 */
 	private static final int APP_DATA_NOT_SETUP = 0;
 	
+	/**
+	 * Premenná aplikácie, drží globálne premenné
+	 */
 	private MyApplication app;
+	
+	/**
+	 * Premenná vibratoru
+	 */
 	private Vibrator vibrator;
 	
+	/**
+	 * Tlaèidlo štartu
+	 */
 	private ImageButton startButton;
+	
+	/**
+	 * Tlaèidlo nastavení
+	 */
 	private ImageButton settingsButton;
+	
+	/**
+	 * Tlaèidlo O mne
+	 */
 	private ImageButton aboutButton;
 
-
+	/**
+	 * Metóda onCreate
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -48,18 +76,27 @@ public class MainMenu extends Activity implements OnTouchListener {
 		loadAppData();
 	}
 
+	/**
+	 * Pridá listenery
+	 */
 	private void addListeners() {
 		startButton.setOnTouchListener(this);
 		settingsButton.setOnTouchListener(this);
 		aboutButton.setOnTouchListener(this);
 	}
 
+	/**
+	 * Inicializuje views
+	 */
 	private void initViews() {
 		startButton = (ImageButton) findViewById(R.id.startButton);
 		settingsButton = (ImageButton) findViewById(R.id.settingsButton);
 		aboutButton = (ImageButton) findViewById(R.id.aboutButton);
 	}
 
+	/**
+	 * Naèíta objek aplikácie disku a nastaví globálne premenné
+	 */
 	private void loadAppData() {
 
 		FileInputStream fis = null;
@@ -90,7 +127,9 @@ public class MainMenu extends Activity implements OnTouchListener {
 		}
 	}
 
-
+	/**
+	 * Metóda onTouch
+	 */
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {
 		if (event.getAction() == MotionEvent.ACTION_DOWN) {
@@ -122,6 +161,9 @@ public class MainMenu extends Activity implements OnTouchListener {
 		return false;
 	}
 	
+	/**
+	 * Metóda onCreateDialog
+	 */
 	@Override
 	protected Dialog onCreateDialog(int id) {
 		Dialog dialog = null;
@@ -136,11 +178,17 @@ public class MainMenu extends Activity implements OnTouchListener {
 
 	}
 	
+	/**
+	 * Metóda onResume
+	 */
 	@Override
 	protected void onResume() {
 		super.onResume();
 	}
 
+	/**
+	 * Metóda onPause
+	 */
 	@Override
 	protected void onPause() {
 		super.onPause();

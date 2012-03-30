@@ -10,7 +10,4 @@ public class MyViewPager extends ViewPager{
 		super(context, attrs);
 		// TODO Auto-generated constructor stub
 	}
-	
-	
-
 }
