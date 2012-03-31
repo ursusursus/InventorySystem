@@ -39,36 +39,117 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/**
+ * Aktivita nastaveni
+ * @author Vlastimil Brecka
+ *
+ */
 public class Settings extends Activity implements OnTouchListener {
 	
+	/**
+	 * Konstanta dialogu pridania e-mailu
+	 */
 	private static final int ADD_EMAIL = 0;
+	
+	/**
+	 * Konstanta dialogu editacie e-mailu
+	 */
 	private static final int EDIT_EMAIL = 1;
+	
+	/**
+	 * Konstanta dialogu zmazania e-mailu
+	 */
 	private static final int REMOVE_EMAIL = 2;
+	
+	/**
+	 * Konstanta dialogu pridania cesty k .xml zdrojovemu suboru
+	 */
 	private static final int XML_URL = 3;
+	
+	/**
+	 * Konstanta dialogu pridania cesty k .php vystupnemu skriptu,
+	 * ktory zapise .html spravu na server
+	 */
 	private static final int PHP_URL = 4;
 	
+	
+	/**
+	 * Premenna aplikacie, drzi globalne premenne 
+	 */
 	private MyApplication app;
+	
+	/**
+	 * Premenna vibratoru
+	 */
 	private Vibrator vibrator;
 	
+	
+	/**
+	 * Pattern e-mailu
+	 */
 	private Pattern patternEmail;
+	
+	/**
+	 * Pattern xml URL
+	 */
 	private Pattern patternXml;
+	
+	/**
+	 * Pattern php URL
+	 */
 	private Pattern patternPhp;
 	
+	
+	/**
+	 * ListView
+	 */
 	private ListView listView;
+	
+	/**
+	 * TextView
+	 */
 	private TextView textView;
 	
+	/**
+	 * Tlacidlo pridania .xml URL
+	 */
 	private Button xmlButton;
+	
+	/**
+	 * Tlacidlo pridania .php URL
+	 */
 	private Button phpButton;
 	
+	/**
+	 * List e-mailovych adries
+	 */
 	private ArrayList<String> emailAddresses;
+	
+	/**
+	 * Adapter listu
+	 */
 	private ArrayAdapter<String> listAdapter;
 	
-	protected int selectedItemIndex;
+	/**
+	 * Index oznacenej polozky v liste
+	 */
+	private int selectedItemIndex;
+	
+	/**
+	 * Ci je nejaka polozka oznacena
+	 */
 	private boolean itemSelected = false;
 	
+	
+	/**
+	 * ViewPagerIndicator 
+	 */
 	private ViewPagerIndicator indicator;
 
 	
+	/**
+	 * Metoda onCreate
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -88,6 +169,9 @@ public class Settings extends Activity implements OnTouchListener {
 	}
 
 	
+	/**
+	 * Prida listenery
+	 */
 	private void addListeners() {
 		listView.setOnItemClickListener(new OnItemClickListener() {
 
@@ -103,7 +187,9 @@ public class Settings extends Activity implements OnTouchListener {
 		phpButton.setOnTouchListener(this);
 	}
 
-	
+	/**
+	 * Inicializuje views
+	 */
 	private void initViews() {
 		ArrayList<LinearLayout> pagesList = new ArrayList<LinearLayout>();
 
@@ -137,6 +223,9 @@ public class Settings extends Activity implements OnTouchListener {
 	}
 
 	
+	/**
+	 * Obnovi listView
+	 */
 	private void updateListView() {
 		if (emailAddresses.size() == 0) {
 			if (textView.getVisibility() == TextView.GONE) {
@@ -150,7 +239,11 @@ public class Settings extends Activity implements OnTouchListener {
 		listAdapter.notifyDataSetChanged();
 	}
 
-	
+	/**
+	 * Skontroluje ci je dany vstup validna e-mailova adresa
+	 * @param vstupny string
+	 * @return True ak je to korektna e-mailova adresa, False ak nie
+	 */
 	private boolean isValidEmailAddress(String input) {
 		if(patternEmail == null) {
 			patternEmail = Pattern.compile(Parser.regexEmail);
@@ -164,7 +257,11 @@ public class Settings extends Activity implements OnTouchListener {
 		}
 	}
 	
-	
+	/**
+	 * Skontroluje ci je dany vstup validna .xml cesta
+	 * @param vstupny string
+	 * @return True ak je to korektna .xml cesta, False ak nie
+	 */
 	private boolean isValidXmlUrl(String input) {	
 		if(patternXml == null) {
 			patternXml = Pattern.compile(Parser.regexXML);
@@ -178,6 +275,11 @@ public class Settings extends Activity implements OnTouchListener {
 		}
 	}
 	
+	/**
+	 * Skontroluje ci je dany vstup validna .php cesta
+	 * @param vstupny string
+	 * @return True ak je to korektna .php cesta, False ak nie
+	 */
 	private boolean isValidPhpUrl(String input) {		
 		if(patternPhp == null) {
 			patternPhp = Pattern.compile(Parser.regexPHP);
@@ -192,6 +294,9 @@ public class Settings extends Activity implements OnTouchListener {
 	}
 
 	
+	/**
+	 * Metoda onPause
+	 */
 	@Override
 	protected void onPause() {
 		super.onPause();
@@ -205,6 +310,9 @@ public class Settings extends Activity implements OnTouchListener {
 		}
 	}
 
+	/**
+	 * Ulozi objekt aplikacie na disk
+	 */
 	private void saveAppData() {
 		FileOutputStream fos = null;
 		ObjectOutputStream oos = null;
@@ -228,7 +336,9 @@ public class Settings extends Activity implements OnTouchListener {
 		}
 	}
 	
-	
+	/**
+	 * Metoda onTouch
+	 */
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {
 		if (event.getAction() == MotionEvent.ACTION_DOWN) {
@@ -249,7 +359,9 @@ public class Settings extends Activity implements OnTouchListener {
 		return false;
 	}
 	
-	
+	/**
+	 * Vytvori menu
+	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater i = getMenuInflater();
@@ -257,7 +369,9 @@ public class Settings extends Activity implements OnTouchListener {
 		return true;
 	}
 
-	
+	/**
+	 * Reaguje na stlacenie menu tlacidla
+	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (item.getItemId() == R.id.add) {
@@ -270,13 +384,20 @@ public class Settings extends Activity implements OnTouchListener {
 		return true;
 	}
 
-	
+	/**
+	 * Reaguje na zatvorenie menu
+	 */
 	@Override
 	public void onOptionsMenuClosed(Menu menu) {
 		itemSelected = false;
 	}
 
-
+	
+	/**
+	 * Vytvara menu ktore sa dynamicky meni.
+	 * Ak je polozka oznacena, je mozne stlacit len editaciu a jej vymazanie,
+	 * ak nie je, je mozne pridat novu polozku
+	 */
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		if (itemSelected) {
@@ -292,7 +413,9 @@ public class Settings extends Activity implements OnTouchListener {
 		return true;
 	}
 
-	
+	/**
+	 * Vytvori dialogy
+	 */
 	@Override
 	protected Dialog onCreateDialog(int id) {
 		Dialog dialog = null;

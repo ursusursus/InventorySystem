@@ -29,19 +29,52 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 
+/**
+ * Aktivita výberu miestnosti
+ * @author Vlastimil Brecka
+ *
+ */
 public class RoomSelection extends Activity {
 	
+	/**
+	 * Konstanta dialogu zlyhania pripojenia
+	 */
 	private static final int CONNECTION_FAILED = 0;
+	
+	/**
+	 * Konstanta dialogu zlyhania parsovania
+	 */
 	private static final int PARSING_ERROR = 1;
 
+	/**
+	 * Premenna aplikacie, drzi globalne premenne 
+	 */
 	private MyApplication app;
+	
+	/**
+	 * Premenna vibratoru
+	 */
 	private Vibrator vibrator;
 	
+	/**
+	 * Adapter miestnosti
+	 */
 	private RoomAdapter adapter;
+	
+	/**
+	 * GriView
+	 */
 	private GridView gridView;
+	
+	/**
+	 * Dialog progresu
+	 */
 	private ProgressDialog dialog;
 	
 	
+	/**
+	 * Metoda onCreate
+	 */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -68,6 +101,9 @@ public class RoomSelection extends Activity {
 		init();
 	}
 
+	/**
+	 * Inicializuje miestnosti, ak este neboli nacitane, stiahne .xml subor a preparsuje ho
+	 */
 	private void init() {
 		ArrayList<Room> tmpList = app.getRoomsList();
 		if (tmpList == null) {
@@ -79,6 +115,9 @@ public class RoomSelection extends Activity {
 		}
 	}
 	
+	/**
+	 * Stiahne .xml subor a preparsuje ho
+	 */
 	private void downloadAndParse() {
 		dialog = new ProgressDialog(this);
 		dialog.setTitle("Please,wait");
@@ -88,11 +127,17 @@ public class RoomSelection extends Activity {
 	}
 
 	
+	/**
+	 * Metoda onResume
+	 */
 	@Override
 	protected void onResume() {
 		super.onResume();
 	}
 
+	/**
+	 * Vytvori menu
+	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater i = getMenuInflater();
@@ -100,12 +145,18 @@ public class RoomSelection extends Activity {
 		return true;
 	}
 
+	/**
+	 * Metoda onOptionsItemSelected
+	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		downloadAndParse();
 		return true;
 	}
 	
+	/**
+	 * Metoda onCreateDialog
+	 */
 	@Override
 	protected Dialog onCreateDialog(int id) {
 		Dialog dialog = null;
@@ -139,11 +190,21 @@ public class RoomSelection extends Activity {
 		return dialog;
 	}
 
-	
+	/**
+	 * Asynchronna uloha, stiahne a preparsuje zdrojovy .xml subor
+	 * @author Vlastimil Brecka
+	 *
+	 */
 	private class DownloadAndParseTask extends AsyncTask<String, Void, ArrayList<Room>> {
 
+		/**
+		 * Vynimka
+		 */
 		private Exception e = null;
 
+		/**
+		 * Uloha na pozadi
+		 */
 		@Override
 		protected ArrayList<Room> doInBackground(String... urls) {
 
@@ -158,11 +219,17 @@ public class RoomSelection extends Activity {
 			return list;
 		}
 
+		/**
+		 * Pred vykonanim
+		 */
 		@Override
 		protected void onPreExecute() {
 			dialog.show();
 		}
 
+		/**
+		 * Po vykonani, zrusi dialog a vrati preparsovane miestnosti
+		 */
 		@Override
 		protected void onPostExecute(ArrayList<Room> result) {
 			if (dialog.isShowing()) {

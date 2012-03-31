@@ -22,44 +22,44 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 
 /**
- * Hlavná aktivita
- * @author Vlastimil Breèka
+ * Hlavna aktivita
+ * @author Vlastimil Brecka
  *
  */
 public class MainMenu extends Activity implements OnTouchListener {
 
 	/**
-	 * Konštanta dialógu
+	 * Konstanta dialogu
 	 */
 	private static final int APP_DATA_NOT_SETUP = 0;
 	
 	/**
-	 * Premenná aplikácie, drží globálne premenné
+	 * Premenna aplikacie, drzi globalne premenne
 	 */
 	private MyApplication app;
 	
 	/**
-	 * Premenná vibratoru
+	 * Premenna vibratoru
 	 */
 	private Vibrator vibrator;
 	
 	/**
-	 * Tlaèidlo štartu
+	 * Tlacidlo startu
 	 */
 	private ImageButton startButton;
 	
 	/**
-	 * Tlaèidlo nastavení
+	 * Tlacidlo nastaveni
 	 */
 	private ImageButton settingsButton;
 	
 	/**
-	 * Tlaèidlo O mne
+	 * Tlacidlo O mne
 	 */
 	private ImageButton aboutButton;
 
 	/**
-	 * Metóda onCreate
+	 * Metoda onCreate
 	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +77,7 @@ public class MainMenu extends Activity implements OnTouchListener {
 	}
 
 	/**
-	 * Pridá listenery
+	 * Prida listenery
 	 */
 	private void addListeners() {
 		startButton.setOnTouchListener(this);
@@ -95,7 +95,7 @@ public class MainMenu extends Activity implements OnTouchListener {
 	}
 
 	/**
-	 * Naèíta objek aplikácie disku a nastaví globálne premenné
+	 * Nacita objekt aplikacie a nacita globalne premenne
 	 */
 	private void loadAppData() {
 
@@ -128,7 +128,7 @@ public class MainMenu extends Activity implements OnTouchListener {
 	}
 
 	/**
-	 * Metóda onTouch
+	 * Metoda onTouch
 	 */
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {
@@ -162,7 +162,7 @@ public class MainMenu extends Activity implements OnTouchListener {
 	}
 	
 	/**
-	 * Metóda onCreateDialog
+	 * Metoda onCreateDialog
 	 */
 	@Override
 	protected Dialog onCreateDialog(int id) {
@@ -179,7 +179,7 @@ public class MainMenu extends Activity implements OnTouchListener {
 	}
 	
 	/**
-	 * Metóda onResume
+	 * Metoda onResume
 	 */
 	@Override
 	protected void onResume() {
@@ -187,7 +187,7 @@ public class MainMenu extends Activity implements OnTouchListener {
 	}
 
 	/**
-	 * Metóda onPause
+	 * Metoda onPause
 	 */
 	@Override
 	protected void onPause() {

@@ -34,36 +34,123 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/**
+ * Aktivita zoznamu poloziek a citacky QR kodov
+ * @author Vlastimil Brecka
+ *
+ */
 public class RoomInventory extends Activity {
 
+	/**
+	 * Konstanta pre filter - vsetky viditelne
+	 */
 	private static final int VIEW_ALL = 0;
+	
+	/**
+	 * Konstanta pre filter - iba chybajuce
+	 */
 	private static final int VIEW_MISSING = 1;
+	
+	/**
+	 * Konstanta pre filter - iba na sklade
+	 */
 	private static final int VIEW_IN_STOCK = 2;
 
+	
+	/**
+	 * Konstanta dialogu detailu polozky
+	 */
 	private static final int ITEM_DETAILS = 0;
+	
+	/**
+	 * Konstanta dialogu pre najdenu polozku v zozname
+	 */
 	private static final int ITEM_FOUND = 1;
+	
+	/**
+	 * Konstanta dialogu pre nenajdenu polozku v zozname
+	 */
 	private static final int ITEM_NOT_FOUND = 2;
+	
+	/**
+	 * Konstanta dialogu pre polozku ktora sa u nachadza v zozname poloziek ktore su na sklade
+	 */
 	private static final int ITEM_ALREADY_IN_STOCK = 3;
+	
+	/**
+	 * Konstanta dialogu pre nespravny format QR kodu
+	 */
 	private static final int QR_CODE_FORMAT_NOT_RECOGNIZED = 4;
+	
+	/**
+	 * Konstanta dialog pre zrusene citanie QR kodu
+	 */
 	private static final int READING_QR_CODE_CANCELED = 5;
+	
+	/**
+	 * Konstanta dialogu pre restovanie miestnosti
+	 */
 	private static final int RESET_ROOM = 6;
+	
+	/**
+	 * Konstana dialogu pre filtrovanie poloziek v miestnosti
+	 */
 	private static final int VIEW_FILTER = 7;
 
+	
+	/**
+	 * Premenna aplikacie, drzi globalne premenne 
+	 */
 	private MyApplication app;
+	
+	/**
+	 * Premenna vibratoru
+	 */
 	private Vibrator vibrator;
 	
+	/**
+	 * Aktualna miestnost
+	 */
 	private Room currentRoom;
+	
+	/**
+	 * Aktualna polozka
+	 */
 	private Item currentItem;
+	
+	/**
+	 * Index aktualnej polozky
+	 */
 	private int currentItemIndex;
 	
+	/**
+	 * ViewPager, view ktory umoznuje scrollovanie obrazoviek do strany
+	 */
 	private ViewPager viewPager;
+	
+	/**
+	 * TextView celkoveho poctu poloziek
+	 */
 	private TextView itemCountTextView;
 	
+	/**
+	 * GridView
+	 */
 	private GridView gridView;
+	
+	/**
+	 * Adapter poloziek
+	 */
 	private ItemAdapter adapter;
 	
+	/**
+	 * Parser
+	 */
 	private Parser parser;
 
+	/**
+	 * Metoda onCreate
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -81,35 +168,33 @@ public class RoomInventory extends Activity {
 
 	}
 
+	/**
+	 * Obnovenie pouzivatelskeho rozhrania
+	 */
 	private void updateUI() {
 		updateInStockItemCount();
 		adapter.notifyDataSetChanged();
 	}
 
+	/**
+	 * Obnovenie TextView poctu poloziek na sklade
+	 */
 	private void updateInStockItemCount() {
 		itemCountTextView.setText(String.valueOf(currentRoom.getInStockCount()));
 	}
 
-	/*
-	 * private void updateView(int index) { int firstVisible =
-	 * gridView.getFirstVisiblePosition(); View v = gridView.getChildAt(index -
-	 * firstVisible);
-	 * 
-	 * Animation a = AnimationUtils.loadAnimation(getApplicationContext(),
-	 * R.anim.popup); //v.startAnimation(a);
-	 * 
-	 * v.setBackgroundColor(0xFF8904B1);
-	 * 
-	 * Log.i("INDEX IS",String.valueOf(firstVisible) + " - " +
-	 * String.valueOf(index)); }
+	/**
+	 * Metoda onResume
 	 */
-
 	@Override
 	protected void onResume() {
 		super.onResume();
 		updateInStockItemCount();
 	}
 
+	/**
+	 * Zresetuje miestnost
+	 */
 	protected void resetRoom() {
 		currentRoom.reset();
 		adapter.setFilteringMode(VIEW_ALL);
@@ -118,6 +203,9 @@ public class RoomInventory extends Activity {
 		Toast.makeText(getApplicationContext(), "Room reset.", Toast.LENGTH_SHORT).show();
 	}
 
+	/**
+	 * Spusti citacku QR kodov
+	 */
 	private void launchCamera() {
 
 		Intent intent = new Intent("com.google.zxing.client.android.SCAN");
@@ -126,6 +214,9 @@ public class RoomInventory extends Activity {
 
 	}
 
+	/**
+	 * Metoda onActivityResult
+	 */
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
 		if (resultCode == RESULT_OK) {
 			try {
@@ -143,6 +234,11 @@ public class RoomInventory extends Activity {
 		viewPager.setCurrentItem(0);
 	}
 
+	/**
+	 * Prehlada zoznam poloziek a hlada zhodu s polozkou nacitanou pomocou 
+	 * QR citacky podla ID cisla
+	 * @param searchResultID ID cislo nacitanej polozky
+	 */
 	private void searchList(String searchResultID) {
 		int index = 0;
 		for (Item i : currentRoom.getContentList()) {
@@ -164,6 +260,9 @@ public class RoomInventory extends Activity {
 
 	}
 	
+	/**
+	 * Prida listenery
+	 */
 	private void addListeners() {
 		viewPager.setOnPageChangeListener(new OnPageChangeListener() {
 
@@ -216,6 +315,9 @@ public class RoomInventory extends Activity {
 		});		
 	}
 
+	/**
+	 * Inicializuje views
+	 */
 	private void initViews() {
 		ArrayList<LinearLayout> list = new ArrayList<LinearLayout>();
 		LinearLayout inv = (LinearLayout) View.inflate(this, R.layout.room_inventory, null);
@@ -246,6 +348,9 @@ public class RoomInventory extends Activity {
 	}
 
 
+	/**
+	 * Vytvori menu
+	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater i = getMenuInflater();
@@ -253,6 +358,9 @@ public class RoomInventory extends Activity {
 		return true;
 	}
 
+	/**
+	 * Reaguje na stlacenie menu polozky
+	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
@@ -272,6 +380,9 @@ public class RoomInventory extends Activity {
 		return true;
 	}
 
+	/**
+	 * Vytvori dialog
+	 */
 	@Override
 	protected Dialog onCreateDialog(int id) {
 		Dialog dialog = null;
@@ -374,6 +485,9 @@ public class RoomInventory extends Activity {
 		return dialog;
 	}
 
+	/**
+	 * Vytvara dialogy ktorych obsah sa meni
+	 */
 	@Override
 	protected void onPrepareDialog(int id, Dialog dialog) {
 		switch (id) {

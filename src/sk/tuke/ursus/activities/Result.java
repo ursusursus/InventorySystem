@@ -42,32 +42,105 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/**
+ * Aktivita vysledkov inventury
+ * @author Vlastimil Brecka
+ *
+ */
 public class Result extends Activity implements OnTouchListener {
 
+	/**
+	 * Konstanta dialogu neuspesneho pripojenia
+	 */
 	private static final int CONNECTION_FAILED = 0;
+	
+	/**
+	 * Konstanta dialogu nespravnej odpovede servera, znaci nespravny alebo chybny .php skript
+	 */
 	private static final int WRONG_RESPONSE = 1;
+	
+	/**
+	 * Konstanta dialogu skoncenia inventury
+	 */
 	private static final int EXIT_DIALOG = 2;
 
+	
+	/**
+	 * Premenna aplikacie, drzi globalne premenne 
+	 */
 	private MyApplication app;
+	
+	/**
+	 * Premenna vibratoru
+	 */
 	private Vibrator vibrator;
 	
+	
+	/**
+	 * Tlacidlo exportovania vysledkov inventury na server
+	 */
 	private Button serverButton;
+	
+	/**
+	 * Tlacidlo exportovania vysledkov inventury na sd-kartu
+	 */
 	private Button storageButton;
+	
+	/**
+	 * Tlacidlo e-mailovej notifikacie
+	 */
 	private Button notifyButton;
+	
+	/**
+	 * Tlacidlo prehliadnutia vyexportovanej .html spravy v prehliadaci
+	 */
 	private Button viewButton;
+	
+	/**
+	 * Tlacidlo skoncenia inventury
+	 */
 	private Button exitButton;
 	
+	
+	/**
+	 * LinearLayout
+	 */
 	private LinearLayout res;
+	
+	/**
+	 * LinearLayout 
+	 */
 	private LinearLayout stat;
 	
+	/**
+	 * ViewPager
+	 */
 	private ViewPager viewPager;
+	
+	/**
+	 * ViewPagerIndicator
+	 */
 	private ViewPagerIndicator indicator;
+	
+	/**
+	 * ProgressDialog
+	 */
 	private ProgressDialog dialog;
 	
+	/**
+	 * Sprava vysledkov inventury
+	 */
 	private ResultsReport resultsReport;
 
+	/**
+	 * Odpoved servra
+	 */
 	private String response;
-
+	
+	
+	/**
+	 * Metoda onCreate
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -83,6 +156,9 @@ public class Result extends Activity implements OnTouchListener {
 		addListeners();
 	}
 
+	/**
+	 * Metpda onTouch
+	 */
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {
 		if (event.getAction() == MotionEvent.ACTION_DOWN) {
@@ -116,6 +192,9 @@ public class Result extends Activity implements OnTouchListener {
 
 	}
 
+	/**
+	 * Otvori vyexportovanu .html spravu v prehliadaci
+	 */
 	private void viewReportInBrowser() {
 
 		Intent i = new Intent(Intent.ACTION_VIEW);
@@ -123,6 +202,9 @@ public class Result extends Activity implements OnTouchListener {
 		startActivity(i);
 	}
 
+	/**
+	 * Exportuje vyslednu spravu na server
+	 */
 	private void exportToServer() {
 
 		dialog = new ProgressDialog(this);
@@ -133,6 +215,9 @@ public class Result extends Activity implements OnTouchListener {
 
 	}
 
+	/**
+	 * Exportuje vyslednu spravu na SD-kartu
+	 */
 	private void exportToSDCard() {
 
 		if (isSDCardAvailable()) {
@@ -156,6 +241,10 @@ public class Result extends Activity implements OnTouchListener {
 		}
 	}
 
+	/**
+	 * Ci je SD-karta dostupna
+	 * @return vracia True ak je dostupna, False ak dostupna nie je
+	 */
 	private boolean isSDCardAvailable() {
 
 		boolean isAvailable = false;
@@ -176,6 +265,9 @@ public class Result extends Activity implements OnTouchListener {
 
 	}
 
+	/**
+	 * Notifikuje e-mailom o vysledkoch inventury
+	 */
 	private void notifyViaEmail() {
 
 		resultsReport.composeEmailNotification(response);
@@ -191,6 +283,9 @@ public class Result extends Activity implements OnTouchListener {
 
 	}
 
+	/**
+	 * Inicializuje views
+	 */
 	private void initViews() {
 
 		ArrayList<LinearLayout> list = new ArrayList<LinearLayout>();
@@ -221,6 +316,9 @@ public class Result extends Activity implements OnTouchListener {
 
 	}
 
+	/**
+	 * Prida listenery
+	 */
 	private void addListeners() {
 		serverButton.setOnTouchListener(this);
 		storageButton.setOnTouchListener(this);
@@ -232,6 +330,9 @@ public class Result extends Activity implements OnTouchListener {
 		viewButton.setEnabled(false);
 	}
 
+	/**
+	 * Vytvori dialogy
+	 */
 	@Override
 	protected Dialog onCreateDialog(int id) {
 		Dialog dialog = null;
@@ -266,11 +367,22 @@ public class Result extends Activity implements OnTouchListener {
 		return dialog;
 	}
 
-	
+	/**
+	 * Asynchronna uloha, uploaduje vyslednu spravu na server a preparsuje odpoved servra
+	 * @author Vlastimil Brecka
+	 *
+	 */
 	private class UploadTask extends AsyncTask<String, Void, String> {
 
+		/**
+		 * Vynimka
+		 */
 		private Exception e;
 
+		
+		/**
+		 * Uloha na pozadi, uploaduje vyslednu spravu o inventure
+		 */
 		@Override
 		protected String doInBackground(String... urls) {
 
@@ -320,11 +432,17 @@ public class Result extends Activity implements OnTouchListener {
 			return response;
 		}
 
+		/**
+		 * Pred vykonanim
+		 */
 		@Override
 		protected void onPreExecute() {
 			dialog.show();
 		}
 
+		/**
+		 * Po vykonani
+		 */
 		@Override
 		protected void onPostExecute(String result) {
 			if (dialog.isShowing()) {
