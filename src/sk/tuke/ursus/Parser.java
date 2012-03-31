@@ -6,6 +6,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import org.xml.sax.Attributes;
@@ -15,17 +16,57 @@ import org.xml.sax.helpers.DefaultHandler;
 import sk.tuke.ursus.entities.Item;
 import sk.tuke.ursus.entities.Room;
 
+/**
+ * XML Parser, implementacia SAX parsera
+ * @author Vlastimil Brecka
+ *
+ */
 public class Parser extends DefaultHandler {
 	
-	private Item tempItem;
-	private Room tempRoom;
-	private javax.xml.parsers.SAXParser parser;
-	
+	/**
+	 * Regularny vyraz pre QR kod
+	 */
 	public static final String regexQR = "(EVID.C.: (........))";
+	
+	/**
+	 * Regularny vyraz pre .xml URL
+	 */
 	public static final String regexXML = "(http(s?)://)([A-Za-z0-9])(.[A-Za-z0-9]+)*(.xml)";
+	
+	/**
+	 * Regularny vyraz pre .php URL
+	 */
 	public static final String regexPHP = "(http(s?)://)([A-Za-z0-9])(.[A-Za-z0-9]+)*(.php)";
+	
+	/**
+	 * Regularny vyraz pre e-mailovu adresu
+	 */
 	public static final String regexEmail = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 	
+	/**
+	 * Docasna polozka
+	 */
+	private Item tempItem;
+	
+	/**
+	 * Docasna miestnost
+	 */
+	private Room tempRoom;
+	
+	/**
+	 * Zoznam miestnosti ktora bude vratena
+	 */
+	private ArrayList<Room> roomsList;
+	
+	/**
+	 * SAX parser
+	 */
+	private SAXParser parser;
+	
+	
+	/**
+	 * Konstruktor
+	 */
 	public Parser() {
 		SAXParserFactory factory = SAXParserFactory.newInstance();
 		try {
@@ -36,9 +77,10 @@ public class Parser extends DefaultHandler {
 			e.printStackTrace();
 		}
 	}
-	
-	private ArrayList<Room> roomsList;
 
+	/**
+	 * Ak bol najdeny zaciatocny xml tag
+	 */
 	public void startElement(String uri, String localName, String qName, Attributes attr) throws SAXException {
 		
 		if(qName.equalsIgnoreCase("inventory")) {
@@ -56,6 +98,9 @@ public class Parser extends DefaultHandler {
 		}
 	}
 	
+	/**
+	 * Ak bol najdeny uzatvaraci xml tag
+	 */
 	public void endElement(String uri, String localName, String qName) throws SAXException {
 		
 		if(qName.equalsIgnoreCase("inventory")) {
@@ -69,11 +114,25 @@ public class Parser extends DefaultHandler {
 		}
 	}
 	
+	
+	/**
+	 * Stiahne a preparsuje .xml zdrojovy subor
+	 * @param url - cesta k .xml zdroju
+	 * @return Zoznam miestnosti
+	 * @throws SAXException 
+	 * @throws IOException
+	 */
 	public ArrayList<Room> parseXML(String url) throws SAXException, IOException {
 		parser.parse(url, this);	
 		return roomsList;
 	}
 	
+	/**
+	 * Preparsuje obsah nacitaneho QR kodu
+	 * @param input - obsah QR kodu
+	 * @return ID polozky
+	 * @throws SAXException
+	 */
 	public String parseQRCode(String input) throws SAXException {
 		Pattern p = Pattern.compile(regexQR);
 		Matcher m = p.matcher(input);

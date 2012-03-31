@@ -8,25 +8,73 @@ import java.util.List;
 import sk.tuke.ursus.entities.Item;
 import sk.tuke.ursus.entities.Room;
 
+/**
+ * Vysledna sprava vysledkov inventury
+ * @author Vlastimil Brecka
+ *
+ */
 public class ResultsReport {
 
+	/**
+	 * Zoznam prijmatelov notifikacie
+	 */
 	private ArrayList<String> recipients;
+	
+	/**
+	 * Obsah miestnosti
+	 */
 	private List<Item> contentList;
 	
+	/**
+	 * Nazov suboru
+	 */
 	private String fileName;
 	
+	/**
+	 * Aktualny datum
+	 */
 	private String currentDate;
+	
+	/**
+	 * Aktualny datum ktory moze byt URL
+	 */
 	private String printableDate;
 	
+	/**
+	 * Predmet
+	 */
 	private String subject;
+	
+	/**
+	 * Samotna sprava
+	 */
 	private String report;
+	
+	/**
+	 * Obsah spravy e-mailovej notifikacie
+	 */
 	private String emailMessage;
 	
+	/**
+	 * Nazov miestnosti
+	 */
 	private String roomName;
 	
+	/**
+	 * Pocet vsetkych poloziek
+	 */
 	private int total;
+	
+	/**
+	 * Pocet chybajucich poloziek
+	 */
 	private int missing;
 
+	/**
+	 * Konstruktor
+	 * @param currentRoom Aktualna miestnost
+	 * @param recipients Zoznam prijmatelov e-mailovej notifikacie
+	 */
 	public ResultsReport(Room currentRoom, ArrayList<String> recipients) {
 		this.subject = "Results of inventory lookup";
 		this.contentList = currentRoom.getContentList();
@@ -40,16 +88,25 @@ public class ResultsReport {
 		composeHtmlReport();
 	}
 	
+	/**
+	 * Inicializuje aktualny datum
+	 */
 	private void initCurrentDate() {
 		currentDate = new SimpleDateFormat("dd.MM.yyyy - HH:mm").format(new Date());
-		// datum pre title textfilu
 		printableDate = new SimpleDateFormat("dd-MM-yyyy-HH.mm").format(new Date());
 	}
 
+	/**
+	 * Zostroji nazov suboru
+	 */
 	private void composeFileName() {
 		this.fileName = roomName.toLowerCase().replace(" ", "_") + "_-_" + printableDate;
 	}
 
+	/**
+	 * Zostroji e-mailovu notifikaciu
+	 * @param response Odpoved serva, URL na ulozenu .html spravu
+	 */
 	public void composeEmailNotification(String response) {
 		StringBuilder sb = new StringBuilder();
 
@@ -64,6 +121,9 @@ public class ResultsReport {
 		emailMessage = sb.toString();
 	}
 
+	/**
+	 * Zostroji .html spravu
+	 */
 	private void composeHtmlReport() {
 
 		StringBuilder sb = new StringBuilder();
@@ -160,31 +220,59 @@ public class ResultsReport {
 
 	}
 	
+	/**
+	 * Vrati e-mailovu notifikaciu
+	 * @return E-mailovu notifikaciu
+	 */
 	public String getEmailMessage() {
 		return emailMessage;
 	}
 
+	/**
+	 * Vrati spravu
+	 * @return Sprava
+	 */
 	public String getReport() {
 		return report;
 	}
 
+	/**
+	 * Vrati nazov suboru
+	 * @return Nazov suboru
+	 */
 	public String getFileName() {
 		return fileName;
 	}
 	
+	/**
+	 * Vrati e-mailove adresy
+	 * @return E-mailove adresy
+	 */
 	public String[] getAddress() {
 		return recipients.toArray(new String[recipients.size()]);
 	}
 
+	/**
+	 * Vrati predmet spravy
+	 * @return Predmet spravy
+	 */
 	public String getSubject() {
 		return subject;
 
 	}
 	
+	/**
+	 * Vrati datum ktory moze ist do URL
+	 * @return datum
+	 */
 	public String getPrintableDate() {
 		return printableDate;
 	}
 
+	/**
+	 * Vrati aktualny datum
+	 * @return Aktualny Datum
+	 */
 	public String getCurrentDate() {
 		return currentDate;
 	}

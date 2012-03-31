@@ -12,15 +12,32 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+/**
+ * Adapter miestnosti
+ * @author Vlastimil Brecka
+ *
+ */
 public class RoomAdapter extends ArrayAdapter<Room> {
 
+	/**
+	 * Zoznam miestnosti
+	 */
 	private List<Room> rooms;
 
+	/**
+	 * Konstruktor
+	 * @param context Kontext
+	 * @param textViewResourceId ID .xml resource
+	 * @param rooms Zoznam miestnosti
+	 */
 	public RoomAdapter(Context context, int textViewResourceId, List<Room> rooms) {
 		super(context, textViewResourceId, rooms);
 		this.rooms = rooms;
 	}
 
+	/**
+	 * Metoda getView
+	 */
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		ViewHolder holder;

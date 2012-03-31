@@ -9,27 +9,72 @@ import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.AttributeSet;
 import android.view.View;
 
+/**
+ * ViewPagerIndicator, indikuje na ktorej strane sa ViewPager aktualne nachadza
+ * @author Vlastimil Brecka
+ *
+ */
 public class ViewPagerIndicator extends View {
 	
+	/**
+	 * Farba aktualnej stranky
+	 */
 	private static final int SELECTED_COLOR = 0xFF424242;
+	
+	/**
+	 * Farba neaktualnej stranky
+	 */
 	private static final int DESELECTED_COLOR = 0xFFBDBDBD;
 
+	/**
+	 * Paint
+	 */
 	private Paint paint;
-	//private int size = 340;
+	
+	/**
+	 * Pole obdlznikov
+	 */
 	private Rect[] array;
+	
+	/**
+	 * Index aktualnej stranky
+	 */
 	private int currentPageIndex;
 
+	/**
+	 * Sirka obdlznika
+	 */
 	private int width = 30;
+	
+	/**
+	 * Vyska obdlznika
+	 */
 	private int height = 5;
+	
+	/**
+	 * Odstup medzi obdlznikmi
+	 */
 	private int margin = 10;
+	
+	/**
+	 * Pocet obdlznikov
+	 */
 	private int count;
-	//private ViewPager pager;
+	
 
+	/**
+	 * Konstruktor 
+	 * @param context Kontext
+	 * @param attrs Atributy
+	 */
 	public ViewPagerIndicator(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		paint = new Paint();
 	}
 
+	/**
+	 * Vytvoria sa obdlzniky
+	 */
 	private void initialize() {
 		array = new Rect[count];
 		for (int i = 0; i < count; i++) {
@@ -38,11 +83,18 @@ public class ViewPagerIndicator extends View {
 		currentPageIndex = 0;
 	}
 	
+	/**
+	 * Obnovenie
+	 * @param index Index aktualnej stranky
+	 */
 	private void update(int index) {
 		this.currentPageIndex = index;
 		this.invalidate();
 	}
 
+	/**
+	 * Metoda onDraw
+	 */
 	@Override
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
@@ -57,12 +109,19 @@ public class ViewPagerIndicator extends View {
 		}
 	}
 
+	/**
+	 * Metoda onMesaure
+	 */
 	@Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 		this.setMeasuredDimension((width + margin) * count, height);
 	}
 
+	/**
+	 * Nastavi viewPager
+	 * @param pager ViewPager na ktory chceme dat indikator
+	 */
 	public void setViewPager(ViewPager pager) {
 		//this.pager = pager;
 		count = pager.getAdapter().getCount();
