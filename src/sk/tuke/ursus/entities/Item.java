@@ -3,34 +3,34 @@ package sk.tuke.ursus.entities;
 import java.io.Serializable;
 
 /**
- * Polozka
- * @author Vlastimil Brecka
+ * Poloûka skladu
+ * @author Vlastimil BreËka
  *
  */
 public class Item implements Serializable {
 
 	/**
-	 * ID pre serializaciu
+	 * ID pre serializ·ciu
 	 */
 	private static final long serialVersionUID = 2773543494487194304L;
 	
 	/**
-	 * Ci je polozka na sklade
+	 * »i je poloûka na sklade
 	 */
 	private boolean inStock = false;
 	
 	/**
-	 * ID polozky
+	 * ID poloûky
 	 */
 	private String ID;
 	
 	/**
-	 * Stare ID polozky
+	 * StarÈ ID poloûky
 	 */
 	private String oldID;
 	
 	/**
-	 * Opis polozky
+	 * Opis poloûky
 	 */
 	private String desc;
 	
@@ -40,12 +40,12 @@ public class Item implements Serializable {
 	private String quantity;
 	
 	/**
-	 * Miestnost v ktorej sa polozka nachadza
+	 * Miestnosù v ktorej sa poloûka nach·dza
 	 */
 	private String room;
 
 	/**
-	 * Konstruktor
+	 * Konötruktor
 	 * @param ID ID polozky 
 	 * @param oldID Stare ID polozky 
 	 * @param desc Opis polozky
@@ -61,15 +61,15 @@ public class Item implements Serializable {
 	}
 
 	/**
-	 * Ci je na sklade
-	 * @return True ak polozka je, False ak nie je
+	 * »i je na sklade
+	 * @return True ak poloûka je, False ak nie je
 	 */
 	public boolean isInStock() {
 		return inStock;
 	}
 
 	/**
-	 * Oznaci polozku ako najdenu
+	 * OznaËÌ poloûku ako n·jdenu
 	 */
 	public void putInStock() {
 		if (inStock == false) {			
@@ -78,7 +78,7 @@ public class Item implements Serializable {
 	}
 
 	/**
-	 * Oznaci polozku ako nenajdenu
+	 * OznaËÌ poloûku ako nen·jdenu
 	 */
 	public void removeFromStock() {
 		if (inStock == true)
@@ -86,40 +86,40 @@ public class Item implements Serializable {
 	}
 	
 	/**
-	 * Vrati ID polozky
-	 * @return ID polozky
+	 * Vr·ti ID poloûky
+	 * @return ID poloûky
 	 */
 	public String getID() {
 		return ID;
 	}
 
 	/**
-	 * Vrati stare ID polozky
-	 * @return Stare ID polozky
+	 * Vr·ti stare ID poloûky
+	 * @return StarÈ ID poloûky
 	 */
 	public String getOldID() {
 		return oldID;
 	}
 
 	/**
-	 * Vrati popis polozky 
-	 * @return Popis polozky 
+	 * Vr·ti popis poloûky 
+	 * @return Popis poloûky 
 	 */
 	public String getDesc() {
 		return desc;
 	}
 
 	/**
-	 * Vrati kvantitu polozky
-	 * @return Kvantita polozky
+	 * Vr·ti kvantitu poloûky
+	 * @return Kvantita poloûky
 	 */
 	public String getQuantity() {
 		return quantity;
 	}
 
 	/**
-	 * Vrati miestnost
-	 * @return Miestnost
+	 * Vr·ti miestnosù
+	 * @return Miestnosù
 	 */
 	public String getRoom() {
 		return room;

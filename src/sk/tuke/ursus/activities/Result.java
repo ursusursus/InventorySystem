@@ -43,61 +43,61 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 /**
- * Aktivita vysledkov inventury
+ * Aktivita výsledkov inventúry
  * @author Vlastimil Brecka
  *
  */
 public class Result extends Activity implements OnTouchListener {
 
 	/**
-	 * Konstanta dialogu neuspesneho pripojenia
+	 * Konštanta dialógu neúspešného pripojenia
 	 */
 	private static final int CONNECTION_FAILED = 0;
 	
 	/**
-	 * Konstanta dialogu nespravnej odpovede servera, znaci nespravny alebo chybny .php skript
+	 * Konštanta dialógu nesprávnej odpovede servra, znaèí nesprávny alebo chybný skript vo formáte PHP
 	 */
 	private static final int WRONG_RESPONSE = 1;
 	
 	/**
-	 * Konstanta dialogu skoncenia inventury
+	 * Konštanta dialógu ukonèenia inventúry
 	 */
 	private static final int EXIT_DIALOG = 2;
 
 	
 	/**
-	 * Premenna aplikacie, drzi globalne premenne 
+	 * Premenná aplikácie, drží globálne premenné 
 	 */
 	private MyApplication app;
 	
 	/**
-	 * Premenna vibratoru
+	 * Premenná vibrátoru
 	 */
 	private Vibrator vibrator;
 	
 	
 	/**
-	 * Tlacidlo exportovania vysledkov inventury na server
+	 * Tlaèidlo exportovania výsledkov inventúry na server
 	 */
 	private Button serverButton;
 	
 	/**
-	 * Tlacidlo exportovania vysledkov inventury na sd-kartu
+	 * Tlaèidlo exportovania výsledkov inventúry na SD-kartu
 	 */
 	private Button storageButton;
 	
 	/**
-	 * Tlacidlo e-mailovej notifikacie
+	 * Tlaèidlo e-mailovej notifikácie
 	 */
 	private Button notifyButton;
 	
 	/**
-	 * Tlacidlo prehliadnutia vyexportovanej .html spravy v prehliadaci
+	 * Tlaèidlo prehliadania vyexportovanej správy vo formáte HTML v prehliadaèi
 	 */
 	private Button viewButton;
 	
 	/**
-	 * Tlacidlo skoncenia inventury
+	 * Tlaèidlo skonèenia inventúry
 	 */
 	private Button exitButton;
 	
@@ -128,18 +128,18 @@ public class Result extends Activity implements OnTouchListener {
 	private ProgressDialog dialog;
 	
 	/**
-	 * Sprava vysledkov inventury
+	 * Správa výsledkov inventúry
 	 */
 	private ResultsReport resultsReport;
 
 	/**
-	 * Odpoved servra
+	 * Odpoveï servra
 	 */
 	private String response;
 	
 	
 	/**
-	 * Metoda onCreate
+	 * Metóda onCreate
 	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -157,7 +157,7 @@ public class Result extends Activity implements OnTouchListener {
 	}
 
 	/**
-	 * Metpda onTouch
+	 * Metóda onTouch
 	 */
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {
@@ -193,7 +193,7 @@ public class Result extends Activity implements OnTouchListener {
 	}
 
 	/**
-	 * Otvori vyexportovanu .html spravu v prehliadaci
+	 * Otvorí vyexportovanú správu vo formáte HTML v prehliadaèi
 	 */
 	private void viewReportInBrowser() {
 
@@ -203,7 +203,7 @@ public class Result extends Activity implements OnTouchListener {
 	}
 
 	/**
-	 * Exportuje vyslednu spravu na server
+	 * Exportuje výslednú správu na server
 	 */
 	private void exportToServer() {
 
@@ -216,7 +216,7 @@ public class Result extends Activity implements OnTouchListener {
 	}
 
 	/**
-	 * Exportuje vyslednu spravu na SD-kartu
+	 * Exportuje výslednú správu na SD-kartu
 	 */
 	private void exportToSDCard() {
 
@@ -242,8 +242,8 @@ public class Result extends Activity implements OnTouchListener {
 	}
 
 	/**
-	 * Ci je SD-karta dostupna
-	 * @return vracia True ak je dostupna, False ak dostupna nie je
+	 * Èi je SD-karta dostupnÁ
+	 * @return True ak je dostupná, False ak dostupná nie je
 	 */
 	private boolean isSDCardAvailable() {
 
@@ -266,7 +266,7 @@ public class Result extends Activity implements OnTouchListener {
 	}
 
 	/**
-	 * Notifikuje e-mailom o vysledkoch inventury
+	 * Notifikuje e-mailom o výsledkoch inventúry
 	 */
 	private void notifyViaEmail() {
 
@@ -317,7 +317,7 @@ public class Result extends Activity implements OnTouchListener {
 	}
 
 	/**
-	 * Prida listenery
+	 * Pridá listenery
 	 */
 	private void addListeners() {
 		serverButton.setOnTouchListener(this);
@@ -331,7 +331,7 @@ public class Result extends Activity implements OnTouchListener {
 	}
 
 	/**
-	 * Vytvori dialogy
+	 * Vytvorí dialógy
 	 */
 	@Override
 	protected Dialog onCreateDialog(int id) {
@@ -368,20 +368,20 @@ public class Result extends Activity implements OnTouchListener {
 	}
 
 	/**
-	 * Asynchronna uloha, uploaduje vyslednu spravu na server a preparsuje odpoved servra
-	 * @author Vlastimil Brecka
+	 * Asynchrónna úloha, uploaduje výslednú správu na server a preparsuje odpoveï servra
+	 * @author Vlastimil Breèka
 	 *
 	 */
 	private class UploadTask extends AsyncTask<String, Void, String> {
 
 		/**
-		 * Vynimka
+		 * Výnimka
 		 */
 		private Exception e;
 
 		
 		/**
-		 * Uloha na pozadi, uploaduje vyslednu spravu o inventure
+		 * Úloha na pozadí, uploaduje výslednu správu o inventúre
 		 */
 		@Override
 		protected String doInBackground(String... urls) {
@@ -433,7 +433,7 @@ public class Result extends Activity implements OnTouchListener {
 		}
 
 		/**
-		 * Pred vykonanim
+		 * Pred vykonaním
 		 */
 		@Override
 		protected void onPreExecute() {
@@ -441,7 +441,7 @@ public class Result extends Activity implements OnTouchListener {
 		}
 
 		/**
-		 * Po vykonani
+		 * Po vykonaní
 		 */
 		@Override
 		protected void onPostExecute(String result) {

@@ -3,14 +3,14 @@ package sk.tuke.ursus;
 import android.widget.TextView;
 
 /**
- * ViewHolder, optimalizacia listView
- * @author Vlastimil Brecka
+ * ViewHolder, optimalizácia ListView, obmedzí infláciu views z XML
+ * @author Vlastimil Breèka
  *
  */
 public class ViewHolder {
 	
 	/**
-	 * TextView jednotlivych poloziek
+	 * TextView jednotlivých položiek
 	 */
 	public TextView textView;
 

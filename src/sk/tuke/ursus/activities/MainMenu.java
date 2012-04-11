@@ -15,6 +15,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
@@ -22,44 +23,44 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 
 /**
- * Hlavna aktivita
- * @author Vlastimil Brecka
+ * Hlavná aktivita
+ * @author Vlastimil Breèka
  *
  */
 public class MainMenu extends Activity implements OnTouchListener {
 
 	/**
-	 * Konstanta dialogu
+	 * Konštanta dialógu
 	 */
 	private static final int APP_DATA_NOT_SETUP = 0;
 	
 	/**
-	 * Premenna aplikacie, drzi globalne premenne
+	 * Premenná aplikácie, drží globálne premenné
 	 */
 	private MyApplication app;
 	
 	/**
-	 * Premenna vibratoru
+	 * Premenná vibrátoru
 	 */
 	private Vibrator vibrator;
 	
 	/**
-	 * Tlacidlo startu
+	 * Tlaèidlo štartu
 	 */
 	private ImageButton startButton;
 	
 	/**
-	 * Tlacidlo nastaveni
+	 * Tlaèidlo nastavení
 	 */
 	private ImageButton settingsButton;
 	
 	/**
-	 * Tlacidlo O mne
+	 * Tlaèidlo O mne
 	 */
 	private ImageButton aboutButton;
 
 	/**
-	 * Metoda onCreate
+	 * Metóda onCreate
 	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +78,7 @@ public class MainMenu extends Activity implements OnTouchListener {
 	}
 
 	/**
-	 * Prida listenery
+	 * Pridá listenery
 	 */
 	private void addListeners() {
 		startButton.setOnTouchListener(this);
@@ -95,7 +96,7 @@ public class MainMenu extends Activity implements OnTouchListener {
 	}
 
 	/**
-	 * Nacita objekt aplikacie a nacita globalne premenne
+	 * Naèíta objekt aplikácie a naèíta globálne premenné
 	 */
 	private void loadAppData() {
 
@@ -128,7 +129,7 @@ public class MainMenu extends Activity implements OnTouchListener {
 	}
 
 	/**
-	 * Metoda onTouch
+	 * Metóda onTouch
 	 */
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {
@@ -143,7 +144,11 @@ public class MainMenu extends Activity implements OnTouchListener {
 			
 			switch (v.getId()) {
 				case R.id.startButton:
-					
+					if(app.isReadyToStart()) {
+						Log.i("IS READY","TRUE");
+					} else {
+						Log.i("IS READY","FALSE");
+					}
 					if (app.isReadyToStart()) {
 						startActivity(new Intent(getApplicationContext(), RoomSelection.class));
 					} else {
@@ -162,7 +167,7 @@ public class MainMenu extends Activity implements OnTouchListener {
 	}
 	
 	/**
-	 * Metoda onCreateDialog
+	 * Metóda onCreateDialog
 	 */
 	@Override
 	protected Dialog onCreateDialog(int id) {
@@ -179,7 +184,7 @@ public class MainMenu extends Activity implements OnTouchListener {
 	}
 	
 	/**
-	 * Metoda onResume
+	 * Metóda onResume
 	 */
 	@Override
 	protected void onResume() {
@@ -187,7 +192,7 @@ public class MainMenu extends Activity implements OnTouchListener {
 	}
 
 	/**
-	 * Metoda onPause
+	 * Metóda onPause
 	 */
 	@Override
 	protected void onPause() {

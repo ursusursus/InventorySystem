@@ -1,8 +1,6 @@
 package sk.tuke.ursus.activities;
 
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -40,46 +38,46 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 /**
- * Aktivita nastaveni
- * @author Vlastimil Brecka
+ * Aktivita nastavenÌ
+ * @author Vlastimil BreËka
  *
  */
 public class Settings extends Activity implements OnTouchListener {
 	
 	/**
-	 * Konstanta dialogu pridania e-mailu
+	 * Konötanta dialÛgu pridania e-mailu
 	 */
 	private static final int ADD_EMAIL = 0;
 	
 	/**
-	 * Konstanta dialogu editacie e-mailu
+	 * Konötanta dialÛgu edit·cie e-mailu
 	 */
 	private static final int EDIT_EMAIL = 1;
 	
 	/**
-	 * Konstanta dialogu zmazania e-mailu
+	 * Konötanta dialÛgu zmazania e-mailu
 	 */
 	private static final int REMOVE_EMAIL = 2;
 	
 	/**
-	 * Konstanta dialogu pridania cesty k .xml zdrojovemu suboru
+	 * Konötanta dialÛgu pridania cesty ku zdrojovÈmu s˙boru vo form·te XML
 	 */
 	private static final int XML_URL = 3;
 	
 	/**
-	 * Konstanta dialogu pridania cesty k .php vystupnemu skriptu,
-	 * ktory zapise .html spravu na server
+	 * Konötanta dialÛgu pridania cesty v˝stupnÈmu skriptu vo form·te PHP,
+	 * ktor˝ zapÌöe spr·vu vo form·te HTML na server
 	 */
 	private static final int PHP_URL = 4;
 	
 	
 	/**
-	 * Premenna aplikacie, drzi globalne premenne 
+	 * Premenn· aplik·cie, drûÌ glob·lne premennÈ 
 	 */
 	private MyApplication app;
 	
 	/**
-	 * Premenna vibratoru
+	 * Premenn· vibr·toru
 	 */
 	private Vibrator vibrator;
 	
@@ -111,32 +109,32 @@ public class Settings extends Activity implements OnTouchListener {
 	private TextView textView;
 	
 	/**
-	 * Tlacidlo pridania .xml URL
+	 * TlaËidlo pridania .xml URL
 	 */
 	private Button xmlButton;
 	
 	/**
-	 * Tlacidlo pridania .php URL
+	 * TlaËidlo pridania .php URL
 	 */
 	private Button phpButton;
 	
 	/**
-	 * List e-mailovych adries
+	 * List e-mailov˝ch adries
 	 */
 	private ArrayList<String> emailAddresses;
 	
 	/**
-	 * Adapter listu
+	 * AdaptÈr listu emailov˝ch adries
 	 */
 	private ArrayAdapter<String> listAdapter;
 	
 	/**
-	 * Index oznacenej polozky v liste
+	 * Index oznaËenej poloûky v liste
 	 */
 	private int selectedItemIndex;
 	
 	/**
-	 * Ci je nejaka polozka oznacena
+	 * »i je nejak· poloûka oznaËen·
 	 */
 	private boolean itemSelected = false;
 	
@@ -148,7 +146,7 @@ public class Settings extends Activity implements OnTouchListener {
 
 	
 	/**
-	 * Metoda onCreate
+	 * MetÛda onCreate
 	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -170,7 +168,7 @@ public class Settings extends Activity implements OnTouchListener {
 
 	
 	/**
-	 * Prida listenery
+	 * Prid· listenery
 	 */
 	private void addListeners() {
 		listView.setOnItemClickListener(new OnItemClickListener() {
@@ -224,7 +222,7 @@ public class Settings extends Activity implements OnTouchListener {
 
 	
 	/**
-	 * Obnovi listView
+	 * ObnovÌ listView
 	 */
 	private void updateListView() {
 		if (emailAddresses.size() == 0) {
@@ -240,9 +238,9 @@ public class Settings extends Activity implements OnTouchListener {
 	}
 
 	/**
-	 * Skontroluje ci je dany vstup validna e-mailova adresa
-	 * @param vstupny string
-	 * @return True ak je to korektna e-mailova adresa, False ak nie
+	 * Skontroluje, Ëi je dan˝ vstup validn· e-mailov· adresa
+	 * @param input Vstupn˝ reùazec
+	 * @return True ak je to korektn· e-mailova adresa, False ak nie
 	 */
 	private boolean isValidEmailAddress(String input) {
 		if(patternEmail == null) {
@@ -258,9 +256,9 @@ public class Settings extends Activity implements OnTouchListener {
 	}
 	
 	/**
-	 * Skontroluje ci je dany vstup validna .xml cesta
-	 * @param vstupny string
-	 * @return True ak je to korektna .xml cesta, False ak nie
+	 * Skontroluje Ëi je dan˝ vstup validn· .xml cesta
+	 * @param input Vstupn˝ reùazec
+	 * @return True ak je to korektn· .xml cesta, False ak nie
 	 */
 	private boolean isValidXmlUrl(String input) {	
 		if(patternXml == null) {
@@ -276,9 +274,9 @@ public class Settings extends Activity implements OnTouchListener {
 	}
 	
 	/**
-	 * Skontroluje ci je dany vstup validna .php cesta
-	 * @param vstupny string
-	 * @return True ak je to korektna .php cesta, False ak nie
+	 * Skontroluje Ëi je dan˝ vstup validn· .php cesta
+	 * @param input Vstupn˝ reùazec
+	 * @return True ak je to korektn· .php cesta, False ak nie
 	 */
 	private boolean isValidPhpUrl(String input) {		
 		if(patternPhp == null) {
@@ -295,7 +293,7 @@ public class Settings extends Activity implements OnTouchListener {
 
 	
 	/**
-	 * Metoda onPause
+	 * MetÛda onPause
 	 */
 	@Override
 	protected void onPause() {
@@ -311,13 +309,15 @@ public class Settings extends Activity implements OnTouchListener {
 	}
 
 	/**
-	 * Ulozi objekt aplikacie na disk
+	 * UloûÌ objekt aplik·cie na disk
 	 */
 	private void saveAppData() {
 		FileOutputStream fos = null;
 		ObjectOutputStream oos = null;
 		try {
-
+			
+			app.setReadyToStart(true);
+			
 			fos = openFileOutput(MyApplication.FILENAME, Context.MODE_PRIVATE);
 			oos = new ObjectOutputStream(fos);
 
@@ -326,18 +326,14 @@ public class Settings extends Activity implements OnTouchListener {
 			fos.close();
 			oos.close();
 
-			app.setReadyToStart(true);
-			//Toast.makeText(getApplicationContext(), "Saving successful", Toast.LENGTH_SHORT).show();
-
-		} catch (FileNotFoundException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+			Toast.makeText(getApplicationContext(), "Saving failed.", Toast.LENGTH_SHORT).show();
 		}
 	}
 	
 	/**
-	 * Metoda onTouch
+	 * MetÛda onTouch
 	 */
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {
@@ -360,7 +356,7 @@ public class Settings extends Activity implements OnTouchListener {
 	}
 	
 	/**
-	 * Vytvori menu
+	 * VytvorÌ menu
 	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -370,7 +366,7 @@ public class Settings extends Activity implements OnTouchListener {
 	}
 
 	/**
-	 * Reaguje na stlacenie menu tlacidla
+	 * Reaguje na stlaËenie menu tlaËidla
 	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -394,9 +390,9 @@ public class Settings extends Activity implements OnTouchListener {
 
 	
 	/**
-	 * Vytvara menu ktore sa dynamicky meni.
-	 * Ak je polozka oznacena, je mozne stlacit len editaciu a jej vymazanie,
-	 * ak nie je, je mozne pridat novu polozku
+	 * Vytv·ra menu, ktorÈ sa dynamicky menÌ.
+	 * Ak je poloûka zoznamu oznaËen·, je moûnÈ stlaËiù tlaËidlo, resp. vykonaù len edit·ciu alebo vymazanie poloûky,
+	 * ak nie je, je moûnÈ pridaù nov˙ poloûku
 	 */
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
@@ -414,7 +410,7 @@ public class Settings extends Activity implements OnTouchListener {
 	}
 
 	/**
-	 * Vytvori dialogy
+	 * VytvorÌ dialÛgy
 	 */
 	@Override
 	protected Dialog onCreateDialog(int id) {

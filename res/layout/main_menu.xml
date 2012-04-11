@@ -1,15 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/main_background"
-    android:orientation="vertical" >
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/background"
+    android:orientation="vertical"
+    android:paddingLeft="25dp"
+    android:paddingRight="60dp"
+    android:paddingTop="50dp" >
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:adjustViewBounds="true"
+        android:src="@drawable/logo" />
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="27dp"
-        android:layout_marginTop="225dp"
+        android:layout_marginTop="7.5dp"
         android:orientation="horizontal" >
 
         <ImageButton
@@ -24,14 +34,15 @@
             android:id="@+id/settingsButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
             android:background="@null"
-            android:src="@drawable/settings_button" />
+            android:src="@drawable/settings_button"
+            android:text="asdasdsads" />
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="27dp"
         android:layout_marginTop="7.5dp"
         android:orientation="horizontal" >
 
@@ -40,8 +51,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="7.5dp"
+            android:adjustViewBounds="true"
             android:background="@null"
-            android:src="@drawable/about_button" />
+            android:src="@drawable/about_button"
+            android:text="asdasdsads" />
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null" >
+        </View>
     </LinearLayout>
 
 </LinearLayout>

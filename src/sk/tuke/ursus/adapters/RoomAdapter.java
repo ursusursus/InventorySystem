@@ -13,22 +13,23 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 /**
- * Adapter miestnosti
- * @author Vlastimil Brecka
+ * Adaptér miestností
+ * @author Vlastimil Breèka
  *
  */
 public class RoomAdapter extends ArrayAdapter<Room> {
 
 	/**
-	 * Zoznam miestnosti
+	 * Zoznam miestností
 	 */
 	private List<Room> rooms;
 
+	
 	/**
-	 * Konstruktor
+	 * Konštruktor
 	 * @param context Kontext
 	 * @param textViewResourceId ID .xml resource
-	 * @param rooms Zoznam miestnosti
+	 * @param rooms Zoznam miestností
 	 */
 	public RoomAdapter(Context context, int textViewResourceId, List<Room> rooms) {
 		super(context, textViewResourceId, rooms);
@@ -36,7 +37,7 @@ public class RoomAdapter extends ArrayAdapter<Room> {
 	}
 
 	/**
-	 * Metoda getView
+	 * Metóda getView
 	 */
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {

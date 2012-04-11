@@ -17,44 +17,44 @@ import sk.tuke.ursus.entities.Item;
 import sk.tuke.ursus.entities.Room;
 
 /**
- * XML Parser, implementacia SAX parsera
- * @author Vlastimil Brecka
+ * XML Parser, implementácia SAX parsera z Java API
+ * @author Vlastimil Breèka
  *
  */
 public class Parser extends DefaultHandler {
 	
 	/**
-	 * Regularny vyraz pre QR kod
+	 * Regulárny vıraz pre QR kód
 	 */
 	public static final String regexQR = "(EVID.C.: (........))";
 	
 	/**
-	 * Regularny vyraz pre .xml URL
+	 * Regulárny vıraz pre .xml URL
 	 */
 	public static final String regexXML = "(http(s?)://)([A-Za-z0-9])(.[A-Za-z0-9]+)*(.xml)";
 	
 	/**
-	 * Regularny vyraz pre .php URL
+	 * Regulárny vıraz pre .php URL
 	 */
 	public static final String regexPHP = "(http(s?)://)([A-Za-z0-9])(.[A-Za-z0-9]+)*(.php)";
 	
 	/**
-	 * Regularny vyraz pre e-mailovu adresu
+	 * Regulárny vıraz pre e-mailovú adresu
 	 */
 	public static final String regexEmail = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 	
 	/**
-	 * Docasna polozka
+	 * Doèasná poloka
 	 */
 	private Item tempItem;
 	
 	/**
-	 * Docasna miestnost
+	 * Doèasná miestnos
 	 */
 	private Room tempRoom;
 	
 	/**
-	 * Zoznam miestnosti ktora bude vratena
+	 * Zoznam miestností ktorá bude vrátená
 	 */
 	private ArrayList<Room> roomsList;
 	
@@ -65,7 +65,7 @@ public class Parser extends DefaultHandler {
 	
 	
 	/**
-	 * Konstruktor
+	 * Konštruktor
 	 */
 	public Parser() {
 		SAXParserFactory factory = SAXParserFactory.newInstance();
@@ -79,7 +79,7 @@ public class Parser extends DefaultHandler {
 	}
 
 	/**
-	 * Ak bol najdeny zaciatocny xml tag
+	 * Ak bol nájdenı zaèiatoènı xml tag
 	 */
 	public void startElement(String uri, String localName, String qName, Attributes attr) throws SAXException {
 		
@@ -99,7 +99,7 @@ public class Parser extends DefaultHandler {
 	}
 	
 	/**
-	 * Ak bol najdeny uzatvaraci xml tag
+	 * Ak bol nájdenı uzatvárací xml tag
 	 */
 	public void endElement(String uri, String localName, String qName) throws SAXException {
 		
@@ -116,8 +116,8 @@ public class Parser extends DefaultHandler {
 	
 	
 	/**
-	 * Stiahne a preparsuje .xml zdrojovy subor
-	 * @param url - cesta k .xml zdroju
+	 * Stiahne a preparsuje .xml zdrojovı súbor
+	 * @param url Cesta k .xml zdroju
 	 * @return Zoznam miestnosti
 	 * @throws SAXException 
 	 * @throws IOException
@@ -128,10 +128,10 @@ public class Parser extends DefaultHandler {
 	}
 	
 	/**
-	 * Preparsuje obsah nacitaneho QR kodu
-	 * @param input - obsah QR kodu
-	 * @return ID polozky
-	 * @throws SAXException
+	 * Preparsuje obsah naèítaného QR kódu
+	 * @param input Obsah QR kódu
+	 * @return ID poloky
+	 * @throws SAXException Obsah QR kódu nie je v InventorySystem formáte
 	 */
 	public String parseQRCode(String input) throws SAXException {
 		Pattern p = Pattern.compile(regexQR);

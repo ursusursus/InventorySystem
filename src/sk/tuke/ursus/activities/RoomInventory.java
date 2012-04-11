@@ -35,101 +35,101 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 /**
- * Aktivita zoznamu poloziek a citacky QR kodov
- * @author Vlastimil Brecka
+ * Aktivita zoznamu poloûiek a ËÌtaËky QR kÛdov
+ * @author Vlastimil BreËka
  *
  */
 public class RoomInventory extends Activity {
 
 	/**
-	 * Konstanta pre filter - vsetky viditelne
+	 * Konötanta pre filter - Vöetky viditeænÈ
 	 */
 	private static final int VIEW_ALL = 0;
 	
 	/**
-	 * Konstanta pre filter - iba chybajuce
+	 * Konötanta pre filter - Iba ch˝baj˙ce
 	 */
 	private static final int VIEW_MISSING = 1;
 	
 	/**
-	 * Konstanta pre filter - iba na sklade
+	 * Konötanta pre filter - Iba na sklade
 	 */
 	private static final int VIEW_IN_STOCK = 2;
 
 	
 	/**
-	 * Konstanta dialogu detailu polozky
+	 * Konötanta dialÛgu detailu poloûky
 	 */
 	private static final int ITEM_DETAILS = 0;
 	
 	/**
-	 * Konstanta dialogu pre najdenu polozku v zozname
+	 * Konötanta dialÛgu pre najden˙ poloûku v zozname
 	 */
 	private static final int ITEM_FOUND = 1;
 	
 	/**
-	 * Konstanta dialogu pre nenajdenu polozku v zozname
+	 * Konötanta dialÛgu pre nen·jden˙ poloûku v zozname
 	 */
 	private static final int ITEM_NOT_FOUND = 2;
 	
 	/**
-	 * Konstanta dialogu pre polozku ktora sa u nachadza v zozname poloziek ktore su na sklade
+	 * Konötanta dialÛgu pre poloûku ktor· sa uû nach·dza v zozname poloûiek, ktorÈ su na sklade
 	 */
 	private static final int ITEM_ALREADY_IN_STOCK = 3;
 	
 	/**
-	 * Konstanta dialogu pre nespravny format QR kodu
+	 * Konötanta dialÛgu pre nespr·vny form·t QR kÛdu
 	 */
 	private static final int QR_CODE_FORMAT_NOT_RECOGNIZED = 4;
 	
 	/**
-	 * Konstanta dialog pre zrusene citanie QR kodu
+	 * Konötanta dialÛgu pre zruöenÈ ËÌtanie QR kÛdu
 	 */
 	private static final int READING_QR_CODE_CANCELED = 5;
 	
 	/**
-	 * Konstanta dialogu pre restovanie miestnosti
+	 * Konötanta dialÛgu pre restovanie miestnosti
 	 */
 	private static final int RESET_ROOM = 6;
 	
 	/**
-	 * Konstana dialogu pre filtrovanie poloziek v miestnosti
+	 * Konötanta dialÛgu pre filtrovanie poloûiek v miestnosti
 	 */
 	private static final int VIEW_FILTER = 7;
 
 	
 	/**
-	 * Premenna aplikacie, drzi globalne premenne 
+	 * Premenn· aplik·cie, drûÌ glob·lne premennÈ 
 	 */
 	private MyApplication app;
 	
 	/**
-	 * Premenna vibratoru
+	 * Premenn· vibr·toru
 	 */
 	private Vibrator vibrator;
 	
 	/**
-	 * Aktualna miestnost
+	 * Aktu·lna miestnost
 	 */
 	private Room currentRoom;
 	
 	/**
-	 * Aktualna polozka
+	 * Aktu·lna poloûka
 	 */
 	private Item currentItem;
 	
 	/**
-	 * Index aktualnej polozky
+	 * Index aktu·lnej poloûky
 	 */
 	private int currentItemIndex;
 	
 	/**
-	 * ViewPager, view ktory umoznuje scrollovanie obrazoviek do strany
+	 * ViewPager, view ktor˝ umoûÚuje scrollovanie obrazoviek do str·n
 	 */
 	private ViewPager viewPager;
 	
 	/**
-	 * TextView celkoveho poctu poloziek
+	 * TextView celkovÈho poËtu poloûiek
 	 */
 	private TextView itemCountTextView;
 	
@@ -139,7 +139,7 @@ public class RoomInventory extends Activity {
 	private GridView gridView;
 	
 	/**
-	 * Adapter poloziek
+	 * AdaptÈr poloûiek
 	 */
 	private ItemAdapter adapter;
 	
@@ -149,7 +149,7 @@ public class RoomInventory extends Activity {
 	private Parser parser;
 
 	/**
-	 * Metoda onCreate
+	 * MetÛda onCreate
 	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -169,7 +169,7 @@ public class RoomInventory extends Activity {
 	}
 
 	/**
-	 * Obnovenie pouzivatelskeho rozhrania
+	 * Obnovenie pouûÌvateæskÈho rozhrania
 	 */
 	private void updateUI() {
 		updateInStockItemCount();
@@ -177,14 +177,14 @@ public class RoomInventory extends Activity {
 	}
 
 	/**
-	 * Obnovenie TextView poctu poloziek na sklade
+	 * Obnovenie TextView poËtu poloûiek na sklade
 	 */
 	private void updateInStockItemCount() {
 		itemCountTextView.setText(String.valueOf(currentRoom.getInStockCount()));
 	}
 
 	/**
-	 * Metoda onResume
+	 * MetÛda onResume
 	 */
 	@Override
 	protected void onResume() {
@@ -193,7 +193,7 @@ public class RoomInventory extends Activity {
 	}
 
 	/**
-	 * Zresetuje miestnost
+	 * Zresetuje miestnosù
 	 */
 	protected void resetRoom() {
 		currentRoom.reset();
@@ -204,7 +204,7 @@ public class RoomInventory extends Activity {
 	}
 
 	/**
-	 * Spusti citacku QR kodov
+	 * SpustÌ ËÌtaËku QR kÛdov
 	 */
 	private void launchCamera() {
 
@@ -215,7 +215,7 @@ public class RoomInventory extends Activity {
 	}
 
 	/**
-	 * Metoda onActivityResult
+	 * MetÛda onActivityResult
 	 */
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
 		if (resultCode == RESULT_OK) {
@@ -235,9 +235,9 @@ public class RoomInventory extends Activity {
 	}
 
 	/**
-	 * Prehlada zoznam poloziek a hlada zhodu s polozkou nacitanou pomocou 
-	 * QR citacky podla ID cisla
-	 * @param searchResultID ID cislo nacitanej polozky
+	 * Prehæad· zoznam poloûiek a hæad· zhodu s poloûkou naËÌtanou pomocou 
+	 * QR ËÌtaËky podæa ID ËÌsla
+	 * @param searchResultID ID ËÌslo naËÌtanej poloûky
 	 */
 	private void searchList(String searchResultID) {
 		int index = 0;
@@ -261,7 +261,7 @@ public class RoomInventory extends Activity {
 	}
 	
 	/**
-	 * Prida listenery
+	 * Prid· listenery
 	 */
 	private void addListeners() {
 		viewPager.setOnPageChangeListener(new OnPageChangeListener() {
@@ -349,7 +349,7 @@ public class RoomInventory extends Activity {
 
 
 	/**
-	 * Vytvori menu
+	 * VytvorÌ menu
 	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -359,7 +359,7 @@ public class RoomInventory extends Activity {
 	}
 
 	/**
-	 * Reaguje na stlacenie menu polozky
+	 * Reaguje na stlaËenie poloûky v menu
 	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -381,7 +381,7 @@ public class RoomInventory extends Activity {
 	}
 
 	/**
-	 * Vytvori dialog
+	 * VytvorÌ dialÛg
 	 */
 	@Override
 	protected Dialog onCreateDialog(int id) {
@@ -486,7 +486,7 @@ public class RoomInventory extends Activity {
 	}
 
 	/**
-	 * Vytvara dialogy ktorych obsah sa meni
+	 * Vytv·ra dialÛgy, ktor˝ch obsah sa menÌ
 	 */
 	@Override
 	protected void onPrepareDialog(int id, Dialog dialog) {

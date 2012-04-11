@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="javadoc">
+    <target name="javadoc">
+        <javadoc access="private" additionalparam=" -linkoffline http://developer.android.com/reference file:/C:/PROGRA~1/Android/android-sdk/docs/reference" author="true" classpath="C:\Program Files\Android\android-sdk\platforms\android-8\android.jar;C:\misc\z\android\bin\zxinglib.jar;C:\Program Files\Android\android-sdk\tools\support\annotations.jar;C:\Program Files\Android\android-sdk\extras\android\support\v4\android-support-v4.jar;C:\misc\z\core\core.jar" destdir="doc" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" packagenames="sk.tuke.ursus.adapters,sk.tuke.ursus.customViews,sk.tuke.ursus.activities,sk.tuke.ursus.entities" source="1.6" sourcefiles="src/sk/tuke/ursus/ResultsReport.java,src/sk/tuke/ursus/MyApplication.java,src/sk/tuke/ursus/Parser.java,src/sk/tuke/ursus/ViewHolder.java" sourcepath="src;gen" splitindex="true" use="true" version="true"/>
+    </target>
+</project>

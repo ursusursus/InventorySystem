@@ -9,14 +9,14 @@ import sk.tuke.ursus.entities.Item;
 import sk.tuke.ursus.entities.Room;
 
 /**
- * Vysledna sprava vysledkov inventury
- * @author Vlastimil Brecka
+ * Vısledná správa vısledkov inventúry
+ * @author Vlastimil Breèka
  *
  */
 public class ResultsReport {
 
 	/**
-	 * Zoznam prijmatelov notifikacie
+	 * Zoznam príjmate¾ov notifikácie
 	 */
 	private ArrayList<String> recipients;
 	
@@ -26,17 +26,17 @@ public class ResultsReport {
 	private List<Item> contentList;
 	
 	/**
-	 * Nazov suboru
+	 * Názov súboru
 	 */
 	private String fileName;
 	
 	/**
-	 * Aktualny datum
+	 * Aktuálny datum
 	 */
 	private String currentDate;
 	
 	/**
-	 * Aktualny datum ktory moze byt URL
+	 * Aktuálny dátum, ktorı môe by vo validnej URL
 	 */
 	private String printableDate;
 	
@@ -46,34 +46,35 @@ public class ResultsReport {
 	private String subject;
 	
 	/**
-	 * Samotna sprava
+	 * Samotná správa
 	 */
 	private String report;
 	
 	/**
-	 * Obsah spravy e-mailovej notifikacie
+	 * Obsah správy e-mailovej notifikácie
 	 */
 	private String emailMessage;
 	
 	/**
-	 * Nazov miestnosti
+	 * Názov miestnosti
 	 */
 	private String roomName;
 	
 	/**
-	 * Pocet vsetkych poloziek
+	 * Poèet všetkıch poloiek
 	 */
 	private int total;
 	
 	/**
-	 * Pocet chybajucich poloziek
+	 * Poèet chıbajúcich poloiek
 	 */
 	private int missing;
 
+	
 	/**
-	 * Konstruktor
-	 * @param currentRoom Aktualna miestnost
-	 * @param recipients Zoznam prijmatelov e-mailovej notifikacie
+	 * Konštruktor
+	 * @param currentRoom Aktuálna miestnos
+	 * @param recipients Zoznam príjmate¾ov e-mailovej notifikácie
 	 */
 	public ResultsReport(Room currentRoom, ArrayList<String> recipients) {
 		this.subject = "Results of inventory lookup";
@@ -89,7 +90,7 @@ public class ResultsReport {
 	}
 	
 	/**
-	 * Inicializuje aktualny datum
+	 * Inicializuje aktuálny dátum
 	 */
 	private void initCurrentDate() {
 		currentDate = new SimpleDateFormat("dd.MM.yyyy - HH:mm").format(new Date());
@@ -97,15 +98,15 @@ public class ResultsReport {
 	}
 
 	/**
-	 * Zostroji nazov suboru
+	 * Zostrojí názov súboru
 	 */
 	private void composeFileName() {
 		this.fileName = roomName.toLowerCase().replace(" ", "_") + "_-_" + printableDate;
 	}
 
 	/**
-	 * Zostroji e-mailovu notifikaciu
-	 * @param response Odpoved serva, URL na ulozenu .html spravu
+	 * Zostrojí e-mailovú notifikáciu
+	 * @param response Odpoveï servra, URL na uloenú správu vo formáte HTML
 	 */
 	public void composeEmailNotification(String response) {
 		StringBuilder sb = new StringBuilder();
@@ -122,7 +123,7 @@ public class ResultsReport {
 	}
 
 	/**
-	 * Zostroji .html spravu
+	 * Zostrojí správu vo formáte HTML
 	 */
 	private void composeHtmlReport() {
 
@@ -221,40 +222,40 @@ public class ResultsReport {
 	}
 	
 	/**
-	 * Vrati e-mailovu notifikaciu
-	 * @return E-mailovu notifikaciu
+	 * Vráti e-mailovú notifikáciu
+	 * @return E-mailová notifikácia
 	 */
 	public String getEmailMessage() {
 		return emailMessage;
 	}
 
 	/**
-	 * Vrati spravu
-	 * @return Sprava
+	 * Vráti správu
+	 * @return Správa
 	 */
 	public String getReport() {
 		return report;
 	}
 
 	/**
-	 * Vrati nazov suboru
-	 * @return Nazov suboru
+	 * Vráti názov súboru
+	 * @return Názov súboru
 	 */
 	public String getFileName() {
 		return fileName;
 	}
 	
 	/**
-	 * Vrati e-mailove adresy
-	 * @return E-mailove adresy
+	 * Vráti e-mailové adresy
+	 * @return E-mailové adresy
 	 */
 	public String[] getAddress() {
 		return recipients.toArray(new String[recipients.size()]);
 	}
 
 	/**
-	 * Vrati predmet spravy
-	 * @return Predmet spravy
+	 * Vráti predmet správy
+	 * @return Predmet správy
 	 */
 	public String getSubject() {
 		return subject;
@@ -262,16 +263,16 @@ public class ResultsReport {
 	}
 	
 	/**
-	 * Vrati datum ktory moze ist do URL
-	 * @return datum
+	 * Vráti dátum, ktorı môe by vo validnej URL
+	 * @return Dátum
 	 */
 	public String getPrintableDate() {
 		return printableDate;
 	}
 
 	/**
-	 * Vrati aktualny datum
-	 * @return Aktualny Datum
+	 * Vráti aktuálny dátum
+	 * @return Aktuálny Dátum
 	 */
 	public String getCurrentDate() {
 		return currentDate;

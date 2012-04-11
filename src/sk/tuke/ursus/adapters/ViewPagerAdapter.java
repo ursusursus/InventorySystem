@@ -10,19 +10,20 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 /**
- * Adapter ViewPageru
- * @author Vlastimil Brecka
+ * Adaptér ViewPageru
+ * @author Vlastimil Breèka
  *
  */
 public class ViewPagerAdapter extends PagerAdapter {
 	
 	/**
-	 * Zoznam poloziek
+	 * Zoznam položiek
 	 */
 	private ArrayList<LinearLayout> viewsList;
 
+	
 	/**
-	 * Konstruktor
+	 * Konštruktor
 	 * @param context Kontext
 	 * @param viewsList ID .xml resource
 	 */
@@ -32,7 +33,7 @@ public class ViewPagerAdapter extends PagerAdapter {
 	}
 
 	/**
-	 * Metoda destroyItem
+	 * Metóda destroyItem
 	 */
 	@Override
 	public void destroyItem(View view, int arg1, Object object) {
@@ -40,7 +41,7 @@ public class ViewPagerAdapter extends PagerAdapter {
 	}
 
 	/**
-	 * Metoda finishUpdate
+	 * Metóda finishUpdate
 	 */
 	@Override
 	public void finishUpdate(View arg0) {
@@ -48,7 +49,7 @@ public class ViewPagerAdapter extends PagerAdapter {
 	}
 
 	/**
-	 * Vrati pocet prvkov
+	 * Vráti poèet prvkov
 	 */
 	@Override
 	public int getCount() {
@@ -56,7 +57,7 @@ public class ViewPagerAdapter extends PagerAdapter {
 	}
 
 	/**
-	 * Metoda instatiateItem
+	 * Metóda instatiateItem
 	 */
 	@Override
 	public Object instantiateItem(View view, int position) {
@@ -66,7 +67,7 @@ public class ViewPagerAdapter extends PagerAdapter {
 	}
 
 	/**
-	 * Metoda isViewFromObject
+	 * Metóda isViewFromObject
 	 */
 	@Override
 	public boolean isViewFromObject(View view, Object object) {
@@ -74,7 +75,7 @@ public class ViewPagerAdapter extends PagerAdapter {
 	}
 
 	/**
-	 * Metoda restoreState
+	 * Metóda restoreState
 	 */
 	@Override
 	public void restoreState(Parcelable arg0, ClassLoader arg1) {
@@ -82,7 +83,7 @@ public class ViewPagerAdapter extends PagerAdapter {
 	}
 
 	/**
-	 * Metoda saveState
+	 * Metóda saveState
 	 */
 	@Override
 	public Parcelable saveState() {
@@ -90,7 +91,7 @@ public class ViewPagerAdapter extends PagerAdapter {
 	}
 
 	/**
-	 * Metoda startUpdate
+	 * Metóda startUpdate
 	 */
 	@Override
 	public void startUpdate(View arg0) {

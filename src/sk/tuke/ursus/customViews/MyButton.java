@@ -6,16 +6,16 @@ import android.util.AttributeSet;
 import android.widget.Button;
 
 /**
- * Vlastne tlacidlo s vlastnym fontom pisma
- * @author Vlastimil Brecka
+ * Tlaèidlo s vlastným fontom pisma
+ * @author Vlastimil Breèka
  *
  */
 public class MyButton extends Button {
 
 	/**
-	 * Konstruktor
+	 * Konštruktor
 	 * @param context Kontext
-	 * @param attrs Atributy
+	 * @param attrs Atribúty
 	 */
 	public MyButton(Context context, AttributeSet attrs) {
 		super(context, attrs);

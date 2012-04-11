@@ -9,34 +9,34 @@ import sk.tuke.ursus.entities.Room;
 import android.app.Application;
 
 /**
- * Podtrieda Application, umoznuje drzat globalne premenne v aplikacii
- * @author Vlastimil Brecka
+ * Podtrieda Application, umoòuje dra globálne premenné v aplikácií
+ * @author Vlastimil Breèka
  *
  */
 public class MyApplication extends Application implements Serializable {
 	
 	/**
-	 * ID pre serializaciu 
+	 * ID pre serializáciu 
 	 */
 	private static final long serialVersionUID = 1L;
 	
 	/**
-	 * Aktualna miestnost
+	 * Aktuálna miestnos
 	 */
 	private Room currentRoom;
 	
 	/**
-	 * Zoznam miestnosti
+	 * Zoznam miestností
 	 */
 	private ArrayList<Room> roomsList;
 	
 	/**
-	 * Zoznam e-mailovych adries pre e-mailovu notifikaciu
+	 * Zoznam e-mailovıch adries pre e-mailovú notifikáciu
 	 */
 	private ArrayList<String> emailAddresses;
 	
 	/**
-	 * Cesta k .xml zdrojovemu suboru
+	 * Cesta k .xml zdrojovému súboru
 	 */
 	private String xmlURL;
 	
@@ -46,108 +46,109 @@ public class MyApplication extends Application implements Serializable {
 	private String phpURL;
 	
 	/**
-	 * Ci je mozne spustit inventuru
+	 * Èi je moné zaèa inventúru, 
+	 * resp. èi sú všetky cesty a aspoò jedna e-mailová adresa, nastavené
 	 */
 	private boolean isReadyToStart = false;
 	
 	
 	/**
-	 * Nazov suboru na disku v ktoromu su ulozene nastavenia
+	 * Názov súboru na disku v ktorom sú uloené nastavenia
 	 */
 	public static final String FILENAME = "settings.invsys";
 
 	/**
-	 * Vrati zoznam miestnosti
-	 * @return zoznam miestnosti
+	 * Vráti zoznam miestností
+	 * @return Zoznam miestností
 	 */
 	public ArrayList<Room> getRoomsList() {
 		return roomsList;
 	}
 
 	/**
-	 * Nastavi zoznam miestnosti
-	 * @param roomsList zoznam miestnosti
+	 * Nastavi zoznam miestností
+	 * @param roomsList Zoznam miestnosti
 	 */
 	public void setRoomsList(ArrayList<Room> roomsList) {
 		this.roomsList = roomsList;
 	}
 
 	/**
-	 * Vrati aktualnu miestnosti
-	 * @return aktualna miestnost
+	 * Vráti aktuálnu miestnost
+	 * @return Aktuálna miestnos v ktorej prebieha inventúra
 	 */
 	public Room getCurrentRoom() {
 		return currentRoom;
 	}
 
 	/**
-	 * Nastavi aktualnu miestnost
-	 * @param room aktualna miestnost
+	 * Nastaví aktuálnu miestnos
+	 * @param room Aktuálna miestnos
 	 */
 	public void setCurrentRoom(Room room) {
 		this.currentRoom = room;
 	}
 	
 	/**
-	 * Vrati e-mailove adresy
-	 * @return e-mailove adresy
+	 * Vráti e-mailové adresy pre notifikáciu
+	 * @return E-mailové adresy
 	 */
 	public ArrayList<String> getEmailAddresses() {
 		return emailAddresses;
 	}
 
 	/**
-	 * Nastavi e-mailove adresy
-	 * @param emailAddresses pre notifikaciu
+	 * Nastaví e-mailové adresy pre notifikáciu
+	 * @param emailAddresses Pre notifikaciu
 	 */
 	public void setEmailAddresses(ArrayList<String> emailAddresses) {
 		this.emailAddresses = emailAddresses;
 	}
 
 	/**
-	 * Vrati cestu k .xml suboru
-	 * @return cesta k .xml suboru
+	 * Vráti cestu k .xml súboru
+	 * @return Cesta k .xml súboru
 	 */
 	public String getXmlURL() {
 		return xmlURL;
 	}
 
 	/**
-	 * Vrati cestu k .php skriptu
-	 * @return cesta k .php skriptu
+	 * Vráti cestu k .php skriptu
+	 * @return Cesta k .php skriptu
 	 */
 	public String getPhpURL() {
 		return phpURL;
 	}
 
 	/**
-	 * Nastavi cestu k .xml suboru
-	 * @param xmlURL cesta k .xml suboru
+	 * Nastaví cestu k .xml súboru
+	 * @param xmlURL Cesta k .xml súboru
 	 */
 	public void setXmlURL(String xmlURL) {
 		this.xmlURL = xmlURL;
 	}
 
 	/**
-	 * Nastavi cestu k .php skriptu
-	 * @param phpURL cesta k .php skriptu
+	 * Nastaví cestu k .php skriptu
+	 * @param phpURL Cesta k .php skriptu
 	 */
 	public void setPhpURL(String phpURL) {
 		this.phpURL = phpURL;
 	}
 
 	/**
-	 * Ci je mozne zacat inventuru. 
-	 * Inventuru je mozne zacat ak je nastava .xml cesta, .php cesta a aspon jedna e-mailova adresa
-	 * @return True - ak je mozne zacat, False - ak nie
+	 * Èi je moné zaèa inventúru. 
+	 * Inventúru je moné zaèa ak je nastavená .xml cesta, .php cesta a aspoò jedna e-mailová adresa
+	 * @return True ak je moné zaèa, False ak nie
 	 */
 	public boolean isReadyToStart() {
 		return isReadyToStart;
 	}
 
 	/**
-	 * Nastavi ci je mozne zacat inventuru
-	 * @param isReady ci je mozne zacat
+	 * Nastaví, èi je moné zaèa inventúru
+	 * @param isReady Èi je moné zaèa
 	 */
 	public void setReadyToStart(boolean isReady) {
 		this.isReadyToStart = isReady;

@@ -7,22 +7,24 @@ import android.graphics.Rect;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.AttributeSet;
+import android.view.Display;
 import android.view.View;
+import android.view.WindowManager;
 
 /**
- * ViewPagerIndicator, indikuje na ktorej strane sa ViewPager aktualne nachadza
+ * ViewPagerIndicator, indikuje na ktorej strane sa ViewPager aktuálne nachádza
  * @author Vlastimil Brecka
  *
  */
 public class ViewPagerIndicator extends View {
 	
 	/**
-	 * Farba aktualnej stranky
+	 * Farba aktuálnej stránky
 	 */
 	private static final int SELECTED_COLOR = 0xFF424242;
 	
 	/**
-	 * Farba neaktualnej stranky
+	 * Farba neaktuálnej stránky
 	 */
 	private static final int DESELECTED_COLOR = 0xFFBDBDBD;
 
@@ -32,48 +34,57 @@ public class ViewPagerIndicator extends View {
 	private Paint paint;
 	
 	/**
-	 * Pole obdlznikov
+	 * Pole obdånikov
 	 */
 	private Rect[] array;
 	
 	/**
-	 * Index aktualnej stranky
+	 * Index aktuálnej stránky
 	 */
 	private int currentPageIndex;
 
 	/**
-	 * Sirka obdlznika
+	 * Šírka obdånika
 	 */
-	private int width = 30;
+	private int width;
 	
 	/**
-	 * Vyska obdlznika
+	 * Vıška obdånika
 	 */
-	private int height = 5;
+	private int height;
 	
 	/**
-	 * Odstup medzi obdlznikmi
+	 * Odstup medzi obdånikmi
 	 */
-	private int margin = 10;
+	private int margin;
 	
 	/**
-	 * Pocet obdlznikov
+	 * Poèet obdånikov
 	 */
 	private int count;
-	
 
 	/**
-	 * Konstruktor 
+	 * Konštruktor, vypoèíta rozmery pre dané rozlíšenie
 	 * @param context Kontext
-	 * @param attrs Atributy
+	 * @param attrs Atribúty
 	 */
 	public ViewPagerIndicator(Context context, AttributeSet attrs) {
 		super(context, attrs);
+		
+		WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+		Display display = wm.getDefaultDisplay();
+		int displayHeight = display.getHeight();
+		int displayWidth = display.getWidth();
+		
+		width = (int)((30 / 480f) * displayWidth);
+		margin = (int)((10 / 480f) * displayWidth);
+		height = (int)((5 / 800f) * displayHeight);
+		
 		paint = new Paint();
 	}
 
 	/**
-	 * Vytvoria sa obdlzniky
+	 * Vytvoria sa obdåniky
 	 */
 	private void initialize() {
 		array = new Rect[count];
@@ -85,7 +96,7 @@ public class ViewPagerIndicator extends View {
 	
 	/**
 	 * Obnovenie
-	 * @param index Index aktualnej stranky
+	 * @param index Index aktuálnej stránky
 	 */
 	private void update(int index) {
 		this.currentPageIndex = index;
@@ -93,7 +104,7 @@ public class ViewPagerIndicator extends View {
 	}
 
 	/**
-	 * Metoda onDraw
+	 * Metóda onDraw
 	 */
 	@Override
 	protected void onDraw(Canvas canvas) {
@@ -110,7 +121,7 @@ public class ViewPagerIndicator extends View {
 	}
 
 	/**
-	 * Metoda onMesaure
+	 * Metóda onMesaure
 	 */
 	@Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
@@ -119,8 +130,8 @@ public class ViewPagerIndicator extends View {
 	}
 
 	/**
-	 * Nastavi viewPager
-	 * @param pager ViewPager na ktory chceme dat indikator
+	 * Nastaví viewPager
+	 * @param pager ViewPager, na ktorı chceme da indikátor
 	 */
 	public void setViewPager(ViewPager pager) {
 		//this.pager = pager;

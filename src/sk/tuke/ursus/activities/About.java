@@ -6,13 +6,13 @@ import android.os.Bundle;
 
 /**
  * Aktivita o autorovi
- * @author Vlastimil Brecka
+ * @author Vlastimil Breèka
  *
  */
 public class About extends Activity {
 
 	/**
-	 * Metoda onCreate
+	 * Metóda onCreate
 	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

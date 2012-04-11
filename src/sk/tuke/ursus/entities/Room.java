@@ -5,19 +5,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Miestnost
- * @author Vlastimil Brecka
+ * Miestnos s polokami
+ * @author Vlastimil Breèka
  *
  */
 public class Room implements Serializable {
 
 	/**
-	 * ID pre serializaciu
+	 * ID pre serializáciu
 	 */
 	private static final long serialVersionUID = -1925576220775476933L;
 	
 	/**
-	 * Nazov miestnosti
+	 * Názov miestnosti
 	 */
 	private String name;
 	
@@ -27,7 +27,7 @@ public class Room implements Serializable {
 	private List<Item> content;
 
 	/**
-	 * Konstruktor
+	 * Konštruktor
 	 * @param name Meno miestnosti
 	 */
 	public Room(String name) {
@@ -36,15 +36,16 @@ public class Room implements Serializable {
 	}
 
 	/**
-	 * Prida polozku do miestnosti
-	 * @param item Polozka
+	 * Pridá poloku do miestnosti
+	 * @param item Poloka, ktorú chceme prida do miestnosti
 	 */
 	public void addItem(Item item) {
 		content.add(item);
 	}
 	
 	/**
-	 * Zresetuje miestnost
+	 * Zresetuje miestnos,
+	 * to znamená e nastaví všetky poloky ako nenájdené
 	 */
 	public void reset() {
 		for (Item i : content) {
@@ -54,8 +55,8 @@ public class Room implements Serializable {
 
 	
 	/**
-	 * Vrati meno miestnosti
-	 * @return Meno miestnost
+	 * Vráti meno miestnosti
+	 * @return Meno miestnosti
 	 */
 	public String getName() {
 		return name;
@@ -63,7 +64,7 @@ public class Room implements Serializable {
 
 	
 	/**
-	 * Vrati obsah miestnosti
+	 * Vráti obsah miestnosti
 	 * @return Obsah miestnosti
 	 */
 	public List<Item> getContentList() {
@@ -71,8 +72,8 @@ public class Room implements Serializable {
 	}
 
 	/**
-	 * Vrati pocet chybajucich poloziek
-	 * @return Pocet chybajucich poloziek
+	 * Vráti poèet chıbajúcich poloiek
+	 * @return Pocet chıbajúcich poloiek
 	 */
 	public int getMissingCount() {
 
@@ -88,8 +89,8 @@ public class Room implements Serializable {
 	
 
 	/**
-	 * Vrati pocet poloziek na sklade
-	 * @return Pocet poloziek na sklade
+	 * Vráti poèet poloiek na sklade
+	 * @return Poèet poloiek na sklade
 	 */
 	public int getInStockCount() {
 		int count = 0;

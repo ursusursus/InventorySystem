@@ -6,16 +6,16 @@ import android.util.AttributeSet;
 import android.widget.TextView;
 
 /**
- * Vlastny TextView s vlastnym fontom pisma
- * @author Vlastimil Brecka
+ * TextView s vlastným fontom písma
+ * @author Vlastimil Breèka
  *
  */
 public class MyTextView extends TextView {
 
 	/**
-	 * Konstruktor
+	 * Konštruktor
 	 * @param context Kontext
-	 * @param attrs Atributy
+	 * @param attrs Atribúty
 	 */
 	public MyTextView(Context context, AttributeSet attrs) {
 		super(context, attrs);

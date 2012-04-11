@@ -14,8 +14,8 @@ import android.widget.Filterable;
 import android.widget.TextView;
 
 /**
- * Adapter poloziek
- * @author Vlastimil Brecka
+ * Adaptér položiek
+ * @author Vlastimil Breèka
  *
  */
 public class ItemAdapter extends ArrayAdapter<Item> implements Filterable {
@@ -26,36 +26,37 @@ public class ItemAdapter extends ArrayAdapter<Item> implements Filterable {
 	private static final int WHITE = 0xFFFFFFFF;
 	
 	/**
-	 * Tmavomodra farba
+	 * Tmavomodrá farba
 	 */
 	private static final int DARK_BLUE = 0xFF2B5BE5;
 	
 	/**
-	 * Svetlomodra farba
+	 * Svetlomodrá farba
 	 */
 	private static final int LIGHT_BLUE = 0xFFDEDEEB;
 	
 	/**
-	 * Siva farba
+	 * Sivá farba
 	 */
 	private static final int GRAY = 0xFF424242;
 	
 	
 	/**
-	 * Zoznam poloziek
+	 * Zoznam položiek
 	 */
 	private List<Item> items;
 	
 	/**
-	 * Mod filtrovania inicializovany na - vsetky viditelne
+	 * Mód filtrovania, inicializovaný na - Všetky vidite¾né
 	 */
 	private int mode = 0;
 
+	
 	/**
-	 * Konstruktor
+	 * Konštruktor
 	 * @param context Kontext
 	 * @param textViewResourceId ID pre .xml resource
-	 * @param items Zoznam poloziek
+	 * @param items Zoznam položiek
 	 */
 	public ItemAdapter(Context context, int textViewResourceId, List<Item> items) {
 		super(context, textViewResourceId, items);
@@ -63,9 +64,9 @@ public class ItemAdapter extends ArrayAdapter<Item> implements Filterable {
 	}
 
 	/**
-	 * Metoda getView, je stale volana na danom listView
-	 * Ak je polozka na sklade, nastavi pozadie na tmavomodre a farbu pisma na bielu.
-	 * Ak polozka nie je na sklade, nastavi sa pozadie na svetlomodre a farba pisma na sivu
+	 * Metóda getView, je stále volaná na danom listView.
+	 * Ak je položka na sklade, nastaví pozadie na tmavomodré a farbu písma na bielu.
+	 * Ak položka nie je na sklade, nastaví sa pozadie na svetlomodré a farbu písma na sivú
 	 */
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
@@ -102,9 +103,13 @@ public class ItemAdapter extends ArrayAdapter<Item> implements Filterable {
 	}
 
 	/**
-	 * Reaguje na rozne filtrovacie mody
+	 * Reaguje na rôzne filtrovacie módy.
+	 * Módy sú:
+	 * - 0 - Všetky vidite¾né.
+	 * - 1 - Iba na sklade. 
+	 * - 2 - Iba chýbajúce.
 	 * @param view View
-	 * @param item Polozka
+	 * @param item Položka
 	 */
 	private void handleViewFilter(View view, Item item) {
 		switch (mode) {
@@ -131,8 +136,8 @@ public class ItemAdapter extends ArrayAdapter<Item> implements Filterable {
 	}
 
 	/**
-	 * Nastavi filtrovaci mod
-	 * @param mode Filtrovaci mod
+	 * Nastaví filtrovací mód
+	 * @param mode Filtrovací mód
 	 */
 	public void setFilteringMode(int mode) {
 		this.mode = mode;

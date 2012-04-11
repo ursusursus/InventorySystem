@@ -5,16 +5,14 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:paddingLeft="20dp"
-    android:paddingTop="30dp"
-    android:weightSum="1" >
+    android:paddingTop="30dp" >
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="35dp"
-        android:orientation="horizontal"
-        android:weightSum="100" >
+        android:orientation="horizontal" >
 
         <sk.tuke.ursus.customViews.MyTextView
             android:id="@+id/roomName"
@@ -43,8 +41,7 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="100" >
+        android:orientation="horizontal" >
 
         <GridView
             android:id="@+id/gridview"

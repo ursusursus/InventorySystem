@@ -31,33 +31,33 @@ import android.widget.GridView;
 
 /**
  * Aktivita výberu miestnosti
- * @author Vlastimil Brecka
+ * @author Vlastimil Breèka
  *
  */
 public class RoomSelection extends Activity {
 	
 	/**
-	 * Konstanta dialogu zlyhania pripojenia
+	 * Konštanta dialógu zlyhania pripojenia
 	 */
 	private static final int CONNECTION_FAILED = 0;
 	
 	/**
-	 * Konstanta dialogu zlyhania parsovania
+	 * Konštanta dialógu zlyhania parsovania
 	 */
 	private static final int PARSING_ERROR = 1;
 
 	/**
-	 * Premenna aplikacie, drzi globalne premenne 
+	 * Premenná aplikácie, drží globálne premenné 
 	 */
 	private MyApplication app;
 	
 	/**
-	 * Premenna vibratoru
+	 * Premennaá vibrátoru
 	 */
 	private Vibrator vibrator;
 	
 	/**
-	 * Adapter miestnosti
+	 * Adaptér miestností
 	 */
 	private RoomAdapter adapter;
 	
@@ -67,13 +67,13 @@ public class RoomSelection extends Activity {
 	private GridView gridView;
 	
 	/**
-	 * Dialog progresu
+	 * Dialóg progresu
 	 */
 	private ProgressDialog dialog;
 	
 	
 	/**
-	 * Metoda onCreate
+	 * Metóda onCreate
 	 */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -102,7 +102,7 @@ public class RoomSelection extends Activity {
 	}
 
 	/**
-	 * Inicializuje miestnosti, ak este neboli nacitane, stiahne .xml subor a preparsuje ho
+	 * Inicializuje miestnosti, ak ešte neboli naèítané, stiahne zdrojový súbor vo formáte XML a preparsuje ho
 	 */
 	private void init() {
 		ArrayList<Room> tmpList = app.getRoomsList();
@@ -116,7 +116,7 @@ public class RoomSelection extends Activity {
 	}
 	
 	/**
-	 * Stiahne .xml subor a preparsuje ho
+	 * Stiahne zdrojový súbor vo formáte XML a preparsuje ho
 	 */
 	private void downloadAndParse() {
 		dialog = new ProgressDialog(this);
@@ -128,7 +128,7 @@ public class RoomSelection extends Activity {
 
 	
 	/**
-	 * Metoda onResume
+	 * Metóda onResume
 	 */
 	@Override
 	protected void onResume() {
@@ -136,7 +136,7 @@ public class RoomSelection extends Activity {
 	}
 
 	/**
-	 * Vytvori menu
+	 * Vytvorí menu
 	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -146,7 +146,7 @@ public class RoomSelection extends Activity {
 	}
 
 	/**
-	 * Metoda onOptionsItemSelected
+	 * Metóda onOptionsItemSelected
 	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -155,7 +155,7 @@ public class RoomSelection extends Activity {
 	}
 	
 	/**
-	 * Metoda onCreateDialog
+	 * Metóda onCreateDialog
 	 */
 	@Override
 	protected Dialog onCreateDialog(int id) {
@@ -191,19 +191,19 @@ public class RoomSelection extends Activity {
 	}
 
 	/**
-	 * Asynchronna uloha, stiahne a preparsuje zdrojovy .xml subor
-	 * @author Vlastimil Brecka
+	 * Asynchrónna úloha, stiahne a preparsuje zdrojovy súbor vo formáte XML
+	 * @author Vlastimil Breèka
 	 *
 	 */
 	private class DownloadAndParseTask extends AsyncTask<String, Void, ArrayList<Room>> {
 
 		/**
-		 * Vynimka
+		 * Výnimka
 		 */
 		private Exception e = null;
 
 		/**
-		 * Uloha na pozadi
+		 * Úloha na pozadí
 		 */
 		@Override
 		protected ArrayList<Room> doInBackground(String... urls) {
@@ -220,7 +220,7 @@ public class RoomSelection extends Activity {
 		}
 
 		/**
-		 * Pred vykonanim
+		 * Pred vykonaním
 		 */
 		@Override
 		protected void onPreExecute() {
@@ -228,7 +228,7 @@ public class RoomSelection extends Activity {
 		}
 
 		/**
-		 * Po vykonani, zrusi dialog a vrati preparsovane miestnosti
+		 * Po vykonaní, zruší dialóg a vráti preparsované miestnosti
 		 */
 		@Override
 		protected void onPostExecute(ArrayList<Room> result) {
