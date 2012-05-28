@@ -227,7 +227,6 @@ public class RoomInventory extends Activity {
 				showDialog(QR_CODE_FORMAT_NOT_RECOGNIZED);
 				e.printStackTrace();
 			}
-
 		} else if (resultCode == RESULT_CANCELED) {
 			showDialog(READING_QR_CODE_CANCELED);
 		}
@@ -442,7 +441,7 @@ public class RoomInventory extends Activity {
 			break;
 
 		case READING_QR_CODE_CANCELED:
-			dialog = new AlertDialog.Builder(this).setTitle("Canceled").setMessage("Canceled reading QR code")
+			dialog = new AlertDialog.Builder(this).setTitle("Canceled").setMessage("Reading QR code was canceled.")
 					.setNeutralButton("Dismiss", null).create();
 			break;
 
