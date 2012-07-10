@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="sk.tuke.ursus"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+
+    <uses-sdk android:minSdkVersion="8" />
+
+    <application
+        android:icon="@drawable/invsys_icon"
+        android:label="Inventory System"
+        android:name=".MyApplication"
+        android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
+        <activity
+            android:name=".activities.MainMenu"
+            android:screenOrientation="portrait" >
+            <intent-filter >
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activities.RoomSelection"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".activities.RoomInventory"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".activities.Result"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".activities.Settings"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".activities.About"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:configChanges="orientation|keyboardHidden"
+            android:name="com.google.zxing.client.android.CaptureActivity"
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+            android:windowSoftInputMode="stateAlwaysHidden" >
+            <intent-filter >
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <intent-filter >
+                <action android:name="com.google.zxing.client.android.SCAN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

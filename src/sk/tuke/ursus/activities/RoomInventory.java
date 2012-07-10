@@ -211,7 +211,7 @@ public class RoomInventory extends Activity {
 		Intent intent = new Intent("com.google.zxing.client.android.SCAN");
 		intent.putExtra("SCAN_MODE", "QR_CODE_MODE");
 		startActivityForResult(intent, 0);
-
+		
 	}
 
 	/**
